@@ -5,17 +5,29 @@ import httpx
 
 from app.prompt import SYSTEM_PROMPT, build_user_prompt
 from app.validator import validate_triage_response
+from app.normalizacao_semantica import NormalizacaoSemantica
 
 OLLAMA_BASE_URL = "http://localhost:11434"
 MODEL_NAME = "qwen3"
 
+# Orquestrador de normalização
+normalizador = NormalizacaoSemantica()
+
 
 async def classify_symptoms(symptoms: str) -> dict:
+
+    # NORMALIZAR ENTRADA
+    normalized_input = normalizador.processar(symptoms)
+    
+    #CONSTRUIR PROMPT ENRIQUECIDO
+    prompt_enriquecido = normalizador.gerar_prompt_enriquecido(normalized_input)
+    user_message = f"{prompt_enriquecido}\n\n{build_user_prompt(symptoms)}"
+
     payload = {
         "model": MODEL_NAME,
         "messages": [
             {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": build_user_prompt(symptoms)},
+            {"role": "user", "content": user_message},
         ],
         "stream": False,
         "format": "json",
@@ -33,6 +45,9 @@ async def classify_symptoms(symptoms: str) -> dict:
     validation = validate_triage_response(parsed)
     parsed["validation_errors"] = validation.errors
     parsed["validation_warnings"] = validation.warnings
+
+    # ENRIQUECER RESPOSTA COM DADOS DE NORMALIZAÇÃO
+    parsed["normalizacao_entrada"] = normalized_input.to_dict()
 
     return parsed
 
