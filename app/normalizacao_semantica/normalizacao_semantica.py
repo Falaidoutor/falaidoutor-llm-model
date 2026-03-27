@@ -49,7 +49,7 @@ class NormalizedInput:
         PrintNormalizacao.imprimir_resumo(self)
 
     def print_comparacao(self) -> None:
-        """Imprime uma comparação antes/depois da normalização."""
+        """Imprime uma comparação entre o texto original e o normalizado."""
         PrintNormalizacao.imprimir_comparacao(self.sintomas_originais, self)
 
     def to_dict(self) -> dict:
@@ -171,6 +171,9 @@ class NormalizacaoSemantica:
 
         # CALCULAR CONFIANÇA GERAL
         result.confianca_normalizacao = self._calcular_confianca(result)
+
+        # IMPRIMIR COMPARAÇÃO
+        result.print_comparacao()
 
         return result
 

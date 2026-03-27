@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Teste 1
+curl -s -X POST "http://localhost:8000/triage" \
+  -H "Content-Type: application/json" \
+  -d '{"symptoms": "dor d cabeca febre 39"}' | jq .normalizacao_entrada
+
+# Teste 2
+curl -s -X POST "http://localhost:8000/triage" \
+  -H "Content-Type: application/json" \
+  -d '{"symptoms": "nao consigo respirar dolor peito braço esquerdo"}' | jq .
+
+# Teste 3
+curl -s -X POST "http://localhost:8000/triage" \
+  -H "Content-Type: application/json" \
+  -d '{"symptoms": "xyz blablabla"}' | jq .normalizacao_entrada

@@ -144,6 +144,7 @@ class SymptomNormalizer:
         - Converter para lowercase
         - Remover caracteres especiais (exceto acentos)
         - Remover espaços múltiplos
+        - Expandir abreviações comuns
         """
         # Lowercase
         text = text.lower()
@@ -151,6 +152,18 @@ class SymptomNormalizer:
         # Remover apenas caracteres muito especiais, manter acentos
         # Permite: letras (com acentos), números, espaços, hífen
         text = re.sub(r'[^a-záàâãéèêíïóôõöúçñ\d\s\-]', '', text)
+
+        # Expandir abreviações comuns
+        # "d " → "de " (dor d cabeca → dor de cabeca)
+        text = re.sub(r'\bd\s+', 'de ', text)
+        # "tá" → "está"
+        text = re.sub(r'\btá\b', 'está', text)
+        # "tô" → "estou"
+        text = re.sub(r'\btô\b', 'estou', text)
+        # "pra" → "para"
+        text = re.sub(r'\bpra\b', 'para', text)
+        # "pro" → "para o"
+        text = re.sub(r'\bpro\b', 'para o', text)
 
         # Remover espaços múltiplos
         text = re.sub(r'\s+', ' ', text).strip()
