@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Script de teste para a função print_comparacao()"""
 
-from app.normalizacao_semantica.normalizacao_semantica import NormalizacaoSemantica
+from app.service.normalizacao_semantica import NormalizacaoSemantica
 
 def main():
     # Criar instância do orquestrador

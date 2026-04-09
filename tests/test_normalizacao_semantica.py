@@ -2,13 +2,12 @@
 
 import pytest
 
-from app.normalizacao_semantica import (
-    CID10Mapper,
+from app.service.normalizacao_semantica import (
     NormalizacaoSemantica,
-    SemanticAnalyzer,
-    SymptomNormalizer,
-    VitalSignsExtractor,
 )
+from app.service.cid10_mapper import CID10Mapper
+from app.service.symptom_normalizer import SymptomNormalizer
+from app.service.semantic_analyzer import SemanticAnalyzer
 
 
 

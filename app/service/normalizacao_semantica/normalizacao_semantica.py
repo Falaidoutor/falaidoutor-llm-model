@@ -6,11 +6,15 @@ entrada do usuário de forma completa e estruturada.
 
 from dataclasses import dataclass, field
 from typing import Optional
+import logging
 
 from .cid10_mapper import CID10Mapper, CID10Info
 from .symptom_normalizer import SymptomNormalizer
 from .semantic_analyzer import SemanticAnalyzer, VitalSigns
 from .print_normalizacao import PrintNormalizacao
+from ..audit_repository import CID10AuditRepository
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -40,8 +44,7 @@ class NormalizedInput:
     # Mapeamentos
     cid10_suspeitas: list[CID10Info] = field(default_factory=list)
 
-    # Qualidade da entrada
-    confianca_normalizacao: float = 1.0  # 0-1
+    # Campos de alerta
     alertas: list[str] = field(default_factory=list)  # Campos faltantes, ambiguidades, etc
 
     def print_resumo(self) -> None:
@@ -78,11 +81,9 @@ class NormalizedInput:
                     "cid": cid.cid,
                     "descricao": cid.descricao,
                     "sintoma_detectado": cid.sintoma_detectado,
-                    "confianca": cid.confianca,
                 }
                 for cid in self.cid10_suspeitas
             ],
-            "confianca_normalizacao": self.confianca_normalizacao,
             "alertas": self.alertas,
         }
 
@@ -94,6 +95,7 @@ class NormalizacaoSemantica:
         self.symptom_normalizer = SymptomNormalizer()
         self.semantic_analyzer = SemanticAnalyzer()
         self.cid10_mapper = CID10Mapper()
+        self.audit_repo = CID10AuditRepository()  # Sistema de auditoria
 
     def processar(self, texto_entrada: str) -> NormalizedInput:
         """Pipeline completo de normalização.
@@ -126,7 +128,6 @@ class NormalizacaoSemantica:
             result.alertas.append(
                 "Nenhum sintoma reconhecido. Verifique a redação ou use termos clínicos."
             )
-            result.confianca_normalizacao = 0.3
 
 
         #  DETECTAR RED FLAGS
@@ -169,43 +170,31 @@ class NormalizacaoSemantica:
             result.sintomas_normalizados
         )
 
-        # CALCULAR CONFIANÇA GERAL
-        result.confianca_normalizacao = self._calcular_confianca(result)
+        # REGISTRAR AUDITORIA
+        try:
+            cid_sugeridos = [
+                {
+                    "cid": cid.cid,
+                    "descricao": cid.descricao,
+                    "sintoma_detectado": cid.sintoma_detectado
+                }
+                for cid in result.cid10_suspeitas
+            ]
+            self.audit_repo.registrar_mapeamento(
+                sintomas_entrada=texto_entrada,
+                sintomas_normalizados=result.sintomas_normalizados,
+                cid_sugeridos=cid_sugeridos,
+                medico_id=None,  # Será preenchido quando integrado com API
+                validado_medico=False,
+                observacoes=""
+            )
+        except Exception as e:
+            logging.warning(f"Falha ao registrar auditoria: {e}")
 
         # IMPRIMIR COMPARAÇÃO
         result.print_comparacao()
 
         return result
-
-    def _calcular_confianca(self, result: NormalizedInput) -> float:
-        """Calcula confiança da normalização (0-1).
-
-        Fatores:
-        - Sintomas foram encontrados
-        - Sinais vitais foram informados
-        - Duração foi informada
-        - Red flags detectadas (reduz confiança pois esperamos intervenção)
-        """
-        confianca = 1.0
-
-        # Sintomas não reconhecidos: -0.3
-        if not result.sintomas_normalizados:
-            confianca -= 0.3
-
-        # Falta duração: -0.1
-        if not result.duracao:
-            confianca -= 0.1
-
-        # Falta sinais vitais: -0.2
-        if not result.sinais_vitais.temperatura and result.sinais_vitais.frequencia_cardiaca is None:
-            confianca -= 0.2
-
-        # Red flags presentes: -0.1 (pois há ambiguidade que precisa validação)
-        if result.red_flags:
-            confianca -= 0.1
-
-        # Limitar entre 0.1 e 1.0
-        return max(0.1, min(1.0, confianca))
 
     def gerar_prompt_enriquecido(self, normalized: NormalizedInput) -> str:
         """Gera um prompt enriquecido com dados estruturados para o modelo.
@@ -287,16 +276,13 @@ class NormalizacaoSemantica:
         if normalized.cid10_suspeitas:
             linhas.append("\nCÓDIGOS CID-10 (SUSPEITOS):")
             for cid in normalized.cid10_suspeitas:
-                linhas.append(f"   • {cid.cid}: {cid.descricao} (confiança: {cid.confianca:.0%})")
+                linhas.append(f"   • {cid.cid}: {cid.descricao}")
 
         # Alertas
         if normalized.alertas:
             linhas.append("\nALERTAS (DADOS FALTANTES):")
             for alerta in normalized.alertas:
                 linhas.append(f"   • {alerta}")
-
-        # Confiança
-        linhas.append(f"\nCONFIANÇA GERAL: {normalized.confianca_normalizacao:.0%}")
 
         linhas.append("\n" + "=" * 70)
 
