@@ -1,0 +1,93 @@
+# Environment
+.env
+.env.local
+.env.*.local
+venv/
+env/
+ENV/
+.venv
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# ML Models (Large Files)
+models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.h5
+*.onnx
+
+# Database & Cache
+*.db
+*.sqlite
+*.sqlite3
+.cache/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+.env.swp
+
+# Project specific
+tmp/
+temp/
+.cache
+instance/
+.coverage
+htmlcov/
+
+# Testing
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
