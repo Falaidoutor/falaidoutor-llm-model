@@ -1,6 +1,6 @@
 import pytest
 
-from app.validator import (
+from app.service.validator import (
     CLASSIFICACOES_VALIDAS,
     DISCLAIMER_ESPERADO,
     DISCRIMINADORES_GERAIS,

@@ -1,0 +1,38 @@
+services:
+  qdrant:
+    image: qdrant/qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - QDRANT_URL=http://qdrant
+      - QDRANT_PORT=6333
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=falai
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin123
+    depends_on:
+      qdrant:
+        condition: service_started
+      postgres:
+        condition: service_started
+    networks:
+      - default
+    restart: on-failure
+
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: falai
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+volumes:
+  qdrant_storage:

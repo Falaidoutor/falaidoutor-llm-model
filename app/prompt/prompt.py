@@ -180,6 +180,59 @@ Responda EXCLUSIVAMENTE com um objeto JSON válido. Sem markdown, sem texto ante
 - "populacao_especial" deve ser preenchido quando a idade ou condição indicar pediatria, gestante ou idoso.
 """.strip()
 
+def build_user_prompt(
+    sintomas_normalizados: list | str,
+    sintomas_nao_normalizados: list | None = None,
+    debug_mode: bool = False,
+) -> str:
+    """
+    Construir prompt do usuário com sintomas normalizados e não normalizados.
 
-def build_user_prompt(symptoms: str) -> str:
-    return f"Sintomas do paciente: {symptoms}"
+    Args:
+        sintomas_normalizados: Lista de sintomas já normalizados OU string legada para compatibilidade
+        sintomas_nao_normalizados: Lista de sintomas que NÃO foram normalizados (score < threshold)
+        debug_mode: Se True, inclui metadata adicional no prompt
+
+    Returns:
+        String formatada para enviar ao Ollama
+    """
+
+    # Compatibilidade com interface legada (string única)
+    if isinstance(sintomas_normalizados, str):
+        # Modo legado: recebeu string direta
+        prompt = f"Sintomas do paciente: {sintomas_normalizados}"
+        if debug_mode:
+            prompt += "\n\n[DEBUG] Modo compatibilidade - sintomas não foram normalizados"
+        return prompt
+
+    # Modo novo: arrays separados
+    prompt_parts = []
+
+    if sintomas_normalizados:
+        norm_text = ", ".join(sintomas_normalizados)
+        prompt_parts.append(f"**Sintomas normalizados (validados):**\n{norm_text}")
+
+    if sintomas_nao_normalizados:
+        non_norm_text = ", ".join(sintomas_nao_normalizados)
+        prompt_parts.append(
+            f"**Sintomas NÃO normalizados (requerem normalização):**\n{non_norm_text}\n\n"
+            f"⚠️ ATENÇÃO: Os sintomas acima não foram encontrados na base de referência. "
+            f"Por favor, normalize-os (adeque-os aos termos médicos canônicos) e inclua sua normalização "
+            f"em um campo `normalizacao_ollama` na resposta JSON com o seguinte formato:\n"
+            f"\"normalizacao_ollama\": [{{"
+            f"  \"original\": \"<termo original>\", "
+            f"  \"normalizado\": \"<termo normalizado>\" , "
+            f"  \"confianca\": \"<alta|media|baixa>\""
+            f"}}]"
+        )
+
+    base_prompt = "\n\n".join(prompt_parts) if prompt_parts else "Paciente sem sintomas informados."
+
+    if debug_mode:
+        base_prompt += (
+            f"\n\n[DEBUG] Modo debug ativado. Sintomas normalizados: {len(sintomas_normalizados or [])}, "
+            f"não normalizados: {len(sintomas_nao_normalizados or [])}"
+        )
+
+    return base_prompt
+
