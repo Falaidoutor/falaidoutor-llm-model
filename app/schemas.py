@@ -5,25 +5,26 @@ class SymptomsRequest(BaseModel):
     symptoms: str = Field(..., min_length=1, description="Sintomas do paciente")
 
 
-class DiscriminadorGeral(BaseModel):
-    discriminador: str
-    presente: bool
-
-
 class TriageResponse(BaseModel):
     classificacao: str = Field(
-        ..., description="Vermelho|Laranja|Amarelo|Verde|Azul"
+        ..., description="ESI-1|ESI-2|ESI-3|ESI-4|ESI-5"
     )
-    prioridade: str = Field(
+    nivel: int = Field(
+        ..., description="1|2|3|4|5"
+    )
+    nome_nivel: str = Field(
         ...,
-        description="Emergência|Muito urgente|Urgente|Pouco urgente|Não urgente",
+        description="Ressuscitação|Emergente|Urgente|Menos urgente|Não urgente",
     )
-    tempo_atendimento_minutos: int = Field(
-        ..., description="0|10|60|120|240"
+    ponto_decisao_ativado: str = Field(
+        ..., description="A|B|C|D"
     )
-    fluxograma_utilizado: str
-    discriminadores_gerais_avaliados: list[DiscriminadorGeral]
-    discriminadores_especificos_ativados: list[str]
+    criterios_ponto_decisao: list[str] = Field(default_factory=list)
+    recursos_estimados: int = Field(
+        ..., description="Número de recursos estimados"
+    )
+    recursos_detalhados: list[str] = Field(default_factory=list)
+    sinais_vitais_zona_perigo: bool = False
     populacao_especial: str | None = None
     over_triage_aplicado: bool
     confianca: str = Field(..., description="alta|media|baixa")
