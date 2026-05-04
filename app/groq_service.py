@@ -1,4 +1,4 @@
-import asyncio
+﻿import asyncio
 import os
 
 from dotenv import load_dotenv
@@ -17,7 +17,7 @@ MODEL_GPT_OSS = "openai/gpt-oss-120b"  # GPT OSS 120b equivalent via Groq
 MODEL_QWEN3 = "qwen/qwen3-32b"  # Qwen3 via Groq
 
 # Modelo ativo
-MODEL_NAME = MODEL_GPT_OSS
+MODEL_NAME = MODEL_QWEN3
 
 _MAX_RETRIES = 3
 _RETRY_BASE_DELAY = 10.0  # segundos
@@ -56,3 +56,4 @@ async def classify_symptoms(symptoms: str) -> dict:
     parsed["validation_warnings"] = validation.warnings
 
     return parsed
+

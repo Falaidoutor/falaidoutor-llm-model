@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+﻿from pydantic import BaseModel, Field
 
 
 class SymptomsRequest(BaseModel):
@@ -41,3 +41,4 @@ class TriageResponse(BaseModel):
         default_factory=list,
         description="Avisos de validação (não bloqueantes) encontrados na resposta do modelo.",
     )
+
