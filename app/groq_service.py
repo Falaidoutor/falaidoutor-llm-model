@@ -15,9 +15,10 @@ GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 # Modelos disponíveis no Groq
 MODEL_GPT_OSS = "openai/gpt-oss-120b"  # GPT OSS 120b equivalent via Groq
 MODEL_QWEN3 = "qwen/qwen3-32b"  # Qwen3 via Groq
+MODEL_LLAMA_3_3_70b = "llama-3.3-70b-versatile" # Lamma 3.3 70B
 
 # Modelo ativo
-MODEL_NAME = MODEL_QWEN3
+MODEL_NAME = MODEL_LLAMA_3_3_70b
 
 _MAX_RETRIES = 3
 _RETRY_BASE_DELAY = 10.0  # segundos
