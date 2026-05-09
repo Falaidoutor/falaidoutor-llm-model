@@ -52,7 +52,7 @@ def decrypt_payload(payload: dict[str, Any]) -> Any:
 
 
 def _get_key() -> bytes:
-    secret = (os.getenv("HTTP_CRYPTO_SECRET") or os.getenv("APPLICATION_KEY") or "").strip()
+    secret = os.getenv("HTTP_CRYPTO_SECRET", "").strip()
 
     if not secret:
         raise HTTPException(
