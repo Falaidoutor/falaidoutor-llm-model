@@ -1,0 +1,1468 @@
+[
+  {
+    "edstay_id": "30346459",
+    "acuity_ground_truth": 1,
+    "triage_text": "82-year-old White Russian female with a history of CAD, DM II, HTN, and metastatic renal cell carcinoma, recently discharged after a CHF exacerbation requiring non-invasive positive pressure ventilation. She presents with acute shortness of breath and decompensated to acute respiratory failure in the ED. She has a history of multiple hospitalizations for pneumonia, NSTEMI, STEMI, and sCHF exacerbation. Accompanied by her granddaughter, she developed acute respiratory distress at her nursing facility before being transferred to the ED. In the ED, initial vital signs: 160 160/80 35.",
+    "llm_response": {
+      "classificacao": "ESI-1",
+      "nivel": 1,
+      "nome_nivel": "Ressuscitação",
+      "ponto_decisao_ativado": "A",
+      "criterios_ponto_decisao": [
+        "apneia",
+        "choque descompensado"
+      ],
+      "recursos_estimados": 5,
+      "recursos_detalhados": [
+        "labs",
+        "ECG",
+        "imagem",
+        "medicação IV",
+        "procedimentos"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idosa com história de CAD, DM II, HTN e carcinoma de células renais metastático, apresenta falta de ar aguda e insuficiência respiratória aguda no ED, com sinais vitais alterados, indicando necessidade de intervenção imediata.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "39378959",
+    "acuity_ground_truth": 1,
+    "triage_text": "58-year-old Black/African American male with a history of multiple myeloma post-autologous stem cell transplant, Type 2 Diabetes Mellitus, history of pulmonary embolism and deep vein thrombosis, chronic kidney disease, hepatitis B virus infection, and latent tuberculosis. The patient presented with shortness of breath, confusion, and several syncopal episodes. He had a productive cough, fatigue, malaise, and subjective fevers for approximately one week. He experienced worsening shortness of breath and required a wheelchair at the airport. Upon arrival at the emergency department, he was found to be in atrial fibrillation with a heart rate persistently around 100 bpm.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: sepse suspeita",
+        "Confusão/letargia/desorientação"
+      ],
+      "recursos_estimados": 4,
+      "recursos_detalhados": [
+        "labs",
+        "ECG",
+        "medicação IV",
+        "consulta especializada"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "O paciente apresenta sintomas de alto risco, incluindo confusão, several syncopal episodes, e sinais de possível sepse, como febre e productive cough. Além disso, a presença de comorbidades, como doença renal crônica e história de embolia pulmonar, aumenta o risco. A frequência cardíaca persistente em torno de 100 bpm em atrial fibrillation também é um fator de risco. Portanto, a classificação é ESI-2.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30650827",
+    "acuity_ground_truth": 1,
+    "triage_text": "55-year-old male, white, presented to the emergency department following a motor vehicle collision (MVC). The patient was the unrestrained driver of an SUV that hit a construction wall at 80 mph, followed by a rollover. It is unclear if there was a loss of consciousness (LOC). The patient was pulled out of the vehicle by emergency medical services and brought directly to the emergency department. His injuries include left rib fractures and left hemopneumothorax. Past medical history includes hypertension. No known allergies or adverse drug reactions are reported.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: trauma de alto impacto com lesões significativas (fraturas de costela e hemopneumotórax)"
+      ],
+      "recursos_estimados": 3,
+      "recursos_detalhados": [
+        "imagem (RX/TC)",
+        "procedimentos (drenagem torácica)",
+        "medicação IV"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "O paciente apresenta lesões significativas decorrentes de um trauma de alto impacto, incluindo fraturas de costela e hemopneumotórax, o que coloca ele em alto risco e requer atenção médica imediata.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30826137",
+    "acuity_ground_truth": 1,
+    "triage_text": "59-year-old white female with a history of asthma, bipolar disorder, metastatic ER+/PR+/HER2- breast cancer on palbociclib/letrozole/denosumab with bone involvement, presents with fever, weakness, and hypoxia. Over the past week, she experienced worsening back, right arm, and right lower extremity pain, prompting her to resume MSContin. She also developed a new non-productive cough and felt short of breath. On the day of presentation, she felt weak, confused, and had chills. She fell and called EMS, who transported her to the ED. Vital signs on arrival: BP 133/58, HR 107, RR 20, SpO2 81%, temperature (T) 102.4° F, Pain 7.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Febre",
+        "Fraqueza",
+        "Hipoxia",
+        "Dor intensa",
+        "Confusão"
+      ],
+      "recursos_estimados": 4,
+      "recursos_detalhados": [
+        "Laboratório",
+        "Imagem",
+        "Medicação IV",
+        "Consulta especializada"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idosa com história de câncer de mama metastático, apresenta febre, fraqueza, hipoxia, dor intensa e confusão. Esses sintomas, combinados com a presença de sinais vitais anormais (SpO2 81%, frequência cardíaca elevada), indicam uma condição emergente que requer atenção imediata.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30907271",
+    "acuity_ground_truth": 1,
+    "triage_text": "55-year-old White female with a history of bladder cancer, status post radical cystectomy with ileal conduit, currently undergoing chemotherapy. She presented with several days of cloudy urine, flank pain, nausea, vomiting, and diarrhea. She was initially evaluated at an urgent care center where she was noted to be hypotensive and subsequently transferred to the emergency department (ED). On arrival in the emergency department (ED) vital signs (VS) were: heart rate (HR) 114, respiratory rate (RR) 18, blood pressure (BP) 83/48, SpO2 98%, temperature (T) 99.5° F, pain 0. Past medical history includes small cell carcinoma of the bladder, hypertriglyceridemia, GERD, hypertension, anxiety, laminectomy, and left carotid endarterectomy following TIA symptoms. Family history includes father with unknown vascular disease and mother with COPD. She arrived by ambulance and has allergies to amoxicillin and sulfa drugs.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: hipotensão, dor flank, náusea, vômito e diarreia em paciente com história de câncer de bexiga e quimioterapia",
+        "Sinais vitais anormais: BP 83/48, HR 114"
+      ],
+      "recursos_estimados": 4,
+      "recursos_detalhados": [
+        "labs",
+        "imagem (possivelmente RX ou TC)",
+        "medicação IV",
+        "procedimentos (possivelmente para tratar a causa da hipotensão)"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente com história de câncer de bexiga e quimioterapia apresenta sintomas de possível infecção ou complicações relacionadas ao tratamento, como hipotensão, dor flank, náusea, vômito e diarreia. Além disso, os sinais vitais apresentam hipotensão e taquicardia, o que indica alto risco e necessidade de atenção emergencial.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "39755979",
+    "acuity_ground_truth": 1,
+    "triage_text": "51-year-old white male presented to the ED with the worst headache of his life. His wife found him at home with altered mental status, confusion, drooling, and urinary incontinence. The patient has a history of hypertension and multiple neurosurgical procedures including diagnostic cerebral angiograms, external ventricular catheters, craniotomies for aneurysm clipping, and ventriculoperitoneal shunt placement. No family history of heart disease was noted.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Altered mental status",
+        "Confusion"
+      ],
+      "recursos_estimados": 3,
+      "recursos_detalhados": [
+        "Imagem (TC)",
+        "Consulta especializada",
+        "Medicação IV"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "O paciente apresenta dor de cabeça intensa, alteração do estado mental, confusão, drooling e incontinência urinária. Esses sintomas são sugestivos de uma condição neurológica grave, como hemorragia subaracnoide ou outra lesão cerebral. Além disso, o histórico de procedimentos neurocirúrgicos aumenta a suspeita de complicações. Portanto, a classificação é ESI-2 devido à necessidade de atenção imediata e avaliação detalhada.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": [
+        "Justificativa contém termo proibido: 'suspeita de'. O protocolo proíbe termos como 'provavelmente', 'pode ser', 'suspeita de'."
+      ]
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30963620",
+    "acuity_ground_truth": 1,
+    "triage_text": "71-year-old Black/African American male with end-stage heart failure secondary to ischemic cardiomyopathy, presenting with worsening heart failure complicated by cardiogenic shock. Chief complaint of hypotension and shortness of breath. Past medical history includes infarct-mediated HFrEF (EF 11%), atrial fibrillation with thrombus, and 3v-CAD. Heavy family history of heart disease, including diabetes, hypertension, and CAD. No known allergies. Arrived by walking in. Vital signs on arrival: BP 85/58, P 61, RR 24, SpO2 100%, T 97.6° F, Pain 0.",
+    "llm_response": {
+      "classificacao": "ESI-1",
+      "nivel": 1,
+      "nome_nivel": "Ressuscitação",
+      "ponto_decisao_ativado": "A",
+      "criterios_ponto_decisao": [
+        "choque descompensado"
+      ],
+      "recursos_estimados": 4,
+      "recursos_detalhados": [
+        "labs",
+        "medicação IV",
+        "procedimentos",
+        "consulta especializada"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com insuficiência cardíaca em estágio terminal e choque cardiogênico, apresentando hipotensão e falta de ar, o que ativa o critério de choque descompensado no Ponto A, classificando-o como ESI-1.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31881536",
+    "acuity_ground_truth": 1,
+    "triage_text": "88-year-old male, White, arrived by ambulance after a ground-level fall. He sustained a right clavicle fracture, right rib fractures, right scapula fracture, compression fractures of T10-T12 (chronic), and L1 bilateral transverse process fractures. The patient has a history of atrial fibrillation and hypertension and is on Warfarin. The fall was unwitnessed, and he was found by family approximately one hour later. EMS found him alert and sitting on the floor against the wall, denying any loss of consciousness. He has allergies to doxycycline and statins. The patient's Vitalsigns level is critical.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Queda+trauma craniano não confirmado, mas com lesões significativas",
+        "Idoso com comorbidades e anticoagulante (Warfarin)"
+      ],
+      "recursos_estimados": 4,
+      "recursos_detalhados": [
+        "Imagem (RX/TC)",
+        "Medicação IV",
+        "Procedimentos (possível redução de fratura)",
+        "Consulta especializada"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": true,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com história de quedas e trauma significativo, incluindo fraturas de clavícula, costelas, escápula e processos transversos, além de lesões crônicas. O uso de anticoagulante (Warfarin) aumenta o risco de complicações. Sinais vitais críticos e necessidade de recursos para avaliação e tratamento imediato justificam a classificação como ESI-2.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31967825",
+    "acuity_ground_truth": 1,
+    "triage_text": "80-year-old white female with a history of prior stroke, atrial fibrillation on Coumadin, and seizures. She was transferred from an outside hospital (OSH) with left-sided weakness, altered mental status, right facial droop, and decreased left grip strength, concerning for stroke. Onset was noted at 4:45 pm. The patient denies headache, chest pain, shortness of breath, visual field deficits, and recent tick or mosquito exposure. She has a history of catheter-associated urinary tract infections. Past medical history includes hypertension, hyperlipidemia, carotid stenosis, sick sinus syndrome status post pacemaker placement, seizure disorder, and strokes. No significant family history of premature coronary artery disease or sudden death, but a history of stroke in her mother and maternal grandmother. VS: BP 207/73, HR 100, RR 16, SpO2 98%.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: AVC/déficit neurológico focal agudo"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "imagem (TC)",
+        "consulta especializada"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idosa com história de AVC, fibrilação atrial e convulsões, apresentando fraqueza no lado esquerdo, alteração do estado mental, ptose facial direita e diminuição da força de preensão esquerda, sugerindo AVC. Sinais vitais dentro dos limites normais, mas considerando a apresentação clínica e a história médica, a classificação é ESI-2 devido ao alto risco.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31984999",
+    "acuity_ground_truth": 1,
+    "triage_text": "69-year-old male with a history of prediabetes and smoking presented with chest pain and shortness of breath. The pain radiated to his arms and jaw, initially thought to be heartburn. After the pain worsened, he drove himself to the hospital. Initial EKG showed inferior STEMI. Vital signs on arrival were not recorded, which is a critical omission.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "dor torácica sugestiva de SCA"
+      ],
+      "recursos_estimados": 3,
+      "recursos_detalhados": [
+        "ECG",
+        "medicação IV",
+        "procedimentos de revascularização"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com história de fumo e prediabetes apresenta dor torácica com irradiação para braços e mandíbula, compatível com SCA, o que ativa o ponto de decisão B para ESI-2 devido ao alto risco.",
+      "alertas": [
+        "Necessidade de monitorização contínua dos sinais vitais",
+        "Avaliação imediata por cardiologia"
+      ],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "32034671",
+    "acuity_ground_truth": 1,
+    "triage_text": "91-year-old female with a history of stroke with left-sided weakness, high cholesterol, and hypertension, presented with altered mental status, lethargy, and decreased oral intake over the past 3 days. The patient's family reported she had stopped eating 2 days ago and had poor liquid intake, urinating only once. She had become non-verbal and showed mild difficulty swallowing. The patient arrived via unknown transport and has no known allergies. VS: BP 90/48, HR 40, RR 16, SpO2 98%, temperature (T) 94.8° F.",
+    "llm_response": {
+      "classificacao": "ESI-1",
+      "nivel": 1,
+      "nome_nivel": "Ressuscitação",
+      "ponto_decisao_ativado": "A",
+      "criterios_ponto_decisao": [
+        "inconsciente/não responsivo",
+        "pulso ausente",
+        "choque descompensado"
+      ],
+      "recursos_estimados": 5,
+      "recursos_detalhados": [
+        "labs",
+        "ECG",
+        "imagem",
+        "medicação IV",
+        "procedimentos"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idosa com história de AVC, apresentando alteração do estado mental, letargia, diminuição da ingestão oral e sinais vitais anormais, incluindo hipotensão e bradicardia, o que indica necessidade de intervenção imediata.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "32829716",
+    "acuity_ground_truth": 1,
+    "triage_text": "91-year-old white female with a history of cardiomyopathy (LVEF 35%), chronic left bundle branch block, GERD, lumbar radiculopathy, depression, and anemia secondary to thalassemia. She presented with chest discomfort, nausea, vomiting, and shortness of breath. EMS noted SVT and afib with RVR en route. Initial ED vitals: HR 85, BP 92/44, RR 20, SpO2 94% RA.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "dor torácica sugestiva de SCA"
+      ],
+      "recursos_estimados": 4,
+      "recursos_detalhados": [
+        "labs",
+        "ECG",
+        "medicação IV",
+        "consulta especializada"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idosa com história de cardiomiopatia e dor torácica, apresentando SVT e afib com RVR, além de sinais vitais que indicam zona de perigo, como pressão arterial baixa e frequência respiratória elevada.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "33003553",
+    "acuity_ground_truth": 1,
+    "triage_text": "86-year-old Asian female with a history of hypertension, chronic atrial fibrillation, mildly dilated ascending aorta and aortic arch, and valvular heart disease, presented with dyspnea for 1 week. She lives alone and has been intermittently noncompliant with her medications, including furosemide. She reports bilateral lower extremity edema, dyspnea, and lower back pain. Recently returned from a trip, she denied any recent fevers, chills, or productive cough but has a non-productive cough. On arrival, she was in atrial fibrillation with rapid ventricular response (AF with RVR). VS: BP 148/111, HR 140, RR 24, SpO2 100%, temperature (T) 97.0° F, Pain 8.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: dor no peito não mencionada, mas sinais vitais anormais e história médica de doença cardíaca",
+        "Dor intensa: EVA 8/10"
+      ],
+      "recursos_estimados": 3,
+      "recursos_detalhados": [
+        "ECG",
+        "medicação IV",
+        "consulta especializada"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idosa com história de doença cardíaca, apresentando dyspnea, edema, dor nas costas e sinais vitais anormais, incluindo frequência cardíaca elevada e pressão arterial elevada. Além disso, a paciente está em AF com RVR, o que aumenta o risco de complicações cardíacas. A dor intensa (EVA 8/10) também justifica a classificação como ESI-2.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "33359856",
+    "acuity_ground_truth": 1,
+    "triage_text": "48-year-old white female presented via EMS for possible seizure. The patient was intubated upon arrival in the ED. The patient's husband reported that she was acting strangely, had difficulty standing, and was unresponsive with facial twitching and shaking. EMS noted left facial twitching, tachycardia, tachypnea, and snoring respirations. The patient has a history of right frontalparietal subarachnoid cyst s/p fenestration and cystoparietal shunt placement, seizure disorder, asthma, bipolar/severe depression, GERD, glaucoma, anemia of chronic disease, and hemorrhoids. The patient arrived via ambulance and has allergies to Codeine, Compazine, and Vicodin. VS: BP 143/80, HR 109, RR 26, SpO2 99%.",
+    "llm_response": {
+      "classificacao": "ESI-1",
+      "nivel": 1,
+      "nome_nivel": "Ressuscitação",
+      "ponto_decisao_ativado": "A",
+      "criterios_ponto_decisao": [
+        "inconsciente/não responsivo",
+        "convulsão ativa com via aérea comprometida"
+      ],
+      "recursos_estimados": 4,
+      "recursos_detalhados": [
+        "intubação",
+        "medicação IV",
+        "imagem",
+        "consulta especializada"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente apresentou convulsão ativa com comprometimento da via aérea, necessitando de intubação imediata, o que ativa o ponto de decisão A do algoritmo ESI, classificando-a como ESI-1.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "33678565",
+    "acuity_ground_truth": 1,
+    "triage_text": "32-year-old Black/African American male with a history of chronic regional pain syndrome of the right lower extremity, chronic low back pain with spinal nerve stimulator, and depression with prior suicidal ideation. The patient was transferred from an outside hospital after presenting with hematemesis and acute liver failure. He had been self-medicating with high doses of Tylenol and ibuprofen for chronic pain, leading to abdominal pain and vomiting blood. Upon arrival, he had grade 1 encephalopathy and a hematocrit of 19. He reported abdominal pain and thirst. He was constipated and had not had a bowel movement for a week. No fever or chills reported. VS: BP 154/77, HR 90, RR 16, SpO2 99%, temperature (T) 99.0° F, Pain 0.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: overdose com alteração de consciência (encefalopatia grau 1)",
+        "Alto risco: hematemese e insuficiência hepática aguda"
+      ],
+      "recursos_estimados": 4,
+      "recursos_detalhados": [
+        "Laboratório para avaliar a função hepática e hematológica",
+        "Imagem abdominal para avaliar a causa da hematemese",
+        "Medicação IV para controle da dor e prevenção de sangramento",
+        "Consulta especializada em gastroenterologia ou hepatologia"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "O paciente apresenta sintomas de alto risco, incluindo hematemese, insuficiência hepática aguda e encefalopatia grau 1, o que indica a necessidade de atendimento emergencial. Além disso, a história de automedicação com doses altas de Tylenol e ibuprofen aumenta o risco de complicações graves.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "33981679",
+    "acuity_ground_truth": 1,
+    "triage_text": "26-year-old Hispanic/Latino female with a history of MCTD on prednisone and Raynaud's phenomenon. She presents with fever to 104°F, chills, tachycardia, and hypotension. She has a history of a pan-sensitive E.coli UTI treated with PO bactrim, which she did not complete. Fever and chills recurred with RLQ and flank pain. She reports improved fever and chills, no N/V, resolved myalgias and arthralgias, low-grade frontal HA, no vision changes, weakness, numbness, paresthesias, photophonophobia, confusion, lethargy, neck, or back pain. No chest pain, palpitations, SOB, wheeze, cough, dysuria, hematuria, diarrhea, or suprapubic pain. On arrival in the emergency department (ED) vital signs (VS) were: heart rate (HR) 139, respiratory rate (RR) 18, blood pressure (BP) 97/54, SpO2 100%, temperature (T) 104.6° F, pain 7.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: febre alta com história de infecção urinária não tratada completamente",
+        "Sinais de possível sepse: febre, chills, tachycardia, hipotensão"
+      ],
+      "recursos_estimados": 3,
+      "recursos_detalhados": [
+        "labs",
+        "medicação IV",
+        "consulta especializada"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente apresenta sinais de infecção grave, com febre alta, chills, tachycardia e hipotensão, além de história de infecção urinária não tratada completamente. Esses sintomas indicam alto risco e necessidade de atenção emergencial.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "34443485",
+    "acuity_ground_truth": 1,
+    "triage_text": "55-year-old white male with a history of end-stage renal disease (ESRD) on peritoneal dialysis (PD), who presented with abdominal pain and low-grade fever. The patient has a significant medical history including multiple exit site infections, hyperparathyroidism, vascular calcification, osteoporosis, and a history of Kaposi's sarcoma. The patient walked into the emergency department and reported abdominal pain and a low-grade fever starting that afternoon. He noted that his hernia was protruding more than usual and was tender, with additional tenderness in the left lower quadrant (LLQ) and epigastrium. He did not experience nausea, vomiting, diarrhea, or changes in bowel movements but did have flatus. The patient was concerned about peritonitis due to the cloudy appearance of his PD fluid. His blood pressure is chronically low, with a baseline in the 80s. Initial vital signs in the ED were BP 68/27, HR 106, RR 16, SpO2 97%, and temperature 98.4°F. Upon arrival, he was pleasant and in no acute distress (NAD), complaining only of abdominal pain.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Abdominal pain and low-grade fever in a patient with a history of end-stage renal disease and peritoneal dialysis, raising concern for peritonitis or other serious abdominal conditions",
+        "History of multiple exit site infections and other significant medical history"
+      ],
+      "recursos_estimados": 3,
+      "recursos_detalhados": [
+        "labs",
+        "imaging (e.g., abdominal X-ray or CT scan)",
+        "consultation with a nephrologist or general surgeon"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "O paciente apresenta dor abdominal e febre baixa, com histórico de doença renal terminal em diálise peritoneal, o que aumenta a suspeita de peritonite ou outras condições abdominais graves. Além disso, os sinais vitais mostram hipotensão e taquicardia, indicando possível choque ou instabilidade hemodinâmica. Portanto, a classificação ESI-2 é apropriada devido à necessidade de atenção médica imediata para avaliar e tratar possíveis condições life-threatening.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": [
+        "Justificativa contém termo proibido: 'suspeita de'. O protocolo proíbe termos como 'provavelmente', 'pode ser', 'suspeita de'."
+      ]
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "35177887",
+    "acuity_ground_truth": 1,
+    "triage_text": "62-year-old white male with a history of hemorrhoidectomy 3 days ago, presenting with bright red blood per rectum (BRBPR). The patient has a past medical history of a significant diverticular bleed requiring coiling, hypertension (HTN), hyperlipidemia (HLD), and bleeding internal hemorrhoidal prolapse status post hemorrhoidopexy. The patient was initially seen at another facility where he was found to be tachycardic to the 130s. He arrived at the emergency department by ambulance. BP 194/133, P 130, RR 16, SpO2 98%, T 98.7° F, Pain 0.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: sangramento retal ativo pós-hemorroidectomia"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "exame físico detalhado",
+        "laboratório para avaliar sangramento"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com história de sangramento significativo no passado, apresentando sangramento retal ativo após hemorroidectomia, com taquicardia e hipertensão, o que indica alto risco e necessidade de avaliação emergente.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "35203043",
+    "acuity_ground_truth": 1,
+    "triage_text": "65-year-old white female with a history of multiple sclerosis, dementia, neurogenic bladder with indwelling foley, right staghorn calculus, and left obstructing UVJ stone with nephrostomy tube. Presented with worsening lethargy and no output from nephrostomy tube for two days. Reported to have been satting at 77% on NBR when EMS arrived. Admitted three times in the past year with urosepsis. In the ER, febrile to 102.8, tachycardic, leukocytosis to 16.4. Numerous excoriations within and around her vagina and decubitus ulcers on her sacrum. Nephrostomy tube encrusted with purulent discharge. Erythema and fluctuance with expressible pus around the nephrostomy site. Arrival by ambulance. Allergies: Zosyn, ceftriaxone, tuberculin ppd skin test. Social history: lives in a nursing home. Family history: no family members with multiple sclerosis.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "sepse suspeita",
+        "lethargia",
+        "febre",
+        "leukocytose"
+      ],
+      "recursos_estimados": 4,
+      "recursos_detalhados": [
+        "labs",
+        "medicação IV",
+        "procedimentos",
+        "consulta especializada"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idosa com história de múltipla esclerose, demência e doenças renais, apresenta piora da letargia, febre, taquicardia, leucocitose e sinais de infecção no local do nefrostomo, o que sugere sepse. Além disso, a paciente tem história de urosepsis prévia e apresenta sinais de infecção no local do nefrostomo, o que aumenta a suspeita de sepse.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": [
+        "Justificativa contém termo proibido: 'suspeita de'. O protocolo proíbe termos como 'provavelmente', 'pode ser', 'suspeita de'."
+      ]
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "35343485",
+    "acuity_ground_truth": 1,
+    "triage_text": "43-year-old white male with a history of Hepatitis C (negative viral load), asplenia due to trauma, recurrent pneumonia, bipolar disorder, and substance use disorder (alcohol, opioids, on methadone), presenting with altered mental status in the setting of hypothermia and substance use. The patient was found by EMS stumbling and falling into a snow bank, confused. He was brought to the ED by ambulance. The patient reported nasal congestion and a productive cough five days prior to admission and had been undomiciled for three days, staying with a friend. He consumed Xanax the evening before presentation and blacked out. On arrival, he was somnolent but otherwise had no notable findings. Initial vitals in the ED were T: 84.0° F, HR: 68, BP: 118/70, SpO2: 96%.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Altered mental status",
+        "Hypothermia",
+        "Substance use"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "Imagem (possível RX de tórax devido à história de pneumonia recorrente)",
+        "Laboratório (exames para avaliar a função hepática, entre outros)"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": null,
+      "over_triage_aplicado": true,
+      "confianca": "alta",
+      "justificativa": "O paciente apresenta alteração do estado mental, hipotermia e uso de substâncias, o que coloca ele em um nível de emergência devido ao risco de complicações. Além disso, a história de asplenia e pneumonia recorrente aumenta o risco de infecções graves. A hipotermia também é um fator de risco significativo. Portanto, a classificação como ESI-2 é apropriada devido à necessidade de intervenção médica imediata para estabilizar o paciente e tratar possíveis complicações.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30061793",
+    "acuity_ground_truth": 2,
+    "triage_text": "53-year-old white male with a history of HCV/EtOH cirrhosis (on Harvoni), COPD with ongoing tobacco use, IDDM, and jugular vein thrombosis (on warfarin), presented to the ED with a chief complaint of chest pain and dyspnea. The patient was referred from a liver clinic due to a 3-day history of intermittent, productive cough with scant yellow sputum and sharp, central chest pain that occurs with coughing. The patient also reported fatigue, mild dyspnea on exertion, and wheezing. There were no symptoms of dyspnea at rest, upper respiratory symptoms, subjective fevers, chills, headache, nausea, vomiting, diarrhea, abdominal pain, dysuria, rashes, melena, hematochezia, orthopnea, paroxysmal nocturnal dyspnea (PND), or edema. The patient walked into the ED and has allergies to codeine and penicillins. BP 119/71, P 91, RR 22, SpO2 97%, T 98.9° F, Pain 8.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "dor torácica sugestiva de SCA",
+        "COPD com sintomas de exacerbação"
+      ],
+      "recursos_estimados": 3,
+      "recursos_detalhados": [
+        "labs",
+        "ECG",
+        "medicação IV/IM"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "O paciente apresenta dor torácica central, produtiva e aguda, com história de doenças cardíacas e pulmonares, o que sugere uma possível condição emergencial como SCA ou exacerbação de COPD. Além disso, o paciente apresenta sintomas de dispneia e fadiga, o que reforça a necessidade de atenção imediata.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30122338",
+    "acuity_ground_truth": 2,
+    "triage_text": "70-year-old white female presented to the emergency department via ambulance after falling down the last two steps of her stairs, striking her back and shoulders. She experienced paresthesias in her arms and legs, which resolved in her legs but persisted in her arms. She had a syncopal episode 30 minutes post-fall, consistent with her history of syncope. Upon arrival, she reported a \"prickly\" feeling in her arms and discomfort with movement but no pain, weakness, neck pain, or changes in vision, hearing, speech, bowel, or bladder function. Her past medical history includes pneumococcal pericarditis, pericardial decortication, residual atrial arrhythmias, IUD perforation, and basal cell carcinoma of the labia. Family history includes heart disease, breast cancer, and colon cancer. She has allergies to Darvon, Codeine, Keflex, Sulfa, and Morphine Sulfate. On arrival in the emergency department (ED) vital signs (VS) were: heart rate (HR) 74, respiratory rate (RR) 20, blood pressure (BP) 144/78, SpO2 98%, temperature (T) 97.8° F, pain 1.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Queda+trauma craniano não explicitado, mas com sincope pós-quedas e parestesias persistentes"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "imagem (RX/TC)",
+        "consulta especializada"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": true,
+      "confianca": "alta",
+      "justificativa": "Paciente idosa com história de queda, sincope pós-quedas e parestesias persistentes, o que sugere possível lesão cervical ou craniana. Além disso, a paciente tem história de arritmias cardíacas, o que aumenta o risco. Portanto, é classificada como ESI-2 devido à necessidade de avaliação e tratamento imediato.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30204445",
+    "acuity_ground_truth": 2,
+    "triage_text": "52-year-old white female with high-grade sarcoma of the right ilium, status post right hemipelvectomy with allograft reconstruction, and four cycles of cisplatin/adriamycin, presents with right leg pain. Over the past week, she has had worsening right lower extremity pain, now unable to ambulate. Pain starts in the right posterior flank and buttocks, radiating down to the foot, exacerbated by certain movements. No associated weakness, fever, chills, back pain, saddle anesthesia, or bowel/bladder incontinence. Increased narcotics and physical therapy have been unhelpful. Last chemotherapy was three weeks ago. Past medical history includes undifferentiated pleomorphic sarcoma, stage IB cervical cancer, Grave's disease/hypothyroidism, lumbar fusion, and left tibia osteomyelitis. Family history includes paternal grandmother with breast cancer. Social history not provided. Patient walked into the ED. Upon arrival, the patient was tearful from pain while doing stairs, noted to have right sciatic radiculopathy and bilateral lower extremity leg edema. On arrival in the emergency department (ED) vital signs (VS) were: heart rate (HR) 92, respiratory rate (RR) 16, blood pressure (BP) 144/93, SpO2 100%, temperature (T) 97.0° F, pain 8.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Dor intensa: EVA ≥ 7/10, dor que impede posição confortável, choro/gemidos por dor"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "medicação IV/IM",
+        "consulta especializada"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente apresenta dor intensa no membro inferior direito, com EVA de 8, que impede a ambulação e é exacerbada por certos movimentos, atendendo ao critério de dor intensa do Ponto B, classificando-a como ESI-2.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30251477",
+    "acuity_ground_truth": 2,
+    "triage_text": "79-year-old female of other race presents with 6 days of confusion, lethargy, and weakness. Walked into the emergency department. No known allergies or adverse drug reactions. Vital signs on arrival: BP 154/76, P 117, RR 17, SpO2 100%, T 98.9° F, Pain 2.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Confusão/letargia/desorientação"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "exame físico",
+        "anamnese",
+        "labs"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idosa com confusão, letargia e fraqueza por 6 dias, apresentando critérios para ESI-2 devido à confusão e letargia, que são sintomas graves e necessitam de atenção imediata.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30442173",
+    "acuity_ground_truth": 2,
+    "triage_text": "91-year-old white female with a history of PVD complicated by mesenteric ischemia, stage I adenocarcinoma of the lungs (in remission post-CyberKnife), PMR (on prednisone), poorly-controlled hypertension, and CAD. She presented to the ED after a syncopal episode. The patient experienced increasing fatigue and lightheadedness over the past week, with a syncopal episode occurring while sitting at a table. She had no head strike, fall, or tonic-clonic motions, but did experience a preceding right-sided headache. She was taken by ambulance to the ED. The patient has been experiencing increasing frequency and severity of chest pain over the past several weeks, sometimes requiring up to two nitroglycerin tablets for relief. Initial vitals in the ED were BP 120/76, P 54, RR 18, SpO2 97%, T 98.1° F, Pain 0. The patient has a history of diabetes, hypertension, dyslipidemia, H. pylori, carotid stenosis, GERD, and baseline right-sided Bell's Palsy. Family history includes myocardial infarction and CVA in parents, and coronary artery bypass graft in a brother. Social history and allergies include penicillins, sulfa, iodine, iron, and shrimp.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: dor torácica sugestiva de SCA",
+        "Syncopal episode"
+      ],
+      "recursos_estimados": 3,
+      "recursos_detalhados": [
+        "labs",
+        "ECG",
+        "medicação IV/IM"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "A paciente apresentou um episódio de síncope, o que é um critério de alto risco para ESI-2. Além disso, ela tem uma história de dor torácica sugestiva de SCA e CAD, o que aumenta a necessidade de atenção imediata. A idade avançada e as comorbidades também justificam uma classificação de ESI-2.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30682678",
+    "acuity_ground_truth": 2,
+    "triage_text": "26-year-old white female with a history of metastatic invasive ductal carcinoma presented with progressive fatigue. She had a recent admission for jaundice and ascites. The patient arrived at the ED with fatigue and exhibited psychomotor slowing but had a normal mental status. Vital signs on arrival: HR 90, RR 26, BP 104/73, SpO2 99%, T 97.8° F, pain 0. Allergies include Dilaudid and lisinopril. Method of arrival to the emergency department is unknown.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: história de câncer metastático e sintomas de progressão (fadiga, psicomotora lenta)"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "labs",
+        "imagem"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente com história de câncer metastático apresenta fadiga progressiva e psicomotora lenta, indicando alto risco e necessidade de avaliação emergente.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31000597",
+    "acuity_ground_truth": 2,
+    "triage_text": "91-year-old white male with a history of aortic stenosis, 3-vessel coronary artery disease status post CABG, cardiomyopathy status post BIV ICD, hypoxemia on 2L at home, and abdominal aortic aneurysm status post repair. He presents with dyspnea, weakness, headache, dizziness, weight gain, and intermittent chest pain. The patient has experienced dizziness with standing, unsteadiness, and two falls in the past. Recent symptoms include chest pain, which is dull and different from previous angina, and a new bilateral frontal headache. He has lost 23 pounds but recently gained weight despite taking Lasix. No recent changes in medications or diet. On arrival, the patient was noted to be unsteady on his feet but had a normal neurologic exam. On arrival in the emergency department (ED) vital signs (VS) were: heart rate (HR) 68, respiratory rate (RR) 18, blood pressure (BP) 141/61, SpO2 93%, temperature (T) 98.0° F, pain 5.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: dor torácica sugestiva de SCA",
+        "Confusão/letargia/desorientação: não explicitamente mencionada, mas história de dizziness e unsteadiness",
+        "Dor intensa: EVA 5, que pode ser considerada moderada, mas contexto de paciente idoso com história de doença cardíaca"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "ECG",
+        "imagem (RX/TC)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": true,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com história de doença cardíaca significativa, apresentando sintomas de dyspnea, dor torácica atípica, e recente ganho de peso apesar de uso de Lasix. Sua condição clínica, incluindo história de aortic stenosis, cardiomyopathy, e abdominal aortic aneurysm status post repair, aumenta o risco de complicações cardíacas. Além disso, a presença de dizziness, unsteadiness, e dois episódios de queda no passado sugere risco aumentado de lesões ou complicações. Portanto, classificação como ESI-2 é apropriada devido ao alto risco e necessidade de avaliação e intervenção rápida.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31133200",
+    "acuity_ground_truth": 2,
+    "triage_text": "58-year-old white female presented to the ED with syncope and left-sided flank pain. She was recently diagnosed with a UTI and started on macrobid, after which she experienced lip swelling but no other allergic symptoms. She had urinary frequency and burning, and at 6 AM, she felt nauseous and fainted, hitting her head. On arrival, her vital signs were BP 115/68, HR 109, RR 18, SpO2 100%, and pain 10. She walked into the ED for evaluation.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: syncope",
+        "Dor intensa: EVA 10"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "labs",
+        "imagem (possível TC de crânio devido à queda)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente apresentou sincope e dor intensa na região lombar esquerda, o que indica alto risco e necessidade de avaliação imediata. Além disso, a paciente tem 58 anos, o que a coloca na faixa etária de idoso, e apresentou uma queda com trauma craniano, o que aumenta a necessidade de avaliação detalhada.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31315047",
+    "acuity_ground_truth": 2,
+    "triage_text": "75-year-old white male with a history of pancreatic adenoma status post resection, hyperlipidemia, hypertension, peripheral vascular disease, renal insufficiency, tobacco abuse, diverticulosis, and COPD. The patient presented with approximately 10 episodes of bright red blood per rectum since the previous night. He reported numerous bowel movements mixed with bright red blood and darker maroon-colored stools but denied any melanotic bowel movements, chest pain, shortness of breath, abdominal pain, dizziness, or lightheadedness. He did complain of feeling fatigued. On arrival, his vital signs were BP 124/85, HR 101, RR 18, SpO2 99%, and temperature 96.4°F. The patient arrived at the emergency department by walking in. He has no known allergies or adverse drug reactions.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: sangramento gastrointestinal"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "lab",
+        "endoscopia"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com história de doenças significativas apresentando sangramento gastrointestinal ativo, o que coloca em alto risco e requer avaliação emergente.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31582863",
+    "acuity_ground_truth": 2,
+    "triage_text": "65-year-old right-handed white female with a history of hypothyroidism and bi-frontal glioblastoma. She is currently non-verbal. The patient had a syncopal episode while standing at the sink, stiffened, and fell. Her husband caught her before she hit the floor. She had another syncopal episode with head strike. She was transferred to the ED by ambulance. The patient is allergic to Compazine. BP 122/67, P 71, RR 16, SpO2 94%, T 97.7° F.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: história de bi-frontal glioblastoma e episódios sincopais com possível lesão cerebral",
+        "Confusão/letargia/desorientação: paciente não verbal"
+      ],
+      "recursos_estimados": 3,
+      "recursos_detalhados": [
+        "imagem (TC de crânio)",
+        "consulta especializada (neurologia)",
+        "monitoramento contínuo dos sinais vitais"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": true,
+      "confianca": "alta",
+      "justificativa": "Paciente idosa com história de glioblastoma e episódios sincopais, o que aumenta o risco de lesão cerebral. Além disso, a paciente é não verbal, o que pode indicar comprometimento neurológico. Portanto, a classificação é ESI-2 devido ao alto risco e necessidade de avaliação e tratamento imediatos.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31727154",
+    "acuity_ground_truth": 2,
+    "triage_text": "78-year-old white male with a history of CAD, MVR, pAFib, OSA, and ORIF complicated by Vfib s/p PPM who presents with 4 weeks of DOE. He was referred to the ED from his PCP's office due to an abnormal EKG showing LBBB, although the patient is V-paced. The patient denies chest pain, orthopnea, PND, and recent travel. He reported one episode of dark stool several days ago and a non-productive cough for several days. Initial ED vitals were BP 161/92, HR 92, RR 19, SpO2 100%, and temperature 97.9°F. On examination, the patient had trace edema and trace bibasilar crackles. The patient arrived by ambulance and has allergies to Ambien and shellfish-derived products. Social history and family history were not contributory.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: dor torácica sugestiva de SCA não está presente, mas história de CAD e apresentação com DOE (dispneia ao esforço) e alterações no EKG (LBBB) são preocupantes",
+        "Sinais vitais dentro dos limites normais, mas considerando a idade e comorbidades, a apresentação é considerada de alto risco"
+      ],
+      "recursos_estimados": 3,
+      "recursos_detalhados": [
+        "ECG",
+        "imagem (possivelmente RX de tórax para avaliar a presença de edema pulmonar)",
+        "labs (para avaliar a função cardíaca e renal)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": true,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com história de CAD, MVR, pAFib, apresentando DOE e alterações no EKG, o que sugere alto risco. A presença de comorbidades e a idade avançada justificam o over-triage para ESI-2.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31787380",
+    "acuity_ground_truth": 2,
+    "triage_text": "83-year-old male, White - Other European, arrived by ambulance with a chief complaint of fatigue. He has a past medical history of congestive heart failure (CHF), coronary artery disease (CAD) status post (s/p) bypass, atrial fibrillation (Afib) s/p pacemaker, and recurrent cellulitis. He presented with worsening right lower extremity (RLE) redness and swelling. Concerns for hypotension at home were noted, but he was normotensive upon arrival at the emergency department (ED). The patient was asymptomatic for hypotension, and his son noted fatigue without loss of consciousness. The patient has a history of vasovagal episodes. VS: BP 134/61, HR 90, RR 18, SpO2 100%, temperature (T) 97.0° F, Pain 0.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "D",
+      "criterios_ponto_decisao": [
+        "sinais vitais normais"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "labs",
+        "imagem"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com história de CHF, CAD, Afib e celulite apresenta fadiga e piora da celulite no membro inferior direito, mas sem sinais de hipotensão ou perda de consciência. Sinais vitais estão dentro dos limites normais. Considerando a idade e comorbidades, a classificação é ESI-3 devido à necessidade de avaliação e tratamento oportunos para celulite e monitoramento de suas condições crônicas.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31829867",
+    "acuity_ground_truth": 2,
+    "triage_text": "62-year-old African American female with a history of COPD, metastatic lung adenocarcinoma, hypertension, hyperlipidemia, asthma, primary open-angle glaucoma, diabetes, and angina. She has undergone hysterectomy, C-section, appendectomy, and tonsillectomy. She presented with worsening dyspnea and hypoxia. She is on 3L oxygen at home and has a productive cough without hemoptysis for the past three days. No fever, sore throat, sick contacts, lower extremity swelling, weight gain, chest pain, or palpitations. She arrived by ambulance. Vital signs: BP 133/55, HR 116, RR 18, SpO2 93%, temperature (T) 97.6° F, Pain 0. No known allergies.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: sepse suspeita não está presente, mas a paciente tem história de doenças graves como COPD, metastatic lung adenocarcinoma, e apresenta piora da dispneia e hipoxia"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "labs",
+        "imagem (RX)"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "A paciente apresenta piora da dispneia e hipoxia, com SpO2 93% e RR 18, o que indica necessidade de atenção imediata. Além disso, sua história de doenças graves como COPD e metastatic lung adenocarcinoma aumenta o risco. Portanto, a classificação é ESI-2.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "32144059",
+    "acuity_ground_truth": 2,
+    "triage_text": "24-year-old white female with a history of anorexia nervosa, borderline personality disorder, attention deficit disorder, and depression, presenting with failure to thrive and significant weight loss following an emotional stressor. The patient was brought to the emergency department by ambulance. She has a nasogastric tube in place for nutritional support. The patient reports only eating yogurts, peanut butter, and fruit. She denies suicidal ideation at this time. Her vital signs on arrival were BP 96/63, HR 88, RR 16, SpO2 98%, temperature 98.2° F, and pain 0. She has a history of multiple suicide attempts and self-harm.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: história de múltiplas tentativas de suicídio e autolesão",
+        "Desnutrição grave com falha no crescimento e perda de peso significativa"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "Suporte nutricional via sonda nasogástrica",
+        "Avaliação psiquiátrica"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": true,
+      "confianca": "alta",
+      "justificativa": "Paciente com história de transtornos psiquiátricos, incluindo tentativas de suicídio e autolesão, apresenta desnutrição grave e falha no crescimento. A presença de um histórico de alto risco e a necessidade de suporte nutricional e avaliação psiquiátrica justificam a classificação como ESI-2.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "34735735",
+    "acuity_ground_truth": 2,
+    "triage_text": "62-year-old white male with a history of stage IV duodenal adenocarcinoma and peritoneal carcinomatosis, presenting with failure to thrive. The patient was recently admitted for anemia and melena due to his duodenal tumor. He was discharged to rehab but experienced rigors and chills two days after returning home. No fever, headache, vision changes, chest pain, dyspnea, nausea, vomiting, diarrhea, abdominal pain, or dysuria were reported. The patient was referred to the ED by his PCP after outpatient labs. The patient arrived by ambulance. Major surgical procedures include line placement. Past medical history includes stage IV duodenal adenocarcinoma, MCA CVA with minimal residual deficits, hypertension, hyperlipidemia, and insulin-dependent diabetes mellitus. Family history includes a father with colon cancer and CAD, and a mother who died from asphyxiation. On arrival in the emergency department (ED) vital signs (VS) were: heart rate (HR) 84, respiratory rate (RR) 16, blood pressure (BP) 112/74, SpO2 98%, temperature (T) 98.2° F, pain 3.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: história de câncer avançado e sintomas de possível infecção (rigores e calafrios)"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "labs",
+        "medicação IV"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com história de câncer avançado e sintomas sugestivos de possível infecção, como rigores e calafrios, sem febre, mas com necessidade de avaliação e tratamento imediato devido ao seu estado de saúde crítico.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "39832868",
+    "acuity_ground_truth": 2,
+    "triage_text": "51-year-old white female with a history of obesity, asthma, former smoker, obstructive sleep apnea (OSA) on nocturnal nasal cannula (NC) 3L, and recent admission for asthma exacerbation. She presents with worsening shortness of breath, cough, wheezing, and chest tightness. She has been compliant with her asthma regimen but recently experienced psychosocial stressors, leading to a brief period of smoking. Her symptoms have worsened since discharge, and she reports her breathing today is the worst it has ever been. On arrival at the ED, she was speaking in full sentences but had expiratory wheezes throughout. Initial vital signs were BP 149/96, P 81, RR 25, SpO2 92% on room air, and T 98.2° F. The patient arrived at the ED by walking in and has no known allergies.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: dor torácica sugestiva de SCA não está presente, mas sintomas de asma exacerbada com piora da respiração, tosse, sibilo e aperto no peito, além de SpO2 92% em ar ambiente, indicam necessidade de atenção imediata",
+        "Dor intensa não está explicitamente mencionada, mas a pior respiração já experimentada sugere desconforto significativo"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "Nebulização",
+        "Medicação IV/IM"
+      ],
+      "sinais_vitais_zona_perigo": true,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente com história de asma, apresentando piora significativa dos sintomas respiratórios, incluindo falta de ar, tosse, sibilo e aperto no peito, com SpO2 92% em ar ambiente, o que indica necessidade de intervenção imediata para alívio dos sintomas e prevenção de complicações.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "39796652",
+    "acuity_ground_truth": 2,
+    "triage_text": "89-year-old white male with a history of prostate cancer treated with radiation and Lupron, hypertension, poorly-defined SVT, and a known pancreatic lesion. The patient presented with three weeks of painless jaundice and increasing fatigue. He has a history of falls and weight loss. Upon arrival at the emergency department, the patient was noted to be \"very yellow\" with stable vital signs. The patient was transported by ambulance. The patient has allergies to metoprolol and iodinated contrast media (IV dye). Social history and family history are noncontributory. On arrival in the emergency department (ED) vital signs (VS) were: heart rate (HR) 58, respiratory rate (RR) 18, blood pressure (BP) 161/55, SpO2 98%, temperature (T) 98.2° F, pain 0.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: dor abdominal não é mencionada, mas histórico de lesão pancreatico e icterícia (painless jaundice) podem sugerir condição grave",
+        "Idade avançada com múltiplas comorbidades"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "Imagem (possivelmente ultrassom ou TC para avaliar lesão pancreática)",
+        "Laboratório (exames para avaliar função hepática e pancreatico)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": true,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com histórico de várias comorbidades, incluindo lesão pancreática e icterícia, apresentando-se com fadiga e história de quedas. A combinação desses fatores sugere alto risco e necessidade de avaliação emergente.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "39783035",
+    "acuity_ground_truth": 2,
+    "triage_text": "53-year-old Black/African American male with a history of hypertension, alcohol abuse, and right-sided hernia presented with syncope and melena. He reported experiencing black stools and intermittent abdominal pain for the past two days. He felt dizzy and fell at work. On arrival, his vitals were stable: BP 120/82, P 104, RR 16, SpO2 100%, T 98.0° F, Pain 8. He denies fevers, chills, nausea, vomiting, and recent alcohol use. He has a history of non-adherence to hypertension medication and recent ibuprofen use. He arrived by ambulance. Social history includes alcohol and tobacco abuse, and family history is non-contributory.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: dor abdominal com melena e sincope"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "lab",
+        "imagem (endoscopia ou RX abdominal)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente apresenta sintomas de alto risco, incluindo dor abdominal com melena e sincope, o que indica uma possível hemorragia gastrointestinal. Além disso, o paciente tem história de hipertensão e uso recente de ibuprofeno, o que pode aumentar o risco de sangramento. Portanto, é necessário um atendimento emergencial para investigar e tratar a causa da hemorragia.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "39760497",
+    "acuity_ground_truth": 2,
+    "triage_text": "91-year-old right-handed white female with a history of CHF, HTN, hypothyroidism, and legal blindness presented with increased confusion and an episode of speech arrest. She was previously admitted for a similar episode, diagnosed with a UTI, and treated with antibiotics. Upon arrival at the ED, the patient was initially able to speak but later had difficulty with word finding and was barely speaking. She was oriented to the year but did not know her birthday or the current president. The patient was alert, followed commands, and had no complaints but was confused. She was discharged from neurology the previous day for a similar presentation and was on Macrobid for UTI. The patient was brought to the ED by her granddaughter after another episode of speech arrest. On initial neuro examination, she had great difficulty with word finding and was barely speaking. The patient arrived at the ED by walking in. On arrival in the emergency department (ED) vital signs (VS) were: heart rate (HR) 72, respiratory rate (RR) 16, blood pressure (BP) 118/74, SpO2 99%, temperature (T) 98.2° F, pain 0.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: déficit neurológico focal agudo (confusão, dificuldade com word finding, episódio de speech arrest)"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "imagem (possivelmente TC ou RM para avaliar déficit neurológico)",
+        "consulta especializada (neurologia)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idosa com história de CHF, HTN, hipotireoidismo e cegueira legal, apresentando confusão aumentada e episódio de speech arrest, sugerindo déficit neurológico focal agudo, o que coloca em alto risco e requer avaliação emergente.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "39023358",
+    "acuity_ground_truth": 2,
+    "triage_text": "77-year-old male, white, arrived by ambulance with a chief complaint of seizure. The seizure was witnessed by staff and described as generalized convulsions that self-resolved within a couple of minutes. The patient has a history of factor V Leiden, hyperlipidemia, recurrent DVT/PE, and hypertension. Upon arrival at the emergency room, the patient was initially post-ictal and drowsy. On arrival in the emergency department (ED) vital signs (VS) were: heart rate (HR) 111, respiratory rate (RR) 18, blood pressure (BP) 162/82, SpO2 94%, temperature (T) 98.5° F, pain 0.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Convulsão ativa com via aérea comprometida não está presente, mas o paciente teve uma convulsão generalizada"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "imagem (possivelmente TC de crânio)",
+        "laboratório (exames de rotina e possivelmente exames específicos para investigar a causa da convulsão)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "O paciente idoso apresentou uma convulsão generalizada, o que é um critério para ESI-2 devido ao alto risco associado a essa condição, especialmente considerando a idade e as comorbidades do paciente.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30031158",
+    "acuity_ground_truth": 3,
+    "triage_text": "31-year-old Asian Indian female presents with a chief complaint of facial abscess. The abscess started 3 days ago as a pimple on her left cheek and progressed to worsening swelling and erythema despite oral antibiotics. She attempted to express fluid from the lesion but was unsuccessful. She had no additional symptoms, including fever, chills, or blurry vision. She reported left-sided swelling but denied pain. Past medical history is non-contributory. Family history includes diabetes on the maternal side. She arrived at the ED by walking in. VS: BP 116/62, HR 98, RR 16, SpO2 100%, temperature (T) 99.1° F, Pain 2.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "D",
+      "criterios_ponto_decisao": [
+        "Sinais vitais normais"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "imagem",
+        "medicação IV/IM"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente apresenta abscesso facial com sinais de infecção localizada, mas sem sinais de sepsis ou comprometimento sistêmico. Os sinais vitais estão dentro dos limites normais. A paciente não apresenta dor intensa, confusão ou outros sintomas que justifiquem uma classificação mais alta. Portanto, a classificação é ESI-3, considerando a necessidade de avaliação e tratamento urgente, mas não emergencial.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30007072",
+    "acuity_ground_truth": 3,
+    "triage_text": "A 58-year-old Asian female with a history of hypertension, Sjogren's syndrome, Graves' disease, and dysphagia presents to the emergency department with a 5-day history of worsening subjective fevers, sore throat, productive cough, vomiting, and diarrhea. She arrived as a walk-in and reports decreased oral intake and generalized weakness. On arrival, her vital signs were BP 162/98, P 76, RR 20, SpO2 96%, T 98.5° F, with a pain level of 5. Her entire family has been ill with similar symptoms. She has no known drug allergies.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: sepse suspeita"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "labs",
+        "medicação IV"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente apresenta sintomas de infecção, como febre, dor de garganta, tosse produtiva, vômitos e diarreia, com história de doenças crônicas, como hipertensão, síndrome de Sjogren e doença de Graves, o que aumenta o risco de complicações. Além disso, a paciente relata diminuição da ingestão oral e fraqueza generalizada, o que pode indicar desidratação e necessidade de intervenção imediata.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30075158",
+    "acuity_ground_truth": 3,
+    "triage_text": "An 87-year-old African American female presents to the ED with generalized weakness. She arrived by ambulance, displaying stable vital signs and reporting no pain. Known allergies include hydrochlorothiazide, Norvasc, clarithromycin, and lisinopril.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "Idade avançada com fraqueza generalizada"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "Exame físico e anamnese detalhada"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "media",
+      "justificativa": "Paciente idosa com fraqueza generalizada, sem dor ou sinais vitais alterados, requer avaliação detalhada devido à idade e possíveis comorbidades, mas não apresenta critérios para ESI-1 ou ESI-2.",
+      "alertas": [
+        "Investigar possíveis causas da fraqueza generalizada",
+        "Verificar medicações atuais e histórico médico"
+      ],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": [
+        "ESI-3 indica ≥ 2 recursos necessários, mas recursos_estimados=1."
+      ]
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30406785",
+    "acuity_ground_truth": 3,
+    "triage_text": "58-year-old white male with a history of hyperlipidemia, status post-cholecystectomy, 2:1 heart block with pacemaker placement, and hypertension, presented to the ED with a chief complaint of abdominal pain. The patient experienced severe upper right quadrant abdominal pain with nausea, radiating to the back, after eating potato chips, which resolved prior to arrival. The patient was transported by ambulance and has no known drug allergies. He denies current pain, fevers, chills, lightheadedness, shortness of breath, or chest pain.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "D",
+      "criterios_ponto_decisao": [
+        "sinais vitais normais"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "imagem",
+        "labs"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com história de hiperlipidemia e hipertensão apresenta dor abdominal severa no quadrante superior direito, que resolveu antes da chegada. A ausência de dor, febre, calafrios, tontura, falta de ar ou dor no peito no momento da avaliação, aliada à necessidade de recursos como imagem e exames laboratoriais para investigação, leva à classificação como ESI-3.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30821723",
+    "acuity_ground_truth": 3,
+    "triage_text": "53-year-old white female with a history of alcoholic cirrhosis, gastritis, duodenitis, hypertension, dysthymia, heart murmur, and dry eye syndrome. She was referred from a clinic for hypotension with a systolic BP of ___. She was asymptomatic, denying lightheadedness or chest pain. Her baseline systolic BP is in the 110s-120s. She had a recent uptitration of spironolactone from 100mg to 150mg and is no longer on furosemide due to electrolyte abnormalities. On arrival at the ED, she was tired but comfortable, denying fevers, chills, sweats, or focal infectious symptoms. She walked into the ED. BP 149/59, P 91, RR 16, SpO2 100%, T 98.0° F, Pain 0.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "D",
+      "criterios_ponto_decisao": [
+        "sinais vitais normais"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "labs",
+        "ECG"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente com história de doenças crônicas, mas apresenta sinais vitais normais e está assintomática. A hipotensão relatada não é confirmada na chegada ao ED, com pressão arterial de 149/59. A paciente não apresenta critérios para ESI-1 ou ESI-2 e, portanto, é classificada como ESI-3 devido à necessidade de avaliação e monitoramento de sua condição crônica.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30918085",
+    "acuity_ground_truth": 3,
+    "triage_text": "61-year-old white male with a history of hypertension, diabetes mellitus, depression, cognitive impairment, and urinary retention, presented after a mechanical fall. Chief complaint is s/p fall. The patient arrived via ambulance. Past medical history includes hypertension, asthma, GERD, hepatitis B, prostate cancer, mild mental retardation, and a history of disk or spine problems. Allergic to Lisinopril. Upon arrival, the patient was stable with vital signs: HR 70, RR 18, BP 136/80, SpO2 97%, T 97.2° F, pain 5.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "D",
+      "criterios_ponto_decisao": [
+        "Paciente estável, com sinais vitais normais, mas com história de queda e possíveis lesões associadas"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "Exame físico detalhado",
+        "Imagem (RX) para avaliar possíveis fraturas"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com história de queda, hipertensão, diabetes mellitus, e outras comorbidades, apresenta-se estável, mas com necessidade de avaliação detalhada devido à idade e histórico médico. A classificação ESI-3 é apropriada devido à necessidade de recursos para avaliar e tratar possíveis lesões associadas à queda.",
+      "alertas": [
+        "Avaliar possíveis lesões internas",
+        "Monitorar sinais vitais devido à idade e comorbidades"
+      ],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "39914411",
+    "acuity_ground_truth": 3,
+    "triage_text": "62-year-old white male with a history of hypertension and recurrent lower extremity cellulitis, presented to the emergency room with left leg erythema. He experienced chills and burning with urination the night before. He awoke with erythema and pain in his left lower extremity. He has a history of trauma and laceration to the left leg several weeks ago, treated with bacitracin. He has had multiple prior admissions for cellulitis, typically in the right leg. The patient walked into the emergency department. BP 172/71, P 69, RR 18, SpO2 96%, T 98.5° F, Pain 6.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Alto risco: dor intensa, história de celulite recorrente, sinais de infecção (eritema, dor, febre)"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "medicação IV",
+        "imagem (RX)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente idoso com história de hipertensão e celulite recorrente, apresenta eritema, dor e sinais de infecção no membro inferior esquerdo. Além disso, relata febre e dor ao urinar, o que aumenta o risco de infecção grave. A classificação ESI-2 é apropriada devido ao alto risco e necessidade de intervenção rápida para tratar a infecção e prevenir complicações.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30191707",
+    "acuity_ground_truth": 3,
+    "triage_text": "A 31-year-old white male presented to the ED with a chief complaint of right leg pain. The patient arrived by walking in. On arrival, the patient's vital signs were as follows: heart rate (HR) 85, respiratory rate (RR) 18, blood pressure (BP) 149/81, SpO2 100%, and pain level 8 out of 10. No recent history of trauma or injury was noted. The patient did not report any other symptoms such as swelling, redness, warmth, or systemic signs of infection. There were no known allergies or significant medical history provided at the time of triage.",
+    "llm_response": null,
+    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `"
+  },
+  {
+    "edstay_id": "30193081",
+    "acuity_ground_truth": 3,
+    "triage_text": "A 22-year-old white female presented to the ED with a chief complaint of lower extremity injury. The patient walked into the ED without assistance. Vital signs on arrival were HR 75, RR 18, BP 128/79, SpO2 97%, T 98.9°F, and pain score of 6/10. The patient reported significant pain in the lower extremity but was able to ambulate independently. There were no signs of acute systemic distress noted.",
+    "llm_response": null,
+    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `"
+  },
+  {
+    "edstay_id": "32258048",
+    "acuity_ground_truth": 3,
+    "triage_text": "A 46-year-old white female presented to the ED with a chief complaint of left lower quadrant (LLQ) abdominal pain, which she rated as 6 out of 10 in intensity. She walked into the ED independently. Her vital signs on arrival were: heart rate (HR) 73, respiratory rate (RR) 17, blood pressure (BP) 130/79, SpO2 100%, and temperature (T) 98.6° F. The patient's condition is hemodynamically stable. Potential causes for LLQ pain include gastrointestinal, gynecological, or urinary issues.",
+    "llm_response": null,
+    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `"
+  }
+]

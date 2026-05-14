@@ -1,21 +1,5 @@
 """
-Converts eval_results.json into an Excel spreadsheet for comparison analysis.
-
-Columns:
-  - edstay_id
-  - acuity_ground_truth     (ESI 1-5)
-  - esi_label               (e.g. "1 - Ressuscitação")
-  - llm_classificacao       (e.g. "ESI-1")
-  - llm_nivel               (e.g. 1)
-  - llm_confianca
-  - match                   (SIM if ground truth ESI == LLM nivel)
-  - validation_errors       (count)
-  - validation_warnings     (count)
-
-Summary sheet:
-  - Confusion matrix: ESI ground truth (rows) x ESI LLM (columns)
-  - Match count per ESI level
-  - Total matches / accuracy
+Converts eval_results.json into an Excel spreadsheet for ESI comparison analysis.
 
 Usage:
     python eval_to_excel.py [--input PATH] [--output PATH]
@@ -41,14 +25,13 @@ DEFAULT_INPUT = Path(__file__).parent / "eval_results.json"
 DEFAULT_OUTPUT = Path(__file__).parent / "eval_comparison.xlsx"
 
 ESI_LABELS = {
-    1: "1 - Ressuscitação",
+    1: "1 - Ressuscitacao",
     2: "2 - Emergente",
     3: "3 - Urgente",
     4: "4 - Menos urgente",
-    5: "5 - Não urgente",
+    5: "5 - Nao urgente",
 }
 
-# ESI levels in priority order
 ESI_LEVELS = ["ESI-1", "ESI-2", "ESI-3", "ESI-4", "ESI-5", "Indeterminado"]
 
 ESI_FILLS = {
@@ -60,20 +43,52 @@ ESI_FILLS = {
 }
 
 ESI_LEVEL_FILLS = {
-    "ESI-1":         PatternFill("solid", fgColor="FF4444"),
-    "ESI-2":         PatternFill("solid", fgColor="FF9933"),
-    "ESI-3":         PatternFill("solid", fgColor="FFE135"),
-    "ESI-4":         PatternFill("solid", fgColor="44BB44"),
-    "ESI-5":         PatternFill("solid", fgColor="5599FF"),
+    "ESI-1": PatternFill("solid", fgColor="FF4444"),
+    "ESI-2": PatternFill("solid", fgColor="FF9933"),
+    "ESI-3": PatternFill("solid", fgColor="FFE135"),
+    "ESI-4": PatternFill("solid", fgColor="44BB44"),
+    "ESI-5": PatternFill("solid", fgColor="5599FF"),
     "Indeterminado": PatternFill("solid", fgColor="CCCCCC"),
 }
 
-MATCH_FILL_YES = PatternFill("solid", fgColor="C6EFCE")   # green
-MATCH_FILL_NO  = PatternFill("solid", fgColor="FFC7CE")   # red
+MATCH_FILL_YES = PatternFill("solid", fgColor="C6EFCE")
+MATCH_FILL_NO = PatternFill("solid", fgColor="FFC7CE")
 
-HEADER_FILL    = PatternFill("solid", fgColor="2D2D2D")
-HEADER_FONT    = Font(bold=True, color="FFFFFF")
-BOLD           = Font(bold=True)
+HEADER_FILL = PatternFill("solid", fgColor="2D2D2D")
+HEADER_FONT = Font(bold=True, color="FFFFFF")
+BOLD = Font(bold=True)
+
+
+def _to_int(value) -> int | None:
+    if isinstance(value, bool) or value is None:
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str) and value.strip().isdigit():
+        return int(value.strip())
+    return None
+
+
+def _classification(llm: dict) -> str:
+    classificacao = llm.get("classificacao")
+    if classificacao in ESI_LEVELS:
+        return classificacao
+
+    nivel = _to_int(llm.get("nivel"))
+    if nivel in ESI_LABELS:
+        return f"ESI-{nivel}"
+
+    return "Indeterminado"
+
+
+def _count_items(value) -> int:
+    return len(value) if isinstance(value, list) else 0
+
+
+def _join_items(value) -> str:
+    if isinstance(value, list):
+        return "\n".join(str(item) for item in value)
+    return "" if value is None else str(value)
 
 
 def auto_width(ws):
@@ -85,7 +100,7 @@ def auto_width(ws):
                 max_len = max(max_len, len(str(cell.value or "")))
             except Exception:
                 pass
-        ws.column_dimensions[col_letter].width = min(max_len + 4, 60)
+        ws.column_dimensions[col_letter].width = min(max_len + 4, 70)
 
 
 def style_header_row(ws, row=1):
@@ -105,49 +120,68 @@ def build_detail_sheet(wb, records: list[dict]):
         "esi_label",
         "llm_classificacao",
         "llm_nivel",
+        "llm_nome_nivel",
+        "ponto_decisao",
+        "recursos_estimados",
+        "recursos_detalhados",
+        "sinais_vitais_zona_perigo",
+        "populacao_especial",
+        "over_triage_aplicado",
         "llm_confianca",
         "match",
         "validation_errors",
         "validation_warnings",
+        "justificativa",
+        "alertas",
+        "error",
     ]
     ws.append(headers)
     style_header_row(ws)
     ws.row_dimensions[1].height = 30
 
     for rec in records:
-        esi = rec.get("acuity_ground_truth")
+        esi = _to_int(rec.get("acuity_ground_truth"))
         llm = rec.get("llm_response") or {}
-        classificacao = llm.get("classificacao", "Indeterminado")
-        llm_nivel = llm.get("nivel")
+        classificacao = _classification(llm)
+        llm_nivel = _to_int(llm.get("nivel"))
         is_match = llm_nivel == esi
 
         row_data = [
             rec.get("edstay_id"),
             esi,
-            ESI_LABELS.get(esi, str(esi)),
+            ESI_LABELS.get(esi, str(esi or "")),
             classificacao,
             llm_nivel,
+            llm.get("nome_nivel", ""),
+            llm.get("ponto_decisao_ativado", ""),
+            _to_int(llm.get("recursos_estimados")),
+            _join_items(llm.get("recursos_detalhados")),
+            llm.get("sinais_vitais_zona_perigo", ""),
+            llm.get("populacao_especial", ""),
+            llm.get("over_triage_aplicado", ""),
             llm.get("confianca", ""),
-            "SIM" if is_match else "NÃO",
-            len(llm.get("validation_errors") or []),
-            len(llm.get("validation_warnings") or []),
+            "SIM" if is_match else "NAO",
+            _count_items(llm.get("validation_errors")),
+            _count_items(llm.get("validation_warnings")),
+            llm.get("justificativa", ""),
+            _join_items(llm.get("alertas")),
+            rec.get("error", ""),
         ]
         ws.append(row_data)
 
         row_idx = ws.max_row
-        # Color: acuity_ground_truth (col B)
         if esi in ESI_FILLS:
             ws.cell(row_idx, 2).fill = ESI_FILLS[esi]
-        # Color: llm_classificacao (col D)
         if classificacao in ESI_LEVEL_FILLS:
             ws.cell(row_idx, 4).fill = ESI_LEVEL_FILLS[classificacao]
-        # Color: llm_nivel (col E)
         if llm_nivel in ESI_FILLS:
             ws.cell(row_idx, 5).fill = ESI_FILLS[llm_nivel]
-        # Color: match (col G)
-        ws.cell(row_idx, 7).fill = MATCH_FILL_YES if is_match else MATCH_FILL_NO
-        ws.cell(row_idx, 7).font = BOLD
-        ws.cell(row_idx, 7).alignment = Alignment(horizontal="center")
+        ws.cell(row_idx, 14).fill = MATCH_FILL_YES if is_match else MATCH_FILL_NO
+        ws.cell(row_idx, 14).font = BOLD
+        ws.cell(row_idx, 14).alignment = Alignment(horizontal="center")
+
+        for col_idx in (9, 17, 18, 19):
+            ws.cell(row_idx, col_idx).alignment = Alignment(wrap_text=True, vertical="top")
 
     ws.freeze_panes = "A2"
     auto_width(ws)
@@ -156,8 +190,7 @@ def build_detail_sheet(wb, records: list[dict]):
 def build_summary_sheet(wb, records: list[dict]):
     ws = wb.create_sheet("Resumo")
 
-    # ── Section 1: Match count per ESI level ──────────────────────────────
-    ws.append(["ACERTOS POR NÍVEL ESI"])
+    ws.append(["ACERTOS POR NIVEL ESI"])
     ws["A1"].font = Font(bold=True, size=12)
 
     ws.append(["ESI", "Label", "Total", "Acertos", "Taxa de Acerto (%)"])
@@ -167,9 +200,8 @@ def build_summary_sheet(wb, records: list[dict]):
     esi_matches = {i: 0 for i in range(1, 6)}
 
     for rec in records:
-        esi = rec.get("acuity_ground_truth")
-        llm = rec.get("llm_response") or {}
-        llm_nivel = llm.get("nivel")
+        esi = _to_int(rec.get("acuity_ground_truth"))
+        llm_nivel = _to_int((rec.get("llm_response") or {}).get("nivel"))
         if esi in esi_totals:
             esi_totals[esi] += 1
             if llm_nivel == esi:
@@ -184,7 +216,6 @@ def build_summary_sheet(wb, records: list[dict]):
         ws.cell(row_idx, 1).fill = ESI_FILLS[esi]
         ws.cell(row_idx, 1).font = BOLD
 
-    # Total row
     grand_total = sum(esi_totals.values())
     grand_matches = sum(esi_matches.values())
     grand_rate = round(grand_matches / grand_total * 100, 1) if grand_total > 0 else 0
@@ -193,18 +224,16 @@ def build_summary_sheet(wb, records: list[dict]):
         ws.cell(ws.max_row, col).font = BOLD
         ws.cell(ws.max_row, col).fill = PatternFill("solid", fgColor="DDDDDD")
 
-    ws.append([])  # blank row
+    ws.append([])
 
-    # ── Section 2: Confusion matrix ───────────────────────────────────────
     matrix_start_row = ws.max_row + 1
-    ws.cell(matrix_start_row, 1).value = "MATRIZ DE CONFUSÃO (ESI Ground Truth vs. ESI LLM)"
+    ws.cell(matrix_start_row, 1).value = "MATRIZ DE CONFUSAO (ESI Ground Truth vs. ESI LLM)"
     ws.cell(matrix_start_row, 1).font = Font(bold=True, size=12)
 
     header_row = matrix_start_row + 1
-    ws.cell(header_row, 1).value = "GT \\ LLM →"
-    ws.cell(header_row, 1).font = BOLD
+    ws.cell(header_row, 1).value = "GT \\ LLM ->"
     ws.cell(header_row, 1).fill = HEADER_FILL
-    ws.cell(header_row, 1).font = Font(bold=True, color="FFFFFF")
+    ws.cell(header_row, 1).font = HEADER_FONT
 
     for col_idx, level in enumerate(ESI_LEVELS, start=2):
         cell = ws.cell(header_row, col_idx)
@@ -213,15 +242,12 @@ def build_summary_sheet(wb, records: list[dict]):
         cell.font = BOLD
         cell.alignment = Alignment(horizontal="center")
 
-    # Build matrix counts (key: LLM classificacao string e.g. "ESI-1")
     matrix = {esi: {lvl: 0 for lvl in ESI_LEVELS} for esi in range(1, 6)}
     for rec in records:
-        esi = rec.get("acuity_ground_truth")
-        llm = rec.get("llm_response") or {}
-        classificacao = llm.get("classificacao", "Indeterminado")
+        esi = _to_int(rec.get("acuity_ground_truth"))
+        classificacao = _classification(rec.get("llm_response") or {})
         if esi in matrix:
-            key = classificacao if classificacao in ESI_LEVELS else "Indeterminado"
-            matrix[esi][key] += 1
+            matrix[esi][classificacao] += 1
 
     for esi in range(1, 6):
         row_idx = header_row + esi
@@ -236,7 +262,6 @@ def build_summary_sheet(wb, records: list[dict]):
             cell = ws.cell(row_idx, col_idx)
             cell.value = count if count > 0 else ""
             cell.alignment = Alignment(horizontal="center")
-            # Highlight diagonal (correct predictions)
             if level == expected_level and count > 0:
                 cell.fill = MATCH_FILL_YES
                 cell.font = Font(bold=True, color="375623")
@@ -245,9 +270,8 @@ def build_summary_sheet(wb, records: list[dict]):
 
     ws.append([])
 
-    # ── Section 3: Distribution of LLM classifications per ESI ───────────
     dist_start = ws.max_row + 1
-    ws.cell(dist_start, 1).value = "DISTRIBUIÇÃO DE CLASSIFICAÇÕES LLM POR NÍVEL ESI"
+    ws.cell(dist_start, 1).value = "DISTRIBUICAO DE CLASSIFICACOES LLM POR NIVEL ESI"
     ws.cell(dist_start, 1).font = Font(bold=True, size=12)
 
     dist_header = dist_start + 1
@@ -297,33 +321,31 @@ def main():
     with args.input.open(encoding="utf-8") as f:
         records = json.load(f)
 
-    # Filter out records with errors and no llm_response
-    valid = [r for r in records if r.get("llm_response") is not None]
-    skipped = len(records) - len(valid)
-    print(f"Loaded {len(records)} records ({skipped} with errors skipped).")
+    usable = [r for r in records if r.get("llm_response") is not None]
+    skipped = len(records) - len(usable)
+    print(f"Loaded {len(records)} records ({skipped} without llm_response skipped).")
 
     wb = openpyxl.Workbook()
-    build_detail_sheet(wb, valid)
-    build_summary_sheet(wb, valid)
+    build_detail_sheet(wb, usable)
+    build_summary_sheet(wb, usable)
 
     wb.save(args.output)
     print(f"Saved: {args.output}")
 
-    # Print quick stats to terminal
-    total = len(valid)
+    total = len(usable)
     matches = sum(
-        1 for r in valid
-        if (r.get("llm_response") or {}).get("nivel") == r.get("acuity_ground_truth")
+        1
+        for r in usable
+        if _to_int((r.get("llm_response") or {}).get("nivel")) == _to_int(r.get("acuity_ground_truth"))
     )
-    print(f"\nOverall accuracy: {matches}/{total} = {matches/total*100:.1f}%")
+    accuracy = matches / total * 100 if total else 0
+    print(f"\nOverall accuracy: {matches}/{total} = {accuracy:.1f}%")
     print("\nPer ESI level:")
     for esi in range(1, 6):
-        grp = [r for r in valid if r.get("acuity_ground_truth") == esi]
-        hits = sum(
-            1 for r in grp
-            if (r.get("llm_response") or {}).get("nivel") == esi
-        )
-        print(f"  ESI {esi} ({ESI_LABELS[esi]:>20}): {hits:>3}/{len(grp):<3} = {hits/len(grp)*100:.1f}%" if grp else f"  ESI {esi}: 0 records")
+        group = [r for r in usable if _to_int(r.get("acuity_ground_truth")) == esi]
+        hits = sum(1 for r in group if _to_int((r.get("llm_response") or {}).get("nivel")) == esi)
+        rate = hits / len(group) * 100 if group else 0
+        print(f"  ESI {esi} ({ESI_LABELS[esi]:>20}): {hits:>3}/{len(group):<3} = {rate:.1f}%")
 
 
 if __name__ == "__main__":
