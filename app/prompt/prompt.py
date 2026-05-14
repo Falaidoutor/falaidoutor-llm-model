@@ -215,15 +215,24 @@ def build_user_prompt(
     if sintomas_nao_normalizados:
         non_norm_text = ", ".join(sintomas_nao_normalizados)
         prompt_parts.append(
-            f"**Sintomas NÃO normalizados (requerem normalização):**\n{non_norm_text}\n\n"
-            f"⚠️ ATENÇÃO: Os sintomas acima não foram encontrados na base de referência. "
-            f"Por favor, normalize-os (adeque-os aos termos médicos canônicos) e inclua sua normalização "
-            f"em um campo `normalizacao_ollama` na resposta JSON com o seguinte formato:\n"
-            f"\"normalizacao_ollama\": [{{"
-            f"  \"original\": \"<termo original>\", "
-            f"  \"normalizado\": \"<termo normalizado>\" , "
-            f"  \"confianca\": \"<alta|media|baixa>\""
-            f"}}]"
+            f"**Sintomas não normalizados:**\n{non_norm_text}\n\n"
+            f"Os sintomas acima não foram identificados na base de sintomas padronizados. "
+            f"Realize a normalização utilizando nomenclatura clínica canônica "
+            f"(inspirada em SNOMED CT), seguindo estas regras:\n"
+            f"- utilizar termos médicos padronizados\n"
+            f"- utilizar snake_case\n"
+            f"- utilizar substantivos no singular\n"
+            f"- não utilizar verbos\n"
+            f"- não utilizar frases descritivas\n\n"
+            f"Adicione a normalização no campo `normalizacao_ollama` do JSON de resposta "
+            f"utilizando o formato:\n\n"
+            f"\"normalizacao_ollama\": [\n"
+            f"  {{\n"
+            f"    \"original\": \"<termo original>\",\n"
+            f"    \"normalizado\": \"<termo_canônico>\",\n"
+            f"    \"confianca\": \"<alta|media|baixa>\"\n"
+            f"  }}\n"
+            f"]"
         )
 
     base_prompt = "\n\n".join(prompt_parts) if prompt_parts else "Paciente sem sintomas informados."

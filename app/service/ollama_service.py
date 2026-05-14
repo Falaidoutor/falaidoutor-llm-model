@@ -69,7 +69,27 @@ async def classify_symptoms(symptoms: str, debug_mode: bool = False) -> dict:
             "format": "json",
         }
 
-        logger.debug("Enviando requisição ao Ollama...")
+        # Log detalhado do prompt
+        logger.info("=" * 80)
+        logger.info("SYSTEM PROMPT (primeiras 500 chars):")
+        logger.info(SYSTEM_PROMPT[:500] + "...")
+        logger.info("=" * 80)
+        logger.info("USER PROMPT COMPLETO:")
+        logger.info(user_prompt)
+        logger.info("=" * 80)
+        logger.info("PAYLOAD COMPLETO (sem system prompt):")
+        logger.info(json.dumps({
+            "model": payload["model"],
+            "messages": [
+                {"role": "system", "content": "[...SYSTEM_PROMPT OMITIDO...]"},
+                {"role": "user", "content": payload["messages"][1]["content"]}
+            ],
+            "stream": payload["stream"],
+            "format": payload["format"]
+        }, ensure_ascii=False, indent=2))
+        logger.info("=" * 80)
+
+        logger.info("Enviando requisição ao Ollama...")
         async with httpx.AsyncClient(timeout=120.0) as client:
             response = await client.post(
                 f"{OLLAMA_BASE_URL}/api/chat", json=payload
@@ -99,6 +119,8 @@ async def classify_symptoms(symptoms: str, debug_mode: bool = False) -> dict:
         # 6. POPULAR CAMPOS DE NORMALIZAÇÃO NA RESPOSTA
         parsed["normalizacao_resultado"] = normalizacao_resultado
         parsed["normalizacao_ollama"] = normalizacao_ollama
+        parsed["texto_original"] = symptoms
+        parsed["sintomas_normalizados"] = sintomas_normalizados
 
         # 7. VALIDAÇÃO
         validation = validate_triage_response(parsed)

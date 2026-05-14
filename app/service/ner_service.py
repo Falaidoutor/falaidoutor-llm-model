@@ -79,40 +79,58 @@ class NERService:
             if ent.label_ in ["SYMPTOM", "DISEASE", "CONDITION"]:
                 symptoms.append(ent.text.strip())
 
-        # Estratégia 2: Heurística — noun phrases e sintagmas nominais
-        # Extrair chunks que frequentemente represetam sintomas
-        for chunk in doc.noun_chunks:
-            chunk_text = chunk.text.strip()
-            # Filtrar muito curto ou muito longo
-            if 2 <= len(chunk_text) <= 50:
-                symptoms.append(chunk_text)
-
-        # Estratégia 3: Split por conectores comuns (e, ou, vírgula)
-        # Se nenhuma entidade foi encontrada
+        # Estratégia 2: Split por conectores (PRIORIDADE)
+        # Quebra frases por "e", "ou", "," para extrair sintomas separados
         if not symptoms:
-            alternative_symptoms = self._split_by_connectors(cleaned_text)
-            symptoms.extend(alternative_symptoms)
+            symptoms = self._split_by_connectors(cleaned_text)
+        
+        # Estratégia 3: Se ainda sem resultados, tentar noun chunks
+        if not symptoms:
+            for chunk in doc.noun_chunks:
+                chunk_text = chunk.text.strip()
+                # Filtrar muito curto ou muito longo
+                if 2 <= len(chunk_text) <= 50:
+                    symptoms.append(chunk_text)
 
         # Deduplicação e normalização
         symptoms = list(dict.fromkeys(symptoms))  # Preserva ordem, remove duplicatas
-        symptoms = [s.strip() for s in symptoms if s.strip()]
+        symptoms = [s.strip() for s in symptoms if s.strip() and len(s.strip()) >= 3]
 
         logger.debug(f"Sintomas extraídos de '{text[:50]}...': {symptoms}")
+        print(f"[NER] Sintomas extraídos: {symptoms}")
 
         return symptoms
 
     def _split_by_connectors(self, text: str) -> List[str]:
         """
-        Fallback: split por conectores comuns (e, ou, vírgula).
+        Fallback: split por conectores comuns (e, ou, vírgula, ponto).
+        Remove palavras auxiliares comuns no início das frases.
         """
         import re
 
-        # Dividir por "e", "ou", "," ou ";"
-        pattern = r"\s+(?:e|ou)\s+|[,;]\s+"
+        # Dividir por "e", "ou", ",", "." ou ";"
+        pattern = r"\s+(?:e|ou)\s+|[,;.]\s+"
         parts = re.split(pattern, text)
 
-        # Limpar e filtrar
-        return [p.strip() for p in parts if p.strip()]
+        # Palavras auxiliares a remover do início
+        auxiliares = {"tenho", "meu", "minha", "seu", "sua", "está", "estou", "tenha", "tive"}
+        
+        cleaned_parts = []
+        for p in parts:
+            p = p.strip()
+            if not p:
+                continue
+            
+            # Remover palavras auxiliares do início
+            words = p.split()
+            while words and words[0] in auxiliares:
+                words.pop(0)
+            
+            cleaned_phrase = " ".join(words).strip()
+            if len(cleaned_phrase) >= 3:  # Filtrar muito curto
+                cleaned_parts.append(cleaned_phrase)
+        
+        return cleaned_parts
 
     def extract_symptoms_with_confidence(
         self, text: str

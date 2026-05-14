@@ -242,13 +242,8 @@ class NormalizationService:
                     "tipo": "normalizado",
                 }
 
-                # Registrar em base_candidata para auditoria
-                self.postgres_service.create_base_candidata(
-                    input_original=sintoma,
-                    normalizado_sugerido=termo_normalizado,
-                    sintoma_id=sintoma_id,
-                    score_e5=score,
-                )
+                #  Sintoma já normalizado: apenas retornar, SEM inserir em base_candidata
+                # (base_candidata é apenas para NOVOS candidatos aguardando auditoria)
 
                 logger.debug(
                     f"Sintoma '{sintoma}' → '{termo_normalizado}' (score: {score:.3f})"

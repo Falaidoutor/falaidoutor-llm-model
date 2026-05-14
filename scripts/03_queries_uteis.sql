@@ -264,3 +264,53 @@ LEFT JOIN falai_doutor_normalizacao.base_candidata bc ON
 GROUP BY s.id, s.termo, s.categoria
 ORDER BY vezes_normalizado DESC
 LIMIT 30;
+
+
+
+
+-- ================================================================
+-- INSERIR SINONIMOS APROVADOS A PARTIR DE BASE_CANDIDATA
+-- Com auto-criação de sintomas se não existirem (SEM DUPLICAÇÃO)
+-- ================================================================
+
+-- Step 1: Identifica sintomas únicos necessários (CTE)
+WITH sintomas_novos AS (
+    SELECT DISTINCT 
+        TRIM(bc.normalizado_sugerido) AS termo_normalizado
+    FROM falai_doutor_normalizacao.base_candidata bc
+    WHERE bc.status = 'aprovado'
+        AND NOT EXISTS (
+            SELECT 1 
+            FROM falai_doutor_normalizacao.sintomas s
+            WHERE LOWER(TRIM(s.termo)) = LOWER(TRIM(bc.normalizado_sugerido))
+        )
+),
+-- Insere os novos sintomas
+insert_sintomas AS (
+    INSERT INTO falai_doutor_normalizacao.sintomas (termo, ativo)
+    SELECT termo_normalizado, TRUE
+    FROM sintomas_novos
+    ON CONFLICT (termo) DO NOTHING
+    RETURNING id, LOWER(TRIM(termo)) AS termo_lower
+)
+-- Step 2: Insere sinonimos com a garantia de sintoma_id
+INSERT INTO falai_doutor_normalizacao.sinonimos 
+    (sintoma_id, termo, origem, aprovado, criado_em)
+SELECT 
+    s.id AS sintoma_id,
+    bc.input_original AS termo,
+    'candidato_aprovado' AS origem,
+    TRUE AS aprovado,
+    NOW() AS criado_em
+FROM falai_doutor_normalizacao.base_candidata bc
+INNER JOIN falai_doutor_normalizacao.sintomas s 
+    ON LOWER(TRIM(s.termo)) = LOWER(TRIM(bc.normalizado_sugerido))
+WHERE bc.status = 'aprovado'
+    AND NOT EXISTS (
+        -- Evitar duplicatas de sinonimos
+        SELECT 1 
+        FROM falai_doutor_normalizacao.sinonimos sin
+        WHERE sin.sintoma_id = s.id
+        AND LOWER(TRIM(sin.termo)) = LOWER(TRIM(bc.input_original))
+    )
+ON CONFLICT DO NOTHING;

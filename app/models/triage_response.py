@@ -11,6 +11,13 @@ class TriageResponse(BaseModel):
     """Complete triage response with MTS classification and semantic normalization."""
 
     # ──────────────────────────────────────────────────────────────
+    # Input do Usuário
+    # ──────────────────────────────────────────────────────────────
+    texto_original: str = Field(
+        ..., description="Texto puro enviado pelo usuário"
+    )
+
+    # ──────────────────────────────────────────────────────────────
     # Classificação de Risco (Manchester)
     # ──────────────────────────────────────────────────────────────
     classificacao: str = Field(
@@ -38,6 +45,10 @@ class TriageResponse(BaseModel):
     # ──────────────────────────────────────────────────────────────
     # Normalização Semântica
     # ──────────────────────────────────────────────────────────────
+    sintomas_normalizados: list[str] = Field(
+        default_factory=list,
+        description="Lista de sintomas que foram normalizados com sucesso",
+    )
     normalizacao_resultado: Optional[NormalizacaoResultado] = Field(
         None,
         description="Resultado do pipeline de normalização semântica (NER + E5 + Qdrant)",
