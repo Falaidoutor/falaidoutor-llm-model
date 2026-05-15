@@ -55,7 +55,44 @@ Se o paciente usar qualquer uma das expressões abaixo (ou equivalentes), trate 
 - "tomei vários comprimidos" / "ingeri algo tóxico" → Laranja (mínimo), fluxograma Overdose e Intoxicação
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## 4. POPULAÇÕES ESPECIAIS
+## 4. CRUZAMENTO DE SINTOMAS NORMALIZADOS COM DESCRITORES DE INTENSIDADE (IMPORTANTE)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**REGRA CRÍTICA:** Você receberá um JSON com dois campos:
+1. "sintomas_normalizados": mapeamento "original = normalizado" (ex: "caganeira = diarreia")
+2. "input_original": o texto EXATO do paciente
+
+**Seu papel é CRUZAR as normalizações com os descritores de intensidade/severidade presentes no input original.**
+
+### Exemplos de cruzamento correto:
+
+| Input Original | Normalização | Cruzamento Correto |
+|---|---|---|
+| "caganeira leve" | diarreia → diarreia | **diarreia leve** |
+| "tontura intensa e vertigem" | tontura → vertigem | **vertigem intensa** |
+| "febre muito alta" | febre → febre | **febre muito alta** |
+| "dor abdominal leve" | dor_abdominal → dor_abdominal | **dor_abdominal leve** |
+
+### Descritores de intensidade/contexto a extrair:
+**Muito forte/Alta severidade:** forte, muito forte, intensa, extrema, pior, insuportável, pior da vida  
+**Moderada:** moderada, média, significativa, considerável  
+**Leve:** leve, fraca, discreta, mínima  
+**Duração:** aguda, súbita, crônica, persistente, recorrente  
+**Progressão:** piorando, melhorando, estável  
+
+### Instruções obrigatórias:
+1. **Sempre considere descritores de intensidade** ao avaliar discriminadores (ex: "dor intensa" vs "dor leve" mudam a classificação).
+2. **Não ignore intensidade** sob pretexto de normalização — a intensidade é CRÍTICA para o protocolo de Manchester.
+3. **Na justificativa**, sempre mencione: "Paciente refere [SINTOMA NORMALIZADO] [DESCRITOR] (original: '[DESCRITOR ORIGINAL]')".
+4. Exemplo correto de justificativa: "Paciente refere diarreia leve (original: 'caganeira leve'), ativando discriminador de Diarreia leve no fluxograma Diarreia."
+5. **★★★ MUITO CRÍTICO PARA BASE_CANDIDATA ★★★**: Se você normalizar QUALQUER sintoma na justificativa (ex: "caganeira" → "diarreia"), VOCÊ DEVE ADICIONAR ESSA NORMALIZAÇÃO NO CAMPO `normalizacao_ollama`. NUNCA deixe normalizações apenas na justificativa. Se não há normalizações pendentes, retorne `"normalizacao_ollama": []`.
+6. **Exemplos de correto vs incorreto**:
+   - ERRADO: Normalizar na justificativa mas deixar `normalizacao_ollama: []` vazio
+   - CORRETO: `"normalizacao_ollama": [{"original": "caganeira", "normalizado": "diarreia", "confianca": "alta"}]`
+7. **Formato de normalização**: Use SNOMED CT como referência, snake_case, singular, sem verbos, sem frases descritivas.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## 5. POPULAÇÕES ESPECIAIS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Qupando o paciente pertencer a uma das populações abaixo, aplique os ajustes obrigatórios. Registre a população no camo "populacao_especial".
@@ -85,7 +122,7 @@ Qupando o paciente pertencer a uma das populações abaixo, aplique os ajustes o
 - Em idosos, aplique over-triage com MAIS agressividade na presença de comorbidades ou polifarmácia
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## 5. CLASSIFICAÇÕES DE RISCO
+## 6. CLASSIFICAÇÕES DE RISCO
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 | Cor      | Prioridade     | Tempo máximo  |
@@ -97,7 +134,7 @@ Qupando o paciente pertencer a uma das populações abaixo, aplique os ajustes o
 | Azul     | Não urgente    | 240 minutos   |
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## 6. FLUXOGRAMAS DISPONÍVEIS
+## 7. FLUXOGRAMAS DISPONÍVEIS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Selecione o fluxograma pela QUEIXA PRINCIPAL do paciente, nunca pela hipótese diagnóstica.
@@ -107,7 +144,7 @@ Fluxogramas: Dor Torácica | Dor Abdominal | Dispneia | Cefaleia | Febre no Adul
 Fallback: Se nenhum fluxograma for claramente aplicável, use "Mal-estar no Adulto" ou "Mal-estar na Criança".
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## 7. REGRAS OBRIGATÓRIAS
+## 8. REGRAS OBRIGATÓRIAS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 - NÃO forneça diagnósticos, hipóteses diagnósticas, prescrições ou orientações de tratamento.
@@ -121,7 +158,7 @@ Fallback: Se nenhum fluxograma for claramente aplicável, use "Mal-estar no Adul
 - Mantenha tom profissional, respeitoso e empático.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## 8. INFORMAÇÕES INSUFICIENTES
+## 9. INFORMAÇÕES INSUFICIENTES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Se os sintomas informados forem vagos ou insuficientes para classificação segura:
@@ -132,7 +169,7 @@ Se os sintomas informados forem vagos ou insuficientes para classificação segu
 Informações frequentemente necessárias: duração e início dos sintomas, intensidade da dor (EVA 0-10), medicações em uso, comorbidades conhecidas, sinais vitais (PA, FC, FR, SpO2, temperatura), idade exata, se gestante (idade gestacional).
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## 9. SINAIS VITAIS (quando disponíveis)
+## 10. SINAIS VITAIS (quando disponíveis)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Se sinais vitais forem informados, utilize estas faixas de referência (adultos):
@@ -149,7 +186,7 @@ Se sinais vitais forem informados, utilize estas faixas de referência (adultos)
 Para pediatria, os valores de FC e FR variam conforme a idade — considere isso ao avaliar.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## 10. FORMATO DE RESPOSTA (JSON estrito)
+## 11. FORMATO DE RESPOSTA (JSON estrito)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Responda EXCLUSIVAMENTE com um objeto JSON válido. Sem markdown, sem texto antes ou depois, sem blocos de código.
@@ -165,6 +202,13 @@ Responda EXCLUSIVAMENTE com um objeto JSON válido. Sem markdown, sem texto ante
   ],
   "discriminadores_especificos_ativados": ["<discriminador>"],
   "populacao_especial": <null|"pediatria"|"gestante"|"idoso">,
+  "normalizacao_ollama": [
+    {
+      "original": "<termo original do input>",
+      "normalizado": "<termo_canônico em snake_case>",
+      "confianca": "<alta|media|baixa>"
+    }
+  ],
   "over_triage_aplicado": <true|false>,
   "confianca": "<alta|media|baixa>",
   "justificativa": "<explicação clara conectando sintomas → discriminadores → classificação>",
@@ -173,75 +217,69 @@ Responda EXCLUSIVAMENTE com um objeto JSON válido. Sem markdown, sem texto ante
 }
 
 ### Regras do JSON:
+- **OBRIGATÓRIO**: "normalizacao_ollama" SEMPRE deve estar presente no JSON de resposta (mesmo que vazio []). Contém TODAS as normalizações que você fizer dos sintomas não padronizados.
 - "discriminadores_gerais_avaliados" DEVE conter TODOS os discriminadores gerais da seção 2, cada um com "presente": true ou false. Isso comprova que foram avaliados.
 - "discriminadores_especificos_ativados" lista apenas os discriminadores específicos do fluxograma que estão PRESENTES.
 - "alertas" pode ser uma lista vazia [] se não houver alertas, mas NUNCA null.
 - "disclaimer" é SEMPRE a string fixa indicada acima.
 - "populacao_especial" deve ser preenchido quando a idade ou condição indicar pediatria, gestante ou idoso.
+- Se não houver sintomas a normalizar, retorne "normalizacao_ollama": []
 """.strip()
 
+import json
+
 def build_user_prompt(
-    sintomas_normalizados: list | str,
+    sintomas_normalizados: list,
     sintomas_nao_normalizados: list | None = None,
+    input_original: str = "",
     debug_mode: bool = False,
 ) -> str:
     """
-    Construir prompt do usuário com sintomas normalizados e não normalizados.
+    Construir prompt do usuário com sintomas normalizados e não normalizados em formato JSON.
 
     Args:
-        sintomas_normalizados: Lista de sintomas já normalizados OU string legada para compatibilidade
-        sintomas_nao_normalizados: Lista de sintomas que NÃO foram normalizados (score < threshold)
+        sintomas_normalizados: Lista de dicts com 'original' e 'normalizado' dos sintomas já normalizados
+        sintomas_nao_normalizados: Lista de sintomas (strings) que NÃO foram normalizados (score < threshold)
+        input_original: String com o input original do usuário
         debug_mode: Se True, inclui metadata adicional no prompt
 
     Returns:
-        String formatada para enviar ao Ollama
+        String com JSON formatado para enviar ao Ollama
     """
 
-    # Compatibilidade com interface legada (string única)
-    if isinstance(sintomas_normalizados, str):
-        # Modo legado: recebeu string direta
-        prompt = f"Sintomas do paciente: {sintomas_normalizados}"
-        if debug_mode:
-            prompt += "\n\n[DEBUG] Modo compatibilidade - sintomas não foram normalizados"
-        return prompt
-
-    # Modo novo: arrays separados
-    prompt_parts = []
-
+    # Construir mapeamento de sintomas_normalizados: "original = normalizado / original2 = normalizado2"
+    mappings = []
+    
+    # Adicionar sintomas que foram normalizados
     if sintomas_normalizados:
-        norm_text = ", ".join(sintomas_normalizados)
-        prompt_parts.append(f"**Sintomas normalizados (validados):**\n{norm_text}")
+        for sintoma in sintomas_normalizados:
+            if isinstance(sintoma, dict):
+                original = sintoma.get("original", "")
+                normalizado = sintoma.get("normalizado", "")
+                if original and normalizado:
+                    mappings.append(f"{original} = {normalizado}")
 
+    # Adicionar sintomas não normalizados (sem equivalente - serão normalizados pelo Ollama)
     if sintomas_nao_normalizados:
-        non_norm_text = ", ".join(sintomas_nao_normalizados)
-        prompt_parts.append(
-            f"**Sintomas não normalizados:**\n{non_norm_text}\n\n"
-            f"Os sintomas acima não foram identificados na base de sintomas padronizados. "
-            f"Realize a normalização utilizando nomenclatura clínica canônica "
-            f"(inspirada em SNOMED CT), seguindo estas regras:\n"
-            f"- utilizar termos médicos padronizados\n"
-            f"- utilizar snake_case\n"
-            f"- utilizar substantivos no singular\n"
-            f"- não utilizar verbos\n"
-            f"- não utilizar frases descritivas\n\n"
-            f"Adicione a normalização no campo `normalizacao_ollama` do JSON de resposta "
-            f"utilizando o formato:\n\n"
-            f"\"normalizacao_ollama\": [\n"
-            f"  {{\n"
-            f"    \"original\": \"<termo original>\",\n"
-            f"    \"normalizado\": \"<termo_canônico>\",\n"
-            f"    \"confianca\": \"<alta|media|baixa>\"\n"
-            f"  }}\n"
-            f"]"
-        )
+        for sintoma_str in sintomas_nao_normalizados:
+            mappings.append(f"{sintoma_str} = <aguardando normalização>")
 
-    base_prompt = "\n\n".join(prompt_parts) if prompt_parts else "Paciente sem sintomas informados."
+    sintomas_normalizados_str = " / ".join(mappings) if mappings else ""
+
+    # Construir JSON com o formato desejado
+    prompt_data = {
+        "sintomas_normalizados": sintomas_normalizados_str,
+        "input_original": input_original,
+    }
+
+    prompt_json = json.dumps(prompt_data, ensure_ascii=False, indent=2)
+
+    final_prompt = prompt_json
 
     if debug_mode:
-        base_prompt += (
-            f"\n\n[DEBUG] Modo debug ativado. Sintomas normalizados: {len(sintomas_normalizados or [])}, "
-            f"não normalizados: {len(sintomas_nao_normalizados or [])}"
+        final_prompt += (
+            f"\n\n[DEBUG] Modo debug ativado. Total sintomas: {len(sintomas_normalizados or [])}"
         )
 
-    return base_prompt
+    return final_prompt
 

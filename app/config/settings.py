@@ -78,7 +78,7 @@ SPACY_CUSTOM_MODEL_PATH = _get_env("SPACY_CUSTOM_MODEL_PATH", None) or None
 # ──────────────────────────────────────────────────────────────
 # Normalization Settings
 # ──────────────────────────────────────────────────────────────
-SIMILARITY_THRESHOLD = float(_get_env("SIMILARITY_THRESHOLD", "0.65"))
+SIMILARITY_THRESHOLD = float(_get_env("SIMILARITY_THRESHOLD", "0.92"))
 TOP_K_SEARCH = int(_get_env("TOP_K_SEARCH", "1"))
 
 # ──────────────────────────────────────────────────────────────

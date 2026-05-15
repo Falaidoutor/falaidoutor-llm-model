@@ -149,6 +149,47 @@ class PostgresService:
         finally:
             self._return_connection(conn)
 
+    def get_sintoma_by_id(self, sintoma_id: int) -> Optional[Dict[str, Any]]:
+        """
+        Busca um sintoma canônico por ID.
+        
+        Returns:
+            {
+                "id": int,
+                "termo": str,
+                "categoria": str,
+            }
+        """
+        conn = None
+        try:
+            conn = self._get_connection()
+            cursor = conn.cursor()
+
+            query = """
+                SELECT id, termo, categoria
+                FROM falai_doutor_normalizacao.sintomas
+                WHERE id = %s AND ativo = TRUE
+            """
+
+            cursor.execute(query, (sintoma_id,))
+            result = cursor.fetchone()
+            cursor.close()
+
+            if result:
+                return {
+                    "id": result[0],
+                    "termo": result[1],
+                    "categoria": result[2],
+                }
+            return None
+
+        except Exception as e:
+            logger.error(f"Erro ao buscar sintoma por ID {sintoma_id}: {e}")
+            return None
+
+        finally:
+            self._return_connection(conn)
+
     def search_sinonimos(self, termo: str, limite: int = 10) -> List[Dict[str, Any]]:
         """
         Busca sinonimos por termo (para debug/admin).

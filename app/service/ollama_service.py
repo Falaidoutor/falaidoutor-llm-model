@@ -43,18 +43,24 @@ async def classify_symptoms(symptoms: str, debug_mode: bool = False) -> dict:
         )
 
         # 2. CONSTRUIR PROMPT COM SINTOMAS NORMALIZADOS E NÃO NORMALIZADOS
-        sintomas_normalizados = [
-            s["normalizado"]
+        # Preparar dados com formato esperado: lista de dicts com 'original' e 'normalizado'
+        sintomas_normalizados_com_original = [
+            {
+                "original": s["original"],
+                "normalizado": s["normalizado"]
+            }
             for s in normalizacao_resultado.get("sintomas_normalizados", [])
         ]
+        
         sintomas_nao_normalizados = [
             s["original"]
             for s in normalizacao_resultado.get("sintomas_nao_normalizados", [])
         ]
 
         user_prompt = build_user_prompt(
-            sintomas_normalizados,
+            sintomas_normalizados_com_original,
             sintomas_nao_normalizados,
+            input_original=symptoms,
             debug_mode=debug_mode,
         )
 
@@ -70,24 +76,11 @@ async def classify_symptoms(symptoms: str, debug_mode: bool = False) -> dict:
         }
 
         # Log detalhado do prompt
-        logger.info("=" * 80)
-        logger.info("SYSTEM PROMPT (primeiras 500 chars):")
-        logger.info(SYSTEM_PROMPT[:500] + "...")
-        logger.info("=" * 80)
-        logger.info("USER PROMPT COMPLETO:")
-        logger.info(user_prompt)
-        logger.info("=" * 80)
-        logger.info("PAYLOAD COMPLETO (sem system prompt):")
-        logger.info(json.dumps({
-            "model": payload["model"],
-            "messages": [
-                {"role": "system", "content": "[...SYSTEM_PROMPT OMITIDO...]"},
-                {"role": "user", "content": payload["messages"][1]["content"]}
-            ],
-            "stream": payload["stream"],
-            "format": payload["format"]
-        }, ensure_ascii=False, indent=2))
-        logger.info("=" * 80)
+        #print(SYSTEM_PROMPT)
+
+        print("USER PROMPT:")
+        print(user_prompt)
+       
 
         logger.info("Enviando requisição ao Ollama...")
         async with httpx.AsyncClient(timeout=120.0) as client:
@@ -99,12 +92,14 @@ async def classify_symptoms(symptoms: str, debug_mode: bool = False) -> dict:
         data = response.json()
         content = data["message"]["content"]
 
+    
+        
         # 4. PARSEAR RESPOSTA
         parsed = parse_response(content)
 
-        # 5. EXTRAIR NORMALIZAÇÕES DO OLLAMA
+        # 5. EXTRAIR NORMALIZAÇÕES DO OLLAMA (apenas para sintomas não normalizados)
         normalizacao_ollama = _extract_ollama_normalization(
-            parsed, sintomas_nao_normalizados
+            parsed, sintomas_nao_normalizados, sintomas_normalizados_com_original
         )
 
         if normalizacao_ollama:
@@ -121,7 +116,7 @@ async def classify_symptoms(symptoms: str, debug_mode: bool = False) -> dict:
         parsed["normalizacao_resultado"] = normalizacao_resultado
         parsed["normalizacao_ollama"] = normalizacao_ollama
         parsed["texto_original"] = symptoms
-        parsed["sintomas_normalizados"] = sintomas_normalizados
+        parsed["sintomas_normalizados"] = [s["normalizado"] for s in sintomas_normalizados_com_original]
 
         # 7. VALIDAÇÃO
         validation = validate_triage_response(parsed)
@@ -138,35 +133,106 @@ async def classify_symptoms(symptoms: str, debug_mode: bool = False) -> dict:
         )
 
 
-def _extract_ollama_normalization(parsed: dict, sintomas_nao_normalizados: list) -> list:
+def _extract_ollama_normalization(parsed: dict, sintomas_nao_normalizados: list, sintomas_normalizados_com_original: list = None) -> list:
     """
     Extrai as normalizações feitas pelo Ollama para sintomas não normalizados.
+    
+    CRÍTICO: Salva APENAS normalizações de termos que estavam em sintomas_nao_normalizados.
+    Não salva normalizações de sintomas que já vieram em sintomas_normalizados (pré-normalizados).
 
     Procura em locais comuns na resposta:
     - Campo "normalizacao_ollama" (se Ollama seguir formato)
-    - Campo "justificativa" (análise textual)
+    - Campo "justificativa" (análise textual - fallback)
+
+    Args:
+        parsed: Resposta JSON do Ollama já parseada
+        sintomas_nao_normalizados: Lista de strings com termos NÃO normalizados originais
+        sintomas_normalizados_com_original: Lista de dicts com 'original' e 'normalizado' (pre-normalizados)
 
     Returns:
         Lista de {"original": str, "normalizado": str, "confianca": str}
     """
     normalizacoes = []
+    
+    # Extrair lista de originais já normalizados para evitar duplicatas
+    originais_ja_normalizados = set()
+    if sintomas_normalizados_com_original:
+        for item in sintomas_normalizados_com_original:
+            if isinstance(item, dict) and "original" in item:
+                originais_ja_normalizados.add(item["original"].lower())
 
-    # Verificar se Ollama retornou campo específico de normalizações
-    if "normalizacao_ollama" in parsed:
-        normalizacoes_raw = parsed.get("normalizacao_ollama", [])
-        if isinstance(normalizacoes_raw, list):
-            for norm in normalizacoes_raw:
-                if isinstance(norm, dict):
+    logger.info("=" * 80)
+    logger.info(f"[_extract_ollama_normalization] Procurando normalizações")
+    logger.info(f"[_extract_ollama_normalization] Sintomas já normalizados (filtro): {originais_ja_normalizados}")
+    logger.info(f"[_extract_ollama_normalization] Campos disponíveis: {list(parsed.keys())}")
+    logger.info(f"[_extract_ollama_normalization] Sintomas não normalizados: {sintomas_nao_normalizados}")
+    
+    # 1. Verificar se Ollama retornou campo específico de normalizações
+    normalizacao_ollama = parsed.get("normalizacao_ollama", [])
+    if isinstance(normalizacao_ollama, list) and len(normalizacao_ollama) > 0:
+        logger.info(f"[_extract_ollama_normalization] Campo 'normalizacao_ollama' encontrado com {len(normalizacao_ollama)} itens")
+        for norm in normalizacao_ollama:
+            if isinstance(norm, dict):
+                original = norm.get("original", "")
+                # FILTRO CRÍTICO: Verificar se este original já estava em sintomas_normalizados
+                if original.lower() not in originais_ja_normalizados:
                     normalizacoes.append(
                         {
-                            "original": norm.get("original", ""),
+                            "original": original,
                             "normalizado": norm.get("normalizado", ""),
                             "confianca": norm.get("confianca", "media"),
                         }
                     )
-
-    # Se nenhuma normalização foi extraída explicitamente,
-    # deixar vazio (Ollama pode não ter normalizado os sintomas não normalizados)
+                    logger.info(f"[_extract_ollama_normalization] Incluído: '{original}' → '{norm.get('normalizado')}'")
+                else:
+                    logger.warning(f"[_extract_ollama_normalization] Ignorado (já em sintomas_normalizados): '{original}'")
+    else:
+        # 2. Fallback: Se campo está vazio mas há sintomas_nao_normalizados, tentar extrair da justificativa
+        if sintomas_nao_normalizados:
+            logger.warning(f"[_extract_ollama_normalization] Campo 'normalizacao_ollama' vazio! Tentando extrair da justificativa...")
+            justificativa = parsed.get("justificativa", "")
+            
+            # Tentar extrair padrões como "X foi normalizado para Y" ou "X → Y"
+            for original in sintomas_nao_normalizados:
+                if not isinstance(original, str):
+                    continue
+                
+                # FILTRO: Não processar se já estava em sintomas_normalizados
+                if original.lower() in originais_ja_normalizados:
+                    logger.warning(f"[_extract_ollama_normalization] Pulando (já normalizado): '{original}'")
+                    continue
+                
+                # Padrões para capturar: 
+                # - "foi normalizado para X"
+                # - "normalizado em X"
+                # - "→ X"
+                # - "como X"
+                patterns = [
+                    rf"'{re.escape(original)}'\s+foi normalizado para\s+'?([a-z_]+)'?",
+                    rf"'{re.escape(original)}'\s+normalizado em\s+'?([a-z_]+)'?",
+                    rf"{re.escape(original)}\s+→\s+([a-z_]+)",
+                    rf"{re.escape(original)}\s+como\s+([a-z_]+)",
+                ]
+                
+                normalizado = None
+                for pattern in patterns:
+                    match = re.search(pattern, justificativa, re.IGNORECASE)
+                    if match:
+                        normalizado = match.group(1)
+                        break
+                
+                if normalizado:
+                    logger.info(f"[_extract_ollama_normalization] Extraído da justificativa: '{original}' → '{normalizado}'")
+                    normalizacoes.append({
+                        "original": original,
+                        "normalizado": normalizado,
+                        "confianca": "media",  # Confiança reduzida pois foi extraído da justificativa
+                    })
+        else:
+            logger.info(f"[_extract_ollama_normalization] Nenhum sintoma não normalizado para processar")
+    
+    logger.info(f"[_extract_ollama_normalization] Total extraído (após filtro): {len(normalizacoes)}")
+    logger.info("=" * 80)
     return normalizacoes
 def parse_response(content: str) -> dict:
     """Parseia resposta JSON do Ollama com tratamento de erros."""

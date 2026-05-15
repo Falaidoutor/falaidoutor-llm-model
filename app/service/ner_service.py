@@ -7,6 +7,7 @@ import logging
 import spacy
 from typing import List
 from app.config.settings import SPACY_MODEL_NAME, SPACY_CUSTOM_MODEL_PATH
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -87,7 +88,7 @@ class NERService:
         # Estratégia 3: Se ainda sem resultados, tentar noun chunks
         if not symptoms:
             for chunk in doc.noun_chunks:
-                chunk_text = chunk.text.strip()
+                chunk_text = self._clean_symptom_span(chunk.text).strip()
                 # Filtrar muito curto ou muito longo
                 if 2 <= len(chunk_text) <= 50:
                     symptoms.append(chunk_text)
@@ -127,6 +128,8 @@ class NERService:
                 words.pop(0)
             
             cleaned_phrase = " ".join(words).strip()
+            cleaned_phrase = self._clean_symptom_span(cleaned_phrase)
+            
             if len(cleaned_phrase) >= 3:  # Filtrar muito curto
                 cleaned_parts.append(cleaned_phrase)
         
@@ -164,7 +167,8 @@ class NERService:
 
         # Noun chunks (média confiança)
         for chunk in doc.noun_chunks:
-            chunk_text = chunk.text.strip()
+            chunk_text = self._clean_symptom_span(chunk.text).strip()
+
             if 2 <= len(chunk_text) <= 50:
                 results.append(
                     {
@@ -180,3 +184,24 @@ class NERService:
 
         logger.debug(f"Sintomas with confidence: {len(results)}")
         return results
+    
+    def _clean_symptom_span(self, text: str) -> str:
+
+        text = text.strip().lower()
+
+        # Remove auxiliares do início
+        text = re.sub(
+            r"^(estou|está|to|tô|tenho|com|sentindo|estou com)\s+",
+            "",
+            text,
+        )
+
+        # Remove intensificadores/frequência do final
+        text = re.sub(
+            r"\s+(forte|forte demais|leve|média|muito forte|muito leve|moderada?|intensa?)$",
+            "",
+            text,
+        )
+
+        return text.strip()
+

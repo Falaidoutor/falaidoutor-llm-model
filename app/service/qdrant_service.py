@@ -127,7 +127,9 @@ class QdrantService:
                 }
             ]
         """
-        try:
+        try:    
+            print("dados de busca:")
+            print(score_threshold, top_k)
             response = self.client.query_points(
                 collection_name=collection_name,
                 query=vector,

@@ -63,7 +63,7 @@ INSERT INTO falai_doutor_normalizacao.sinonimos (sintoma_id, termo, origem, apro
 ((SELECT id FROM falai_doutor_normalizacao.sintomas WHERE termo = 'Tonturas'), 'tontura', 'manual', TRUE),
 ((SELECT id FROM falai_doutor_normalizacao.sintomas WHERE termo = 'Tonturas'), 'vertigem', 'llm', TRUE),
 ((SELECT id FROM falai_doutor_normalizacao.sintomas WHERE termo = 'Tonturas'), 'desequilíbrio', 'manual', TRUE),
-((SELECT id FROM falai_doutor_normalizacao.sintomas WHERE termo = 'Tonturas'), 'sensação de queda', 'usuario', FALSE),
+((SELECT id FROM falai_doutor_normalizacao.sintomas WHERE termo = 'Tonturas'), 'sensação de queda', 'usuario', TRUE),
 
 -- Para "Sudorese"
 ((SELECT id FROM falai_doutor_normalizacao.sintomas WHERE termo = 'Sudorese'), 'suor', 'manual', TRUE),

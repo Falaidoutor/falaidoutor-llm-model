@@ -206,11 +206,12 @@ class NormalizationService:
         """
         try:
             # 1. Gerar embedding
+            
             embedding = self.embedding_service.embed(sintoma)
 
             # 2. Buscar no Qdrant
             resultados_qdrant = self.qdrant_service.search(
-                embedding, top_k=1, score_threshold=None
+                embedding, top_k=5, score_threshold=SIMILARITY_THRESHOLD
             )
 
             if not resultados_qdrant:
@@ -231,7 +232,16 @@ class NormalizationService:
                 # Normalizado ✓
                 sinonimo_id = payload.get("sinonimo_id")
                 sintoma_id = payload.get("sintoma_id")
-                termo_normalizado = payload.get("termo")
+                termo_encontrado = payload.get("termo")
+
+                # Buscar o sintoma canônico no PostgreSQL usando o sintoma_id
+                sintoma_data = self.postgres_service.get_sintoma_by_id(sintoma_id)
+                termo_normalizado = sintoma_data.get("termo") if sintoma_data else termo_encontrado
+
+                print(f"SINTOMA: {sintoma}")
+                print(f"SCORE: {score}")
+                print(f"TERMO ORIGINAL ENCONTRADO: {termo_encontrado}")
+                print(f"TERMO NORMALIZADO: {termo_normalizado}")
 
                 resultado = {
                     "original": sintoma,
