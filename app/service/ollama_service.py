@@ -108,12 +108,13 @@ async def classify_symptoms(symptoms: str, debug_mode: bool = False) -> dict:
         )
 
         if normalizacao_ollama:
-            # Registrar em base_candidata
+            # Registrar em base_candidata (sem sintoma_id - será correlacionado por serviço posterior)
             for normalizacao in normalizacao_ollama:
                 normalization_svc.postgres_service.create_base_candidata(
                     input_original=normalizacao["original"],
                     normalizado_sugerido=normalizacao["normalizado"],
                     score_ollama_confianca=normalizacao.get("confianca", "media"),
+                    origem="ollama",
                 )
 
         # 6. POPULAR CAMPOS DE NORMALIZAÇÃO NA RESPOSTA

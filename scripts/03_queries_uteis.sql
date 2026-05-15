@@ -196,10 +196,72 @@ ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
 
 
 -- ================================================================
--- 7. VALIDAÇÃO DE INTEGRIDADE
+-- 7. CORRELAÇÃO DE BASE_CANDIDATA COM SINTOMAS
 -- ================================================================
+-- Queries para auxiliar o serviço de correlação posterior
 
--- Sinonimos órfãos (sintoma deletado)
+-- Ver candidatos aprovados aguardando correlação com sintoma_id
+SELECT 
+    bc.id,
+    bc.input_original,
+    bc.normalizado_sugerido,
+    bc.score_e5,
+    bc.origem,
+    bc.criado_em,
+    COUNT(sin.id) as potenciais_sinonimos_existentes
+FROM falai_doutor_normalizacao.base_candidata bc
+LEFT JOIN falai_doutor_normalizacao.sinonimos sin 
+    ON LOWER(sin.termo) = LOWER(bc.normalizado_sugerido) 
+    AND sin.aprovado = TRUE
+WHERE bc.status = 'aprovado'
+GROUP BY bc.id, bc.input_original, bc.normalizado_sugerido, bc.score_e5, bc.origem, bc.criado_em
+ORDER BY bc.criado_em DESC
+LIMIT 50;
+
+-- Buscar sintoma_id para um normalizado_sugerido (para correlação manual)
+-- Útil para encontrar qual sintoma_id relacionar quando aprovado
+SELECT DISTINCT
+    s.id as sintoma_id,
+    s.termo as sintoma_canonico,
+    sin.id as sinonimo_id,
+    sin.termo as termo_sinonimo,
+    sin.aprovado,
+    sin.origem
+FROM falai_doutor_normalizacao.sintomas s
+LEFT JOIN falai_doutor_normalizacao.sinonimos sin ON s.id = sin.sintoma_id
+WHERE LOWER(s.termo) = LOWER(%s) OR LOWER(sin.termo) = LOWER(%s)
+ORDER BY sin.aprovado DESC, s.id;
+
+-- Candidatos com maior score E5 (maior confiança)
+SELECT 
+    bc.id,
+    bc.input_original,
+    bc.normalizado_sugerido,
+    bc.score_e5,
+    bc.status,
+    bc.criado_em
+FROM falai_doutor_normalizacao.base_candidata bc
+WHERE bc.status = 'pendente'
+ORDER BY bc.score_e5 DESC NULLS LAST
+LIMIT 20;
+
+-- Histórico de normalizações por termo original (para análise de padrão)
+SELECT 
+    input_original,
+    normalizado_sugerido,
+    COUNT(*) as frequencia,
+    MAX(bc.score_e5) as max_score,
+    COUNT(CASE WHEN bc.status = 'aprovado' THEN 1 END) as aprovados,
+    COUNT(CASE WHEN bc.status = 'rejeitado' THEN 1 END) as rejeitados
+FROM falai_doutor_normalizacao.base_candidata bc
+GROUP BY input_original, normalizado_sugerido
+ORDER BY frequencia DESC, max_score DESC
+LIMIT 30;
+
+
+-- ================================================================
+-- 8. VALIDAÇÃO DE INTEGRIDADE
+-- ================================================================
 SELECT 
     s.id,
     s.termo,
@@ -232,7 +294,7 @@ HAVING COUNT(sc.id) = 0;
 
 
 -- ================================================================
--- 8. RELATÓRIOS
+-- 9. RELATÓRIOS
 -- ================================================================
 
 -- Relatório diário de atividade

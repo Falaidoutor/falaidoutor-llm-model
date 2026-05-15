@@ -190,12 +190,21 @@ class PostgresService:
         self,
         input_original: str,
         normalizado_sugerido: str,
-        sintoma_id: Optional[int] = None,
         score_e5: Optional[float] = None,
         score_ollama_confianca: Optional[str] = None,
+        origem: str = "llm",
     ) -> Optional[int]:
         """
         Registra um termo na tabela base_candidata para auditoria/aprendizado.
+        
+        A correlação com sintoma_id será feita posteriormente por um serviço.
+
+        Args:
+            input_original: Termo original do usuário
+            normalizado_sugerido: Sintoma normalizado (sem referência a sintoma_id)
+            score_e5: Score de similaridade E5 (opcional)
+            score_ollama_confianca: Confiança do Ollama (opcional)
+            origem: Origem da sugestão - "llm", "usuario", "admin" (default: "llm")
 
         Returns:
             ID do registro criado, ou None se erro
@@ -209,14 +218,13 @@ class PostgresService:
                 INSERT INTO falai_doutor_normalizacao.base_candidata (
                     input_original,
                     normalizado_sugerido,
-                    sintoma_id,
                     score_e5,
                     score_ollama_confianca,
                     origem,
                     status,
                     criado_em
                 )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
                 RETURNING id
             """
 
@@ -225,10 +233,9 @@ class PostgresService:
                 (
                     input_original,
                     normalizado_sugerido,
-                    sintoma_id,
                     score_e5,
                     score_ollama_confianca,
-                    "ollama",  # origem
+                    origem,
                     "pendente",  # status inicial
                     datetime.now(),
                 ),
@@ -238,7 +245,7 @@ class PostgresService:
             conn.commit()
             cursor.close()
 
-            logger.info(f"Base candidata criada com ID {candidate_id}")
+            logger.info(f"Base candidata criada com ID {candidate_id} para '{normalizado_sugerido}'")
             return candidate_id
 
         except Exception as e:
@@ -293,15 +300,18 @@ class PostgresService:
 
     def approve_base_candidata(self, candidato_id: int) -> bool:
         """
-        Aprova um candidato (move para sinonimos + marca como aprovado).
+        Aprova um candidato na base_candidata.
+        
+        Nota: A inserção em sinonimos e correlação com sintoma_id 
+        será feita por um serviço posterior de correlação.
         """
         conn = None
         try:
             conn = self._get_connection()
             cursor = conn.cursor()
 
-            # Obter dados do candidato
-            query = "SELECT input_original, normalizado_sugerido, sintoma_id FROM falai_doutor_normalizacao.base_candidata WHERE id = %s"
+            # Obter dados do candidato (apenas para logging)
+            query = "SELECT input_original, normalizado_sugerido FROM falai_doutor_normalizacao.base_candidata WHERE id = %s"
             cursor.execute(query, (candidato_id,))
             result = cursor.fetchone()
 
@@ -309,27 +319,16 @@ class PostgresService:
                 logger.warning(f"Candidato {candidato_id} não encontrado")
                 return False
 
-            input_original, normalizado_sugerido, sintoma_id = result
+            input_original, normalizado_sugerido = result
 
-            # Inserir em sinonimos
-            if sintoma_id:
-                insert_query = """
-                    INSERT INTO falai_doutor_normalizacao.sinonimos (sintoma_id, termo, origem, aprovado, criado_em)
-                    VALUES (%s, %s, %s, %s, %s)
-                """
-                cursor.execute(
-                    insert_query,
-                    (sintoma_id, normalizado_sugerido, "ollama", True, datetime.now()),
-                )
-
-            # Marcar candidato como aprovado
+            # Marcar candidato como aprovado (sem inserir em sinonimos ainda)
             update_query = "UPDATE falai_doutor_normalizacao.base_candidata SET status = 'aprovado', revisado = TRUE WHERE id = %s"
             cursor.execute(update_query, (candidato_id,))
 
             conn.commit()
             cursor.close()
 
-            logger.info(f"Candidato {candidato_id} aprovado")
+            logger.info(f"Candidato {candidato_id} ('{normalizado_sugerido}') aprovado. Aguardando correlação com sintoma_id por serviço posterior.")
             return True
 
         except Exception as e:

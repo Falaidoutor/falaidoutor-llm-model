@@ -139,25 +139,24 @@ CREATE INDEX IF NOT EXISTS idx_outputs_criado_em ON falai_doutor_normalizacao.ou
 -- ================================================================
 -- TABELA: BASE_CANDIDATA (aprendizado)
 -- ================================================================
--- Termos normalizados pelo LLM que aguardam auditoria
+-- Termos normalizados que aguardam auditoria e correlação com sintoma_id
 -- Retroalimentação para melhorar o vocabulário
+-- Nota: A correlação com sintoma_id será feita por um serviço posterior após aprovação
 
 CREATE TABLE IF NOT EXISTS falai_doutor_normalizacao.base_candidata (
     id SERIAL PRIMARY KEY,
     input_original TEXT NOT NULL,         -- termo original do usuário
-    normalizado_sugerido TEXT NOT NULL,   -- normalização sugerida
-    sintoma_id INTEGER,                   -- preenchido após validação
+    normalizado_sugerido TEXT NOT NULL,   -- sintoma normalizado (sem apontar para tabela)
     score_e5 FLOAT,                       -- score de similaridade E5
     score_ollama_confianca TEXT,          -- confiança do Ollama
     origem TEXT DEFAULT 'llm',            -- "llm", "usuario", "admin"
     status TEXT DEFAULT 'pendente',       -- pendente, aprovado, rejeitado
     revisado BOOLEAN DEFAULT FALSE,       -- marcado como review?
-    criado_em TIMESTAMP DEFAULT NOW(),
-    FOREIGN KEY (sintoma_id) REFERENCES falai_doutor_normalizacao.sintomas(id) ON DELETE SET NULL
+    criado_em TIMESTAMP DEFAULT NOW()
 );
 
 CREATE INDEX IF NOT EXISTS idx_base_candidata_status ON falai_doutor_normalizacao.base_candidata(status);
-CREATE INDEX IF NOT EXISTS idx_base_candidata_sintoma_id ON falai_doutor_normalizacao.base_candidata(sintoma_id);
+CREATE INDEX IF NOT EXISTS idx_base_candidata_normalizado_sugerido ON falai_doutor_normalizacao.base_candidata(normalizado_sugerido);
 CREATE INDEX IF NOT EXISTS idx_base_candidata_criado_em ON falai_doutor_normalizacao.base_candidata(criado_em);
 CREATE INDEX IF NOT EXISTS idx_base_candidata_score_e5 ON falai_doutor_normalizacao.base_candidata(score_e5);
 
