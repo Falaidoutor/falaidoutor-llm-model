@@ -1448,20 +1448,246 @@
     "edstay_id": "30191707",
     "acuity_ground_truth": 3,
     "triage_text": "A 31-year-old white male presented to the ED with a chief complaint of right leg pain. The patient arrived by walking in. On arrival, the patient's vital signs were as follows: heart rate (HR) 85, respiratory rate (RR) 18, blood pressure (BP) 149/81, SpO2 100%, and pain level 8 out of 10. No recent history of trauma or injury was noted. The patient did not report any other symptoms such as swelling, redness, warmth, or systemic signs of infection. There were no known allergies or significant medical history provided at the time of triage.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `"
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "D",
+      "criterios_ponto_decisao": [
+        "Dor intensa: EVA 8/10"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "exame físico e possivelmente imagem ou medicação para dor"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "O paciente apresenta dor intensa na perna direita, com EVA 8/10, o que satisfez o critério de dor intensa no Ponto B, mas como não há outros sintomas graves ou sinais vitais alterados, a classificação mais adequada é ESI-3, considerando a necessidade de avaliação e possivelmente recursos para aliviar a dor.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": [
+        "ESI-3 indica ≥ 2 recursos necessários, mas recursos_estimados=1."
+      ]
+    },
+    "error": null
   },
   {
     "edstay_id": "30193081",
     "acuity_ground_truth": 3,
     "triage_text": "A 22-year-old white female presented to the ED with a chief complaint of lower extremity injury. The patient walked into the ED without assistance. Vital signs on arrival were HR 75, RR 18, BP 128/79, SpO2 97%, T 98.9°F, and pain score of 6/10. The patient reported significant pain in the lower extremity but was able to ambulate independently. There were no signs of acute systemic distress noted.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `"
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "Paciente estável, sem sinais de distresse sistêmico agudo, com dor moderada (6/10) mas capaz de ambular independentemente"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "Exame físico e possivelmente imagem (RX) para avaliar a lesão na extremidade inferior"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente apresenta dor significativa na extremidade inferior, mas está ambulando independentemente e não mostra sinais de distresse sistêmico agudo. A classificação ESI-3 se justifica devido à necessidade de avaliação e possivelmente intervenção para a lesão, mas não há indicação de emergência imediata.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": [
+        "ESI-3 indica ≥ 2 recursos necessários, mas recursos_estimados=1."
+      ]
+    },
+    "error": null
   },
   {
     "edstay_id": "32258048",
     "acuity_ground_truth": 3,
     "triage_text": "A 46-year-old white female presented to the ED with a chief complaint of left lower quadrant (LLQ) abdominal pain, which she rated as 6 out of 10 in intensity. She walked into the ED independently. Her vital signs on arrival were: heart rate (HR) 73, respiratory rate (RR) 17, blood pressure (BP) 130/79, SpO2 100%, and temperature (T) 98.6° F. The patient's condition is hemodynamically stable. Potential causes for LLQ pain include gastrointestinal, gynecological, or urinary issues.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "D",
+      "criterios_ponto_decisao": [
+        "sinais vitais normais"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "exame físico",
+        "imagem (RX/TC/USG/RM)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente com dor abdominal no quadrante inferior esquerdo, intensidade 6/10, mas sinais vitais estáveis e hemodinamicamente estável. Não atende aos critérios de ESI-1 ou ESI-2, portanto, segue para o ponto D, onde a classificação é ESI-3 devido aos sinais vitais normais.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "35664211",
+    "acuity_ground_truth": 3,
+    "triage_text": "A 55-year-old white male presented to the ED after falling off his bike. The patient walked into the ED without reporting any pain. Vital signs on arrival: HR 104 bpm, RR 16, BP 130/87 mmHg, SpO2 96%, T 97.6° F. The patient has no significant past medical history or allergies reported. Given the mechanism of injury, there is a potential for fractures, sprains, contusions, or internal injuries.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "D",
+      "criterios_ponto_decisao": [
+        "Mecanismo de lesão com potencial para fraturas, entorses, contusões ou lesões internas, mas sem sinais vitais na zona de perigo"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "RX",
+        "exame físico detalhado"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente de 55 anos com mecanismo de lesão potencialmente grave, mas sem dor ou alterações significativas nos sinais vitais. O paciente necessita de avaliação detalhada e possivelmente exames de imagem para descartar lesões internas ou fraturas.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "36327718",
+    "acuity_ground_truth": 3,
+    "triage_text": "A 45-year-old African American male walked into the emergency department with a chief complaint of dizziness. He denies any chest pain, shortness of breath, or recent trauma. The patient’s vital signs are as follows: BP 145/84, HR 96, RR 16, SpO2 99%, and T 97.4° F. Pain is rated 0. The patient's medical history and medications are not specified in the initial assessment.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "D",
+      "criterios_ponto_decisao": [
+        "sinais vitais normais"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "exame físico e anamnese mais detalhados para investigar tontura"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "media",
+      "justificativa": "Paciente apresenta tontura sem dor no peito, falta de ar ou trauma recente. Sinais vitais estão dentro dos limites normais. Como não há critérios para ESI-1 ou ESI-2 e os sinais vitais não indicam perigo, o paciente é classificado como ESI-3 devido à necessidade de investigação adicional para a tontura.",
+      "alertas": [
+        "necessidade de investigar causa da tontura",
+        "considerar história médica e medicamentos"
+      ],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": [
+        "ESI-3 indica ≥ 2 recursos necessários, mas recursos_estimados=1."
+      ]
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30022323",
+    "acuity_ground_truth": 3,
+    "triage_text": "A 51-year-old white female presented to the emergency department with a chief complaint of abdominal pain. The patient arrived as a walk-in and reported a pain level of 5 out of 10. Upon arrival, her vital signs were: heart rate 105 bpm, respiratory rate 18 breaths per minute, blood pressure 133/79 mmHg, SpO2 96%, and temperature 98.3°F.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "D",
+      "criterios_ponto_decisao": [
+        "Dor abdominal com EVA 5/10, sem sinais de perigo imediato"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "exame físico",
+        "labs"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente apresenta dor abdominal com EVA 5/10, sem sinais de perigo imediato. Sinais vitais estão dentro dos limites normais. Portanto, a classificação é ESI-3, de acordo com o Ponto D do algoritmo ESI.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30025651",
+    "acuity_ground_truth": 3,
+    "triage_text": "A 20-year-old white female presented to the ED with complaints of dysuria and pelvic pain. She arrived by walking into the ED and rated her pain as 5 out of 10. Vital signs upon arrival were: heart rate 95, respiratory rate 18, blood pressure 105/56, SpO2 94%, and temperature 97.6°F.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "dor pélvica e disúria"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "exame físico e possivelmente exame de urina"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "A paciente apresenta dor pélvica e disúria, o que sugere uma possível infecção do trato urinário. No entanto, os sinais vitais estão dentro dos limites normais e a paciente não apresenta sinais de choque ou deterioração clínica. Portanto, a classificação é ESI-3, pois a paciente requer atenção médica, mas não é considerada emergente.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": [
+        "ESI-3 indica ≥ 2 recursos necessários, mas recursos_estimados=1."
+      ]
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30061072",
+    "acuity_ground_truth": 3,
+    "triage_text": "A 41-year-old white male presents to the emergency department with a chief complaint of right-sided abdominal pain. He arrived by walking in, reporting a pain score of 2. Vital signs are BP 169/69, P 76, RR 16, SpO2 98%, T 98.4°F. The patient's elevated blood pressure may indicate discomfort or stress.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "D",
+      "criterios_ponto_decisao": [
+        "sinais vitais normais"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "exame físico e anamnese não são considerados recursos, mas podem ser necessários para o diagnóstico, portanto, considerando a necessidade de exames adicionais como um recurso"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "O paciente apresenta dor abdominal de lado direito com uma pontuação de dor de 2, sinais vitais dentro dos parâmetros normais, o que não indica necessidade de intervenção imediata ou alta urgência. A classificação como ESI-3 se baseia na necessidade de avaliação e possíveis exames adicionais para determinar a causa da dor abdominal.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": [
+        "ESI-3 indica ≥ 2 recursos necessários, mas recursos_estimados=1."
+      ]
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30075347",
+    "acuity_ground_truth": 3,
+    "triage_text": "A 35-year-old white female presented to the emergency department with a chief complaint of bright red blood per rectum (BRBPR) and diarrhea. The patient walked into the ED and reported no pain at the time of triage, with a pain scale of 0/10. She is hemodynamically stable with vital signs: BP 135/81, P 79, RR 16, SpO2 100%, and T 0.0° F. The patient has not reported any known allergies or documented prior medical or surgical history in the current records.",
     "llm_response": null,
     "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `"
   }

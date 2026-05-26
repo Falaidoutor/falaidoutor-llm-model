@@ -1918,20 +1918,6 @@
     "error": null
   },
   {
-    "edstay_id": "31990620",
-    "acuity_ground_truth": 4,
-    "triage_text": "A 49-year-old Black/African American male walked into the ED with a chief complaint of a dog bite and concern about rabies. The patient reports no pain and presents with stable vital signs: HR 51, RR 18, BP 107/66, SpO2 95%, T 96.4°F. There are no immediate signs of systemic infection or distress.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "32177938",
-    "acuity_ground_truth": 4,
-    "triage_text": "A 77-year-old white male walked into the ED with a chief complaint of left knee pain. The patient's pain level is reported as 1/10. The patient does not have any significant medical or surgical history provided. Vital signs upon arrival are stable: BP 125/60, HR 74, RR 18, SpO2 98%, and T 97.5° F. The patient presents with no signs of acute distress and is ambulatory.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
     "edstay_id": "32233858",
     "acuity_ground_truth": 4,
     "triage_text": "A 39-year-old Asian Indian female walked into the emergency department with a chief complaint of a laceration. The patient reported moderate pain (5/10). Vital signs were stable: BP 132/75, P 67, RR 16, SpO2 100%, T 97.7° F. The patient’s general appearance was stable, and no immediate life-threatening risks were identified.",
@@ -1958,20 +1944,6 @@
       "validation_warnings": []
     },
     "error": null
-  },
-  {
-    "edstay_id": "32378986",
-    "acuity_ground_truth": 4,
-    "triage_text": "A 23-year-old African American female presented to the ED with a chief complaint of left eye pain. The patient walked into the ED. Vital signs on arrival were: HR 62 bpm, RR 16, BP 105/70 mmHg, SpO2 100%, T 97.5°F, and pain level 8/10. The patient reports significant discomfort in the left eye, rated as 8 on the pain scale. There is no provided history of recent trauma, illness, or infection, and no additional medical history is noted.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "32660151",
-    "acuity_ground_truth": 4,
-    "triage_text": "A 27-year-old white female presents to the emergency department with a chief complaint of a toe injury. She walked into the ED, indicating that the injury, while painful, did not prevent ambulation. The patient rates her pain as 6 out of 10. Vital signs are as follows: BP 140/88, HR 82, RR 15, SpO2 100%, and temperature 97.4° F.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
   },
   {
     "edstay_id": "32745877",
@@ -2002,13 +1974,6 @@
     "error": null
   },
   {
-    "edstay_id": "32829045",
-    "acuity_ground_truth": 4,
-    "triage_text": "A 19-year-old Black/African American male walked into the emergency department with a chief complaint of a left hand injury and associated pain. The patient reported a pain level of 7 out of 10. Vital signs on arrival were: heart rate 63, respiratory rate 16, blood pressure 117/88, SpO2 100%, and temperature 97.5° F.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
     "edstay_id": "32925431",
     "acuity_ground_truth": 4,
     "triage_text": "A 58-year-old white female presented to the ED with a chief complaint of a laceration on her left thumb. The patient walked into the ED. Her vital signs are BP 138/84, P 87, RR 18, SpO2 99%, T 98.5° F, and she rates her pain as 1 out of 10. The patient has no immediate systemic symptoms or signs of distress.",
@@ -2035,76 +2000,6 @@
       "validation_warnings": []
     },
     "error": null
-  },
-  {
-    "edstay_id": "33657421",
-    "acuity_ground_truth": 4,
-    "triage_text": "A 47-year-old white male was brought to the ED by ambulance with a chief complaint of restless legs. The patient reports experiencing an uncontrollable urge to move his legs, particularly in the evening and at night, which has been affecting his sleep. Upon arrival, the patient's vital signs were stable: BP 126/82, P 79, RR 16, SpO2 98%, T 98.0° F, Pain 0. No additional information about past medical history, medications, allergies, or family and social history is provided.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "34058541",
-    "acuity_ground_truth": 4,
-    "triage_text": "A 43-year-old Black/African American male walked into the ED with a chief complaint of a right-hand laceration. The patient reports no pain. On arrival, his vital signs were stable: HR 80, RR 16, BP 150/87, SpO2 99%, T 98.5° F. The patient had no reported allergies.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "34723477",
-    "acuity_ground_truth": 4,
-    "triage_text": "41-year-old Black/Cape Verdean female with a chief complaint of lower extremity injury, walked into the emergency department. The patient reports a pain level of 8. She has no known allergies. Upon arrival, her vital signs were: Blood Pressure 149/85, Heart Rate 60, Respiratory Rate 18, SpO2 100%, and Temperature 98.2°F.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "34791387",
-    "acuity_ground_truth": 4,
-    "triage_text": "A 26-year-old white male walked into the ED with a chief complaint of a finger laceration on his right hand. The patient describes the laceration as having occurred from a sharp object. Upon arrival, he reported pain at a level of 4 out of 10. The patient's vital signs are BP 130/80, HR 100, RR 16, SpO2 96%, and temperature 98.4° F. The patient has no known allergies and no significant past medical or surgical history. The wound appears clean with moderate bleeding, and there is no immediate sign of infection or foreign body. The patient does not report any numbness or inability to move the finger, and there is no visible sign of tendon damage.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "35178776",
-    "acuity_ground_truth": 4,
-    "triage_text": "A 22-year-old white female walked into the ED with a chief complaint of sore throat. She rates her pain as 5 out of 10. Vital signs upon arrival: BP 125/86, P 89, RR 18, SpO2 99%, T 98.4° F. The patient has no significant past medical history noted.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "35519971",
-    "acuity_ground_truth": 4,
-    "triage_text": "40-year-old white male walked into the ED with a chief complaint of burning with urination. The patient reports mild dysuria but denies any other symptoms such as fever, chills, abdominal pain, or flank pain. The patient has no known allergies and has a medical history of elevated blood pressure, as noted today. On examination, his vital signs are BP 160/93, P 79, RR 15, SpO2 100%, T 96.0°F, and Pain 2. The patient's condition appears stable.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "36898689",
-    "acuity_ground_truth": 4,
-    "triage_text": "A 20-year-old white female walked into the ED with a chief complaint of a burn injury. She reports a pain level of 7/10. Her vital signs are stable: BP 117/93, HR 82, RR 16, SpO2 100%, T 98.6° F. The patient needs a detailed burn assessment, pain management, wound care, and infection prevention measures.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "36490072",
-    "acuity_ground_truth": 4,
-    "triage_text": "A 25-year-old white female walked into the emergency department with a chief complaint of dental pain. She reports severe pain, rated at 10 out of 10. Vital signs are as follows: BP 111/74, P 90, RR 20, SpO2 98%, T 97.8°F. The patient is in considerable distress due to the pain. No recent trauma or other associated symptoms were reported.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "30281538",
-    "acuity_ground_truth": 5,
-    "triage_text": "29-year-old white male with no significant medical history, presented to the ED with a chief complaint of needing suture removal. The patient walked into the ED. There are no signs of distress, and vital signs are stable: HR 99, RR 16, BP 136/59, SpO2 99%, T 97.0° F, pain 0. The patient reports no pain and has no other complaints.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "30449697",
-    "acuity_ground_truth": 5,
-    "triage_text": "A 24-year-old white male presents to the ED for staple removal. The patient walked in and reports no pain. Vital signs are stable: BP 136/73, P 73, RR 16, SpO2 98%, T 98.8° F, Pain 0. There is no indication of infection or complications at the site of the staples. The patient requires basic medical supplies for staple removal and the presence of a healthcare professional skilled in the procedure.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
   },
   {
     "edstay_id": "30466164",
@@ -2135,45 +2030,947 @@
     "error": null
   },
   {
-    "edstay_id": "30604891",
-    "acuity_ground_truth": 5,
-    "triage_text": "A 41-year-old Hispanic/Latino male with an elevated blood pressure of 164/87 walked into the ED requesting a medication refill. The patient does not report any pain or other acute symptoms. His pulse is 74, respiratory rate is 18, SpO2 is 100%, and temperature is 98.5°F. The chief complaint is to refill his antihypertensive medication, indicating a possible history of hypertension.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "30754544",
-    "acuity_ground_truth": 5,
-    "triage_text": "61-year-old Black female presented to the ED with a chief complaint of right thumb pain. She walked into the ED without assistance. The patient reports her pain level as 7/10. Vital signs are as follows: BP 153/86, P 69, RR 14, SpO2 100%, T 97.1° F. The patient's acuity is classified as ESI-5, indicating a non-urgent condition requiring basic evaluation and management.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "31334118",
-    "acuity_ground_truth": 5,
-    "triage_text": "33-year-old African American male presented to the ED for the removal of sutures. The patient walked into the ED without assistance and reported no pain or other symptoms. Vital signs are stable: BP 135/80, P 89, RR 18, SpO2 98%, T 99.4° F, Pain 0.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
-    "edstay_id": "31844511",
-    "acuity_ground_truth": 5,
-    "triage_text": "A 27-year-old African American female presented to the ED with a chief complaint of severe tooth pain, rated as 10 out of 10. The patient walked into the ED and has stable vital signs: BP 131/82, P 81, RR 16, SpO2 100%, T 97.5° F. The patient reports no relevant medical or surgical history, family history, or social history.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
-  },
-  {
     "edstay_id": "31856073",
     "acuity_ground_truth": 4,
     "triage_text": "18-year-old white male presented to the ED with a chief complaint of left ankle pain. The patient walked into the ED and reported a pain level of 8/10. He has no significant medical history or allergies mentioned. Vital signs upon arrival: BP 102/55, HR 57, RR 18, SpO2 99%, T 98.2°F, Pain 8.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "dor intensa (EVA ≥7/10)"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "raio-x do tornozelo",
+        "analgesia IV"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "dor intensa (EVA 8) → ponto B → classificação ESI-2",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
   },
   {
     "edstay_id": "31864066",
     "acuity_ground_truth": 4,
     "triage_text": "A 20-year-old Hispanic/Latino female presented to the emergency department with a chief complaint of right knee pain. The patient walked into the ED, suggesting she is ambulatory. She reports a pain level of 4/10. Vital signs on arrival are within normal limits: BP 128/85, P 69, RR 16, SpO2 100%, T 98.7° F. The patient denies any recent trauma or known medical history related to knee issues.",
-    "llm_response": null,
-    "error": "HTTP 502: {\"detail\":\"Erro ao comunicar com o Groq: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01knx1399jfb8arkbczct2tcqh` service tier `on_d"
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "dor moderada (EVA 4) sem red flags, paciente ambulatório"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "raio-x do joelho"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Dor de intensidade moderada (EVA 4) sem sinais de risco ou red flags, paciente ambulatório e sinais vitais normais → ponto C ativado, necessidade de 1 recurso (imagem) → classificação ESI-4",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31990620",
+    "acuity_ground_truth": 4,
+    "triage_text": "A 49-year-old Black/African American male walked into the ED with a chief complaint of a dog bite and concern about rabies. The patient reports no pain and presents with stable vital signs: HR 51, RR 18, BP 107/66, SpO2 95%, T 96.4°F. There are no immediate signs of systemic infection or distress.",
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "1 recurso necessário (ex.: sutura)"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "sutura"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Queixa de mordida de cachorro sem dor, sinais vitais estáveis e sem red flags; não atende aos critérios de ESI-1 ou ESI-2; requer apenas um recurso (ex.: sutura), portanto ponto C indica 1 recurso → classificação ESI-4.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "32177938",
+    "acuity_ground_truth": 4,
+    "triage_text": "A 77-year-old white male walked into the ED with a chief complaint of left knee pain. The patient's pain level is reported as 1/10. The patient does not have any significant medical or surgical history provided. Vital signs upon arrival are stable: BP 125/60, HR 74, RR 18, SpO2 98%, and T 97.5° F. The patient presents with no signs of acute distress and is ambulatory.",
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "1 recurso necessário (imagem)"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "imagem (raio‑x do joelho)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Dor leve (EVA 1), sem sinais de gravidade, sinais vitais estáveis e sem red flags. Necessita apenas de um recurso (raio‑x do joelho), portanto ponto C com 1 recurso → classificação ESI‑4.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "32378986",
+    "acuity_ground_truth": 4,
+    "triage_text": "A 23-year-old African American female presented to the ED with a chief complaint of left eye pain. The patient walked into the ED. Vital signs on arrival were: HR 62 bpm, RR 16, BP 105/70 mmHg, SpO2 100%, T 97.5°F, and pain level 8/10. The patient reports significant discomfort in the left eye, rated as 8 on the pain scale. There is no provided history of recent trauma, illness, or infection, and no additional medical history is noted.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "dor intensa (EVA ≥7)"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Dor ocular intensa (EVA 8) atende ao critério de dor intensa do ponto B, que determina classificação ESI-2. Não há sinais vitais na zona de perigo nem red flags que justifiquem ESI-1. Portanto, a classificação é ESI-2.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "32660151",
+    "acuity_ground_truth": 4,
+    "triage_text": "A 27-year-old white female presents to the emergency department with a chief complaint of a toe injury. She walked into the ED, indicating that the injury, while painful, did not prevent ambulation. The patient rates her pain as 6 out of 10. Vital signs are as follows: BP 140/88, HR 82, RR 15, SpO2 100%, and temperature 97.4° F.",
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "1 recurso necessário (raio‑x)"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "raio‑x do pé/toe"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Dor moderada (EVA 6) sem sinais de risco, vitais estáveis, necessidade de apenas um recurso (raio‑x), portanto ponto C com 1 recurso → ESI‑4",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "32829045",
+    "acuity_ground_truth": 4,
+    "triage_text": "A 19-year-old Black/African American male walked into the emergency department with a chief complaint of a left hand injury and associated pain. The patient reported a pain level of 7 out of 10. Vital signs on arrival were: heart rate 63, respiratory rate 16, blood pressure 117/88, SpO2 100%, and temperature 97.5° F.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Dor intensa (EVA ≥7)"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "imagem (raio‑x)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Dor de intensidade 7/10 caracteriza dor intensa, atendendo ao critério do ponto B; portanto a classificação é ESI-2.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "33657421",
+    "acuity_ground_truth": 4,
+    "triage_text": "A 47-year-old white male was brought to the ED by ambulance with a chief complaint of restless legs. The patient reports experiencing an uncontrollable urge to move his legs, particularly in the evening and at night, which has been affecting his sleep. Upon arrival, the patient's vital signs were stable: BP 126/82, P 79, RR 16, SpO2 98%, T 98.0° F, Pain 0. No additional information about past medical history, medications, allergies, or family and social history is provided.",
+    "llm_response": {
+      "classificacao": "ESI-5",
+      "nivel": 5,
+      "nome_nivel": "Não urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "Nenhum recurso necessário"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "media",
+      "justificativa": "Sintomas de síndrome das pernas inquietas sem dor, sem sinais de risco ou red flags; sinais vitais normais; nenhum recurso imediato necessário → ponto C com 0 recursos → classificação ESI-5.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "34058541",
+    "acuity_ground_truth": 4,
+    "triage_text": "A 43-year-old Black/African American male walked into the ED with a chief complaint of a right-hand laceration. The patient reports no pain. On arrival, his vital signs were stable: HR 80, RR 16, BP 150/87, SpO2 99%, T 98.5° F. The patient had no reported allergies.",
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "1 recurso necessário"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "sutura"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Laceração da mão sem dor, sinais vitais estáveis e sem critérios de ESI-1 ou ESI-2; requer apenas sutura (1 recurso) → ponto C → classificação ESI-4",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "34723477",
+    "acuity_ground_truth": 4,
+    "triage_text": "41-year-old Black/Cape Verdean female with a chief complaint of lower extremity injury, walked into the emergency department. The patient reports a pain level of 8. She has no known allergies. Upon arrival, her vital signs were: Blood Pressure 149/85, Heart Rate 60, Respiratory Rate 18, SpO2 100%, and Temperature 98.2°F.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Dor intensa (EVA ≥7)"
+      ],
+      "recursos_estimados": 3,
+      "recursos_detalhados": [
+        "imagem (raio‑x)",
+        "medicação IV",
+        "procedimento (imobilização)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente relata dor de 8/10 na extremidade inferior, caracterizando dor intensa (EVA ≥7). Esse critério satisfaz o ponto B do algoritmo ESI, que direciona a classificação para ESI-2. Não há sinais vitais na zona de perigo nem red flags que justifiquem ESI-1.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "34791387",
+    "acuity_ground_truth": 4,
+    "triage_text": "A 26-year-old white male walked into the ED with a chief complaint of a finger laceration on his right hand. The patient describes the laceration as having occurred from a sharp object. Upon arrival, he reported pain at a level of 4 out of 10. The patient's vital signs are BP 130/80, HR 100, RR 16, SpO2 96%, and temperature 98.4° F. The patient has no known allergies and no significant past medical or surgical history. The wound appears clean with moderate bleeding, and there is no immediate sign of infection or foreign body. The patient does not report any numbness or inability to move the finger, and there is no visible sign of tendon damage.",
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "1 recurso necessário (sutura)"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "sutura"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "A lesão é uma laceração de dedo com dor moderada (EVA 4) e sem sinais de comprometimento vital ou red flags. Não atende aos critérios de ESI-1 ou ESI-2. No ponto C, são necessários recursos: sutura da ferida (procedimento). Apenas 1 recurso foi identificado, levando à classificação ESI-4 (menos urgente).",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "35178776",
+    "acuity_ground_truth": 4,
+    "triage_text": "A 22-year-old white female walked into the ED with a chief complaint of sore throat. She rates her pain as 5 out of 10. Vital signs upon arrival: BP 125/86, P 89, RR 18, SpO2 99%, T 98.4° F. The patient has no significant past medical history noted.",
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "EVA 5/10 (dor moderada)",
+        "Nenhum critério de risco alto ou confusão"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "Teste rápido de estreptococo (antígeno) ou cultura de garganta"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Dor de garganta com EVA 5, sem sinais de risco alto, confusão ou dor intensa; vitais normais. Não atende aos pontos A ou B. Necessita de 1 recurso diagnóstico (teste rápido de estreptococo), portanto ponto C indica ESI-4.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "35519971",
+    "acuity_ground_truth": 4,
+    "triage_text": "40-year-old white male walked into the ED with a chief complaint of burning with urination. The patient reports mild dysuria but denies any other symptoms such as fever, chills, abdominal pain, or flank pain. The patient has no known allergies and has a medical history of elevated blood pressure, as noted today. On examination, his vital signs are BP 160/93, P 79, RR 15, SpO2 100%, T 96.0°F, and Pain 2. The patient's condition appears stable.",
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "1 recurso necessário (urinalise)"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "urinalise"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente com queixa de disúria leve, sem sinais de gravidade, sem red flags e sinais vitais normais. Não atende aos critérios de ESI-1 ou ESI-2. Necessita de um recurso (urinalise) → ponto C → classificação ESI-4.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "36898689",
+    "acuity_ground_truth": 4,
+    "triage_text": "A 20-year-old white female walked into the ED with a chief complaint of a burn injury. She reports a pain level of 7/10. Her vital signs are stable: BP 117/93, HR 82, RR 16, SpO2 100%, T 98.6° F. The patient needs a detailed burn assessment, pain management, wound care, and infection prevention measures.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Dor intensa (EVA ≥7)"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "medicação IV para analgesia",
+        "consulta especializada de queimadura"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente com queimadura apresenta dor intensa (EVA 7), critério do ponto B que determina classificação ESI-2; sinais vitais estáveis e sem necessidade de intervenção imediata, portanto classificação emergente.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "36490072",
+    "acuity_ground_truth": 4,
+    "triage_text": "A 25-year-old white female walked into the emergency department with a chief complaint of dental pain. She reports severe pain, rated at 10 out of 10. Vital signs are as follows: BP 111/74, P 90, RR 20, SpO2 98%, T 97.8°F. The patient is in considerable distress due to the pain. No recent trauma or other associated symptoms were reported.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "Dor intensa (EVA ≥ 7)"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Dor dental intensa (EVA 10) → ponto B (dor intensa) → classificação ESI-2",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30281538",
+    "acuity_ground_truth": 5,
+    "triage_text": "29-year-old white male with no significant medical history, presented to the ED with a chief complaint of needing suture removal. The patient walked into the ED. There are no signs of distress, and vital signs are stable: HR 99, RR 16, BP 136/59, SpO2 99%, T 97.0° F, pain 0. The patient reports no pain and has no other complaints.",
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "1 recurso necessário (removal de sutura)"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "removal de sutura (procedimento)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente sem dor, sem sinais de perigo, requer apenas remoção de sutura, que conta como 1 recurso, atendendo ao ponto C que indica ESI-4",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30449697",
+    "acuity_ground_truth": 5,
+    "triage_text": "A 24-year-old white male presents to the ED for staple removal. The patient walked in and reports no pain. Vital signs are stable: BP 136/73, P 73, RR 16, SpO2 98%, T 98.8° F, Pain 0. There is no indication of infection or complications at the site of the staples. The patient requires basic medical supplies for staple removal and the presence of a healthcare professional skilled in the procedure.",
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "1 recurso necessário"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "remoção de grampos (procedimento)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente adulto com sinais vitais estáveis, sem dor, sem red flags e requer apenas um recurso (procedimento de remoção de grampos); ponto C ativado → 1 recurso → classificação ESI-4",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30604891",
+    "acuity_ground_truth": 5,
+    "triage_text": "A 41-year-old Hispanic/Latino male with an elevated blood pressure of 164/87 walked into the ED requesting a medication refill. The patient does not report any pain or other acute symptoms. His pulse is 74, respiratory rate is 18, SpO2 is 100%, and temperature is 98.5°F. The chief complaint is to refill his antihypertensive medication, indicating a possible history of hypertension.",
+    "llm_response": {
+      "classificacao": "ESI-5",
+      "nivel": 5,
+      "nome_nivel": "Não urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "Nenhum recurso necessário"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente sem dor, sem sintomas agudos, sinais vitais normais e sem critérios de risco; no ponto C, recursos necessários = 0, levando à classificação ESI-5.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "30754544",
+    "acuity_ground_truth": 5,
+    "triage_text": "61-year-old Black female presented to the ED with a chief complaint of right thumb pain. She walked into the ED without assistance. The patient reports her pain level as 7/10. Vital signs are as follows: BP 153/86, P 69, RR 14, SpO2 100%, T 97.1° F. The patient's acuity is classified as ESI-5, indicating a non-urgent condition requiring basic evaluation and management.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "dor intensa (EVA ≥7)"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "raio-x da mão",
+        "imobilização/splintagem"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "dor no polegar direito com EVA 7/10 caracteriza dor intensa, critério do ponto B que determina classificação ESI-2; sinais vitais normais e sem necessidade de intervenção imediata; portanto classificação emergente",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31334118",
+    "acuity_ground_truth": 5,
+    "triage_text": "33-year-old African American male presented to the ED for the removal of sutures. The patient walked into the ED without assistance and reported no pain or other symptoms. Vital signs are stable: BP 135/80, P 89, RR 18, SpO2 98%, T 99.4° F, Pain 0.",
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "1 recurso necessário (remoção de sutura)"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "remoção de sutura"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente sem dor, sem sinais de risco, vitais estáveis e capaz de caminhar; a única necessidade é a remoção de sutura, que conta como 1 recurso. No ponto C, 1 recurso leva a ESI-4.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "31844511",
+    "acuity_ground_truth": 5,
+    "triage_text": "A 27-year-old African American female presented to the ED with a chief complaint of severe tooth pain, rated as 10 out of 10. The patient walked into the ED and has stable vital signs: BP 131/82, P 81, RR 16, SpO2 100%, T 97.5° F. The patient reports no relevant medical or surgical history, family history, or social history.",
+    "llm_response": {
+      "classificacao": "ESI-2",
+      "nivel": 2,
+      "nome_nivel": "Emergente",
+      "ponto_decisao_ativado": "B",
+      "criterios_ponto_decisao": [
+        "dor intensa (EVA 10)"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "dor de dente EVA 10 → ponto B (dor intensa) → classificação ESI-2",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "32284787",
+    "acuity_ground_truth": 5,
+    "triage_text": "A 23-year-old white female walked into the ED for a wound check. Her vital signs on arrival were: HR 80, RR 20, BP 97/40, SpO2 97%, T 98.0° F, and she reported a pain level of 1. The patient requires an assessment of the wound, including checking for any signs of infection or complications. Slightly low blood pressure should be monitored to ensure stability.",
+    "llm_response": {
+      "classificacao": "ESI-5",
+      "nivel": 5,
+      "nome_nivel": "Não urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "Nenhum recurso necessário para avaliação da ferida"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente adulta com queixa de ferida, dor baixa (EVA 1) e sinais vitais dentro dos limites normais; não apresenta red flags nem critérios de alto risco. No ponto C, não são necessários recursos como exames laboratoriais, imagem ou procedimentos invasivos, resultando em 0 recursos → classificação ESI-5 (não urgente).",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "33435751",
+    "acuity_ground_truth": 5,
+    "triage_text": "46-year-old Asian female presented to the ED with a chief complaint related to the rabies vaccine, likely due to recent exposure to a potentially rabid animal or as part of a follow-up vaccination schedule. The patient walked into the ED and her vital signs on arrival were: HR 73, RR 18, BP 97/56, SpO2 100%, T 97.5° F, Pain 0. The patient reported no pain or other symptoms.",
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "1 recurso necessário (medicação IM)"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "medicação IM (vacina antirrábica)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente adulta sem dor, sem sintomas graves e sinais vitais dentro dos limites normais. Não há red flags nem critérios de ESI-1 ou ESI-2. Necessita apenas de administração de vacina IM, contabilizado como 1 recurso, levando ao ponto C que indica ESI-4.",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "34119522",
+    "acuity_ground_truth": 5,
+    "triage_text": "A 57-year-old white female arrived at the ED by ambulance requesting ostomy supplies. The patient is stable with vital signs within normal limits: BP 121/70, HR 70, RR 15, SpO2 97%, temperature 97.0° F, and no reported pain. The patient's chief complaint indicates a need for ostomy supplies, suggesting a history of a gastrointestinal condition necessitating an ostomy. There is no information about immediate complications or additional symptoms.",
+    "llm_response": {
+      "classificacao": "ESI-4",
+      "nivel": 4,
+      "nome_nivel": "Menos urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "1 recurso necessário"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "consulta especializada (enfermagem de ostomia)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Paciente está estável, sem dor, sem sinais de risco imediato, requer apenas fornecimento de material de ostomia; nenhum recurso crítico, mas há necessidade de consulta especializada para entrega e orientação, totalizando 1 recurso → ponto C → classificação ESI-4",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "34364911",
+    "acuity_ground_truth": 5,
+    "triage_text": "A 24-year-old male of unspecified race presented to the emergency department with a chief complaint of mouth pain. The patient arrived by walking in. He reports no current pain (Pain 0). His vital signs are BP 144/81, P 84, RR 18, SpO2 100%, T 98.5° F. The patient reports no significant medical or surgical history. The patient does not report any other symptoms or significant medical history at this time.",
+    "llm_response": {
+      "classificacao": "ESI-5",
+      "nivel": 5,
+      "nome_nivel": "Não urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "0 recursos necessários"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Queixa de dor na boca, mas EVA 0, sem sinais de risco, sem sinais vitais na zona de perigo, sem red flags e sem necessidade de recursos (labs, imagem, medicação IV/IM, procedimentos) → ponto C → 0 recursos → classificação ESI-5",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "34391933",
+    "acuity_ground_truth": 5,
+    "triage_text": "A 25-year-old white male walked into the ED with a chief complaint of sunburn. The patient reports that he has no pain at present and rates his pain as 0. He does not report any symptoms of dehydration, blistering, or heat-related illness. On arrival, his vital signs were: heart rate (HR) 74, respiratory rate (RR) 16, blood pressure (BP) 142/97, SpO2 100%, and temperature (T) 96.6° F. The patient is alert and oriented, and no other acute symptoms are present.",
+    "llm_response": {
+      "classificacao": "ESI-5",
+      "nivel": 5,
+      "nome_nivel": "Não urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "0 recursos necessários"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Queimadura solar sem dor (EVA 0), sem sinais de gravidade, vitais dentro da normalidade e sem necessidade de recursos diagnósticos ou terapêuticos → ponto C → 0 recursos → classificação ESI-5",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "34467480",
+    "acuity_ground_truth": 5,
+    "triage_text": "60-year-old male of other race presented to the ED with a chief complaint of ear pain. He walked into the ED. Vital signs upon arrival: BP 161/94, HR 99, RR 20, SpO2 97%, T 97.6°F, Pain 2. The patient reports mild ear pain but denies any other symptoms such as fever, discharge, or hearing loss. No significant medical history or surgical history was provided.",
+    "llm_response": {
+      "classificacao": "ESI-5",
+      "nivel": 5,
+      "nome_nivel": "Não urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "0 recursos necessários"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "dor leve (EVA 2), sem red flags, sinais vitais estáveis e sem necessidade de recursos diagnósticos ou terapêuticos → ponto C ativado → 0 recursos → classificação ESI-5",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "35553331",
+    "acuity_ground_truth": 5,
+    "triage_text": "**31-year-old Black/Cape Verdean female** presented to the ED with a chief complaint of cold symptoms. The patient walked into the ED and has no reported pain. Vital signs on arrival: HR 86 bpm, RR 15 breaths/min, BP 119/64 mmHg, SpO2 100%, T 98.0°F, Pain 0. The patient reports symptoms typical of a mild viral upper respiratory infection. No significant medical history, surgical history, or allergies were reported.",
+    "llm_response": {
+      "classificacao": "ESI-5",
+      "nivel": 5,
+      "nome_nivel": "Não urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "0 recursos necessários"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Sintomas de resfriado leve sem dor, sem sinais de alarme, vitais normais → ponto C, 0 recursos → classificação ESI-5",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "35973504",
+    "acuity_ground_truth": 5,
+    "triage_text": "29-year-old white male presented to the ED with a chief complaint of sawdust in his right eye. The patient arrived via walk-in. On arrival, the patient reported a foreign body sensation, irritation, and mild pain (rated 2/10). There were no other symptoms such as visual disturbance, increased tearing, or discharge. The patient’s vital signs were: BP 133/87, HR 77, RR 20, SpO2 99%, T 98.6°F. The patient’s history did not indicate any significant past medical or surgical history, and there were no known allergies.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "D",
+      "criterios_ponto_decisao": [
+        "≥2 recursos necessários"
+      ],
+      "recursos_estimados": 2,
+      "recursos_detalhados": [
+        "irrigação ocular",
+        "consulta oftalmológica"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "sintomas de corpo estranho ocular com dor leve (EVA 2) não atendem aos critérios de ESI-1 ou ESI-2; na etapa C foram contados ≥2 recursos (irrigação ocular e consulta oftalmológica), encaminhando ao ponto D; sinais vitais normais, portanto classificação ESI-3",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "36219838",
+    "acuity_ground_truth": 5,
+    "triage_text": "70-year-old female of unspecified race walked into the ED with a chief complaint of needing a prescription. The patient did not report any pain or acute distress. Vital signs on arrival were within normal limits: HR 76, RR 16, BP 130/69, SpO2 97%, T 98.3° F, pain 0. No immediate life-threatening conditions were identified. Further assessment is needed to determine the specific medication and the reason for the prescription.",
+    "llm_response": {
+      "classificacao": "ESI-5",
+      "nivel": 5,
+      "nome_nivel": "Não urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "Nenhum recurso imediato necessário"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": "idoso",
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Sem dor, sem sinais de risco, sinais vitais normais e nenhum recurso imediato (exames, medicação IV, procedimentos) necessário → ponto C com 0 recursos → classificação ESI-5",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "38695229",
+    "acuity_ground_truth": 5,
+    "triage_text": "A 48-year-old Asian female walked into the emergency department with a chief complaint of requiring an evaluation for her right eye. She has no reported pain and her vital signs are within normal limits (BP 114/81, P 83, RR 16, SpO2 100%, T 96.6° F). There is no information available regarding her medical or surgical history. Further details regarding the onset, duration, and nature of the eye issue need to be elucidated during the triage process. The patient should be asked about any recent trauma or foreign body exposure, as well as any associated symptoms such as pain, discharge, vision changes, or recent illnesses.",
+    "llm_response": {
+      "classificacao": "ESI-3",
+      "nivel": 3,
+      "nome_nivel": "Urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "Nenhum critério de ESI-1 ou ESI-2 atendido; necessidade provável de 1 recurso (consulta especializada)"
+      ],
+      "recursos_estimados": 1,
+      "recursos_detalhados": [
+        "consulta especializada (oftalmologia)"
+      ],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": true,
+      "confianca": "baixa",
+      "justificativa": "Sintomas vagos (apenas queixa de avaliação ocular sem dor nem alterações vitais) não atendem aos critérios de ESI-1 ou ESI-2. Com base nas informações disponíveis, estima-se a necessidade de ao menos um recurso (consulta especializada em oftalmologia), o que levaria a ESI-4; porém, por insuficiência de dados, aplica‑se over‑triage para garantir segurança, elevando a classificação para ESI-3.",
+      "alertas": [
+        "Qual a data e hora de início da queixa ocular?",
+        "A queixa é contínua ou intermitente?",
+        "Há presença de dor ocular? Se sim, qual a intensidade (EVA 0-10)?",
+        "Existe lacrimejamento, secreção ou descarga ocular?",
+        "Há alterações na visão (visão borrada, perda de visão, fotofobia)?",
+        "Houve trauma ocular recente ou exposição a corpo estranho?",
+        "Uso de lentes de contato ou óculos?",
+        "Histórico de doenças oculares ou cirurgias prévias?",
+        "Uso de medicações atuais ou alergias?",
+        "Alguma condição médica pré‑existente (diabetes, hipertensão, etc.)?"
+      ],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": [
+        "ESI-3 indica ≥ 2 recursos necessários, mas recursos_estimados=1."
+      ]
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "38885997",
+    "acuity_ground_truth": 5,
+    "triage_text": "A 19-year-old female walked into the ED with a chief complaint of skin erythema. The patient reports minimal pain (2/10) and has no other significant complaints or symptoms. Vital signs are stable: BP 116/70, P 78, RR 16, SpO2 98%, T 98.3° F. The patient denies any known allergies, recent changes in medications, or exposure to new foods or environmental factors. She has no significant past medical history or previous episodes of similar symptoms. There are no signs of systemic illness such as fever, chills, or malaise. Upon examination, the erythema is localized, not warm to touch, and does not appear to be spreading rapidly. The patient denies itching or burning sensations. The patient's condition is stable, and she remains comfortable during the triage process.",
+    "llm_response": {
+      "classificacao": "ESI-5",
+      "nivel": 5,
+      "nome_nivel": "Não urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "0 recursos necessários"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Eritema cutâneo com dor mínima (2/10), sinais vitais estáveis e ausência de red flags ou risco alto → ponto B não satisfeito. Avaliação de recursos necessários revela que nenhum recurso (laboratório, imagem, medicação IV, procedimento) é requerido → ponto C com 0 recursos → classificação ESI-5 (não urgente).",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "39805389",
+    "acuity_ground_truth": 5,
+    "triage_text": "27-year-old female, race unspecified, walked into the ED with a chief complaint of a sore throat. The patient reports the sore throat as mild with a pain level of 2. She denies any significant medical history, recent surgical history, or known allergies. Upon arrival, her vital signs were within normal limits: BP 100/66, P 85, RR 18, SpO2 99%, T 97.8° F. The patient appears well and reports no difficulty in breathing, swallowing, or significant systemic symptoms.",
+    "llm_response": {
+      "classificacao": "ESI-5",
+      "nivel": 5,
+      "nome_nivel": "Não urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "Nenhum recurso necessário"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Queixa de dor de garganta leve (EVA 2) sem sinais de gravidade, sem red flags, vitais normais e sem necessidade de recursos diagnósticos ou terapêuticos → ponto C com 0 recursos → classificação ESI-5",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
+  },
+  {
+    "edstay_id": "39601489",
+    "acuity_ground_truth": 5,
+    "triage_text": "A 56-year-old Black/African American female walked into the ED with a chief complaint of a rash. She denies associated symptoms such as itching, pain, swelling, or other systemic signs. Her vital signs are stable: BP 149/82, P 74, RR 16, SpO2 100%, T 97.8° F, Pain 0. The patient appears to be in no acute distress, and there are no immediate life-threatening conditions noted.",
+    "llm_response": {
+      "classificacao": "ESI-5",
+      "nivel": 5,
+      "nome_nivel": "Não urgente",
+      "ponto_decisao_ativado": "C",
+      "criterios_ponto_decisao": [
+        "0 recursos necessários"
+      ],
+      "recursos_estimados": 0,
+      "recursos_detalhados": [],
+      "sinais_vitais_zona_perigo": false,
+      "populacao_especial": null,
+      "over_triage_aplicado": false,
+      "confianca": "alta",
+      "justificativa": "Rash sem prurido, dor, edema ou sinais sistêmicos; sinais vitais estáveis; nenhum critério de ESI-1 ou ESI-2 atendido; nenhum recurso imediato necessário (ex.: laboratório, imagem, medicação IV); portanto, ponto C com 0 recursos → classificação ESI-5 (não urgente).",
+      "alertas": [],
+      "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
+      "validation_errors": [],
+      "validation_warnings": []
+    },
+    "error": null
   }
 ]
