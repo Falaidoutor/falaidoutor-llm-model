@@ -1,8 +1,16 @@
-﻿from pydantic import BaseModel, Field
+﻿from typing import Any
+
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class SymptomsRequest(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     symptoms: str = Field(..., min_length=1, description="Sintomas do paciente")
+    triage_id: str | int | None = Field(
+        default=None, alias="triageId", description="Identificador da triagem no backend"
+    )
+    patient_context: dict[str, Any] | None = Field(default=None, alias="patientContext")
 
 
 class TriageResponse(BaseModel):
@@ -41,4 +49,11 @@ class TriageResponse(BaseModel):
         default_factory=list,
         description="Avisos de validação (não bloqueantes) encontrados na resposta do modelo.",
     )
-
+    summary: str | None = None
+    suggestedRiskClassification: str | None = None
+    suggestedRiskColor: str | None = None
+    reasoning: str | None = None
+    recommendedAction: str | None = None
+    rawModelOutput: dict[str, Any] | None = None
+    confidence: str | None = None
+    triageId: str | int | None = None
