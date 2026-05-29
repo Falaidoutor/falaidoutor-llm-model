@@ -52,7 +52,11 @@ async def triage(request: Request):
     except Exception:
         return _json_response(
             request,
-            {"detail": "Invalid JSON body."},
+            {
+                "detail": "Invalid JSON body.",
+                "errorType": "INVALID_JSON",
+                "retryable": False,
+            },
             status.HTTP_400_BAD_REQUEST,
         )
 
@@ -69,7 +73,11 @@ async def triage(request: Request):
     elif _encryption_is_required():
         return _json_response(
             request,
-            {"detail": "Encrypted HTTP payload is required."},
+            {
+                "detail": "Encrypted HTTP payload is required.",
+                "errorType": "ENCRYPTION_REQUIRED",
+                "retryable": False,
+            },
             status.HTTP_400_BAD_REQUEST,
         )
 
@@ -79,7 +87,11 @@ async def triage(request: Request):
         detail = exc.errors() if isinstance(exc, ValidationError) else "Invalid request body."
         return _json_response(
             request,
-            {"detail": detail},
+            {
+                "detail": detail,
+                "errorType": "VALIDATION_ERROR",
+                "retryable": False,
+            },
             status.HTTP_422_UNPROCESSABLE_ENTITY,
         )
 
@@ -88,11 +100,20 @@ async def triage(request: Request):
     except Exception as e:
         return _json_response(
             request,
-            {"detail": f"Erro ao comunicar com o Groq: {e}"},
+            {
+                "detail": f"Erro ao comunicar com o Groq: {e}",
+                "errorType": "GROQ_ERROR",
+                "retryable": True,
+            },
             status.HTTP_502_BAD_GATEWAY,
         )
 
-    response = TriageResponse(**result).model_dump()
+    response = TriageResponse(
+        **_with_async_contract_fields(
+            result,
+            triage_id=symptoms_request.triage_id,
+        )
+    ).model_dump()
 
     return _json_response(request, response)
 
@@ -109,6 +130,41 @@ def _json_response(
     )
 
     return JSONResponse(status_code=status_code, content=content)
+
+
+def _with_async_contract_fields(result: dict, triage_id: str | int | None) -> dict:
+    classification = result.get("classificacao")
+    justification = result.get("justificativa")
+
+    return {
+        **result,
+        "summary": result.get("summary") or justification,
+        "suggestedRiskClassification": (
+            result.get("suggestedRiskClassification") or classification
+        ),
+        "suggestedRiskColor": (
+            result.get("suggestedRiskColor") or _risk_color(classification)
+        ),
+        "reasoning": result.get("reasoning") or justification,
+        "recommendedAction": (
+            result.get("recommendedAction")
+            or "Encaminhar para avaliacao da equipe de saude."
+        ),
+        "rawModelOutput": result.get("rawModelOutput") or result,
+        "confidence": result.get("confidence") or result.get("confianca"),
+        "triageId": triage_id,
+    }
+
+
+def _risk_color(classification: str | None) -> str:
+    colors = {
+        "ESI-1": "#a30000",
+        "ESI-2": "#fe0000",
+        "ESI-3": "#ffd900",
+        "ESI-4": "#28a745",
+        "ESI-5": "#00e5ff",
+    }
+    return colors.get((classification or "").strip().upper(), "#6c757d")
 
 
 def _encryption_is_required() -> bool:
