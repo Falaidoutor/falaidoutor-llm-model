@@ -67,6 +67,8 @@ def parse_response(content: str) -> dict:
         "populacao_especial": None,
         "over_triage_aplicado": False,
         "confianca": "baixa",
+        "confidence": 35,
+        "confidenceScore": 35,
         "justificativa": content,
         "alertas": ["Resposta do modelo não pôde ser interpretada como JSON válido."],
         "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
@@ -87,6 +89,8 @@ def _validate_fields(result: dict) -> dict:
         "populacao_especial": None,
         "over_triage_aplicado": False,
         "confianca": "baixa",
+        "confidence": 35,
+        "confidenceScore": 35,
         "justificativa": "",
         "alertas": [],
         "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
@@ -99,4 +103,49 @@ def _validate_fields(result: dict) -> dict:
     if result["alertas"] is None:
         result["alertas"] = []
 
+    _normalize_confidence(result)
+
     return result
+
+
+def _normalize_confidence(result: dict) -> None:
+    numeric = _to_confidence_number(
+        result.get("confidence")
+        or result.get("confidenceScore")
+        or result.get("confidence_score")
+    )
+
+    if numeric is None:
+        numeric = {
+            "alta": 90,
+            "media": 65,
+            "média": 65,
+            "baixa": 35,
+        }.get(str(result.get("confianca") or "").strip().lower())
+
+    if numeric is not None:
+        result["confidence"] = numeric
+        result["confidenceScore"] = numeric
+
+
+def _to_confidence_number(value) -> float | None:
+    if isinstance(value, bool):
+        return None
+
+    if isinstance(value, (int, float)):
+        numeric = float(value)
+    elif isinstance(value, str):
+        try:
+            numeric = float(value.strip().replace("%", "").replace(",", "."))
+        except ValueError:
+            return None
+    else:
+        return None
+
+    if numeric <= 1:
+        numeric *= 100
+
+    if numeric < 0 or numeric > 100:
+        return None
+
+    return round(numeric, 2)

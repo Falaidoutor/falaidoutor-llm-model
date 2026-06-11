@@ -135,6 +135,8 @@ def _json_response(
 def _with_async_contract_fields(result: dict, triage_id: str | int | None) -> dict:
     classification = result.get("classificacao")
     justification = result.get("justificativa")
+    confidence_label = _confidence_label(result)
+    confidence_score = _confidence_score(result, confidence_label)
 
     return {
         **result,
@@ -151,9 +153,57 @@ def _with_async_contract_fields(result: dict, triage_id: str | int | None) -> di
             or "Encaminhar para avaliacao da equipe de saude."
         ),
         "rawModelOutput": result.get("rawModelOutput") or result,
-        "confidence": result.get("confidence") or result.get("confianca"),
+        "confidence": confidence_score,
+        "confidenceScore": confidence_score,
+        "confidenceLabel": confidence_label,
         "triageId": triage_id,
     }
+
+
+def _confidence_label(result: dict) -> str | None:
+    label = result.get("confidenceLabel") or result.get("confianca")
+    if isinstance(label, str) and label.strip():
+        return label.strip().lower().replace("média", "media")
+    return None
+
+
+def _confidence_score(result: dict, label: str | None) -> float | None:
+    for key in ("confidence", "confidenceScore", "confidence_score", "score"):
+        value = result.get(key)
+        numeric = _to_confidence_number(value)
+        if numeric is not None:
+            return numeric
+
+    label_scores = {
+        "alta": 90.0,
+        "media": 65.0,
+        "baixa": 35.0,
+    }
+    return label_scores.get(label or "")
+
+
+def _to_confidence_number(value: object) -> float | None:
+    if isinstance(value, bool):
+        return None
+
+    if isinstance(value, (int, float)):
+        numeric = float(value)
+    elif isinstance(value, str):
+        normalized = value.strip().replace("%", "").replace(",", ".")
+        try:
+            numeric = float(normalized)
+        except ValueError:
+            return None
+    else:
+        return None
+
+    if numeric <= 1:
+        numeric *= 100
+
+    if numeric < 0 or numeric > 100:
+        return None
+
+    return round(numeric, 2)
 
 
 def _risk_color(classification: str | None) -> str:

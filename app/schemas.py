@@ -55,5 +55,13 @@ class TriageResponse(BaseModel):
     reasoning: str | None = None
     recommendedAction: str | None = None
     rawModelOutput: dict[str, Any] | None = None
-    confidence: str | None = None
+    confidence: float | None = Field(
+        default=None, description="Confiança numérica normalizada de 0 a 100"
+    )
+    confidenceScore: float | None = Field(
+        default=None, description="Alias numérico de confidence, de 0 a 100"
+    )
+    confidenceLabel: str | None = Field(
+        default=None, description="Rótulo original de confiança: alta|media|baixa"
+    )
     triageId: str | int | None = None
