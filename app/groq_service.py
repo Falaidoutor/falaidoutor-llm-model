@@ -8,6 +8,7 @@ load_dotenv()
 
 from app.ollama_service import parse_response
 from app.prompt import SYSTEM_PROMPT, build_user_prompt
+from app.schemas import ModelConfig
 from app.validator import validate_triage_response
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
@@ -24,19 +25,23 @@ _MAX_RETRIES = 3
 _RETRY_BASE_DELAY = 10.0  # segundos
 
 
-async def classify_symptoms(symptoms: str) -> dict:
+async def classify_symptoms(symptoms: str, model_config: ModelConfig | None = None) -> dict:
     client = AsyncGroq(api_key=GROQ_API_KEY)
+    config = model_config or ModelConfig()
+    model_name = config.model_name or MODEL_NAME
+    system_prompt = config.system_prompt or SYSTEM_PROMPT
 
     last_error: Exception | None = None
     for attempt in range(_MAX_RETRIES):
         try:
             response = await client.chat.completions.create(
-                model=MODEL_NAME,
+                model=model_name,
                 messages=[
-                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "system", "content": system_prompt},
                     {"role": "user", "content": build_user_prompt(symptoms)},
                 ],
-                temperature=0.2,
+                temperature=config.temperature,
+                top_p=config.top_p,
                 response_format={"type": "json_object"},
             )
             break
@@ -57,4 +62,3 @@ async def classify_symptoms(symptoms: str) -> dict:
     parsed["validation_warnings"] = validation.warnings
 
     return parsed
-

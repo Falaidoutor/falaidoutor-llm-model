@@ -3,6 +3,18 @@
 from pydantic import BaseModel, ConfigDict, Field
 
 
+class ModelConfig(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    model_name: str | None = Field(default=None, alias="modelName")
+    provider: str | None = None
+    system_prompt: str | None = Field(default=None, alias="systemPrompt")
+    temperature: float = Field(default=0.2, ge=0.1, le=1.0)
+    top_p: float = Field(default=0.9, alias="topP", ge=0.1, le=1.0)
+    rag_enabled: bool = Field(default=True, alias="ragEnabled")
+    streaming_enabled: bool = Field(default=True, alias="streamingEnabled")
+
+
 class SymptomsRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -11,6 +23,7 @@ class SymptomsRequest(BaseModel):
         default=None, alias="triageId", description="Identificador da triagem no backend"
     )
     patient_context: dict[str, Any] | None = Field(default=None, alias="patientContext")
+    inference_config: ModelConfig | None = Field(default=None, alias="modelConfig")
 
 
 class TriageResponse(BaseModel):

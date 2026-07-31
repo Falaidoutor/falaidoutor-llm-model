@@ -4,21 +4,27 @@ import re
 import httpx
 
 from app.prompt import SYSTEM_PROMPT, build_user_prompt
+from app.schemas import ModelConfig
 from app.validator import validate_triage_response
 
 OLLAMA_BASE_URL = "http://localhost:11434"
 MODEL_NAME = "qwen3"
 
 
-async def classify_symptoms(symptoms: str) -> dict:
+async def classify_symptoms(symptoms: str, model_config: ModelConfig | None = None) -> dict:
+    config = model_config or ModelConfig()
     payload = {
-        "model": MODEL_NAME,
+        "model": config.model_name or MODEL_NAME,
         "messages": [
-            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "system", "content": config.system_prompt or SYSTEM_PROMPT},
             {"role": "user", "content": build_user_prompt(symptoms)},
         ],
         "stream": False,
         "format": "json",
+        "options": {
+            "temperature": config.temperature,
+            "top_p": config.top_p,
+        },
     }
 
     async with httpx.AsyncClient(timeout=120.0) as client:
@@ -109,19 +115,19 @@ def _validate_fields(result: dict) -> dict:
 
 
 def _normalize_confidence(result: dict) -> None:
-    numeric = _to_confidence_number(
-        result.get("confidence")
-        or result.get("confidenceScore")
-        or result.get("confidence_score")
-    )
+    numeric = {
+        "alta": 95,
+        "media": 90,
+        "média": 90,
+        "baixa": 35,
+    }.get(str(result.get("confianca") or "").strip().lower())
 
     if numeric is None:
-        numeric = {
-            "alta": 90,
-            "media": 65,
-            "média": 65,
-            "baixa": 35,
-        }.get(str(result.get("confianca") or "").strip().lower())
+        numeric = _to_confidence_number(
+            result.get("confidence")
+            or result.get("confidenceScore")
+            or result.get("confidence_score")
+        )
 
     if numeric is not None:
         result["confidence"] = numeric

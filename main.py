@@ -96,7 +96,10 @@ async def triage(request: Request):
         )
 
     try:
-        result = await classify_symptoms(symptoms_request.symptoms)
+        result = await classify_symptoms(
+            symptoms_request.symptoms,
+            symptoms_request.inference_config,
+        )
     except Exception as e:
         return _json_response(
             request,
@@ -168,18 +171,22 @@ def _confidence_label(result: dict) -> str | None:
 
 
 def _confidence_score(result: dict, label: str | None) -> float | None:
+    label_scores = {
+        "alta": 95.0,
+        "media": 90.0,
+        "baixa": 35.0,
+    }
+    label_score = label_scores.get(label or "")
+    if label_score is not None:
+        return label_score
+
     for key in ("confidence", "confidenceScore", "confidence_score", "score"):
         value = result.get(key)
         numeric = _to_confidence_number(value)
         if numeric is not None:
             return numeric
 
-    label_scores = {
-        "alta": 90.0,
-        "media": 65.0,
-        "baixa": 35.0,
-    }
-    return label_scores.get(label or "")
+    return None
 
 
 def _to_confidence_number(value: object) -> float | None:
