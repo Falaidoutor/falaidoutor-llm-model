@@ -2,7 +2,7 @@ fastapi==0.115.6
 uvicorn==0.34.0
 pydantic==2.10.4
 httpx==0.28.1
-qdrant-client==1.17.1
+qdrant-client==1.19.0
 sentence-transformers==3.0.0
 psycopg[binary]>=3.1.0
 psycopg_pool>=3.1.0

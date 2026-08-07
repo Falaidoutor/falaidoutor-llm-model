@@ -15,7 +15,9 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
 # Encontra o arquivo .env e carrega com UTF-8
 env_file = Path(__file__).parent.parent.parent / '.env'
 if env_file.exists():
-    load_dotenv(env_file, encoding='utf-8', override=True)
+    # Variáveis injetadas pelo ambiente de execução (Docker/hosting/secrets)
+    # devem ter prioridade sobre os valores locais do arquivo .env.
+    load_dotenv(env_file, encoding='utf-8', override=False)
 else:
     # Tenta o arquivo .env.example se o .env não existir
     env_example = Path(__file__).parent.parent.parent / '.env.example'
