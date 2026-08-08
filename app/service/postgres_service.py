@@ -90,7 +90,7 @@ class PostgresService:
                 "termo": str,
                 "sintoma_id": int,
                 "categoria": str (do sintoma),
-                "aprovado": bool,
+                "status": str,
             }
         """
         conn = None
@@ -99,7 +99,7 @@ class PostgresService:
             cursor = conn.cursor()
 
             query = """
-                SELECT s.id, s.termo, s.sintoma_id, syn.termo as termo_sinonimo, syn.aprovado
+                SELECT s.id, s.termo, s.sintoma_id, syn.termo as termo_sinonimo, s.status
                 FROM falai_doutor_normalizacao.sinonimos s
                 JOIN falai_doutor_normalizacao.sintomas syn ON s.sintoma_id = syn.id
                 WHERE s.id = %s
@@ -115,7 +115,7 @@ class PostgresService:
                     "termo_sinonimo": result[1],
                     "sintoma_id": result[2],
                     "termo_canonico": result[3],
-                    "aprovado": result[4],
+                    "status": result[4],
                 }
             return None
 
@@ -166,9 +166,11 @@ class PostgresService:
             cursor = conn.cursor()
 
             query = """
-                SELECT id, termo, categoria
-                FROM falai_doutor_normalizacao.sintomas
-                WHERE id = %s AND ativo = TRUE
+                SELECT s.id, s.termo, cat.codigo AS categoria
+                FROM falai_doutor_normalizacao.sintomas s
+                LEFT JOIN falai_doutor_normalizacao.categorias_sintomas cat
+                    ON s.categoria_id = cat.id
+                WHERE s.id = %s AND s.ativo = TRUE
             """
 
             cursor.execute(query, (sintoma_id,))
@@ -200,7 +202,7 @@ class PostgresService:
             cursor = conn.cursor()
 
             query = """
-                SELECT id, termo, sintoma_id, aprovado
+                SELECT id, termo, sintoma_id, status
                 FROM falai_doutor_normalizacao.sinonimos
                 WHERE termo ILIKE %s
                 LIMIT %s
@@ -215,7 +217,7 @@ class PostgresService:
                     "id": r[0],
                     "termo": r[1],
                     "sintoma_id": r[2],
-                    "aprovado": r[3],
+                    "status": r[3],
                 }
                 for r in results
             ]
@@ -308,7 +310,7 @@ class PostgresService:
             cursor = conn.cursor()
 
             query = """
-                SELECT id, input_original, normalizado_sugerido, sintoma_id, score_e5, score_ollama_confianca, criado_em
+                SELECT id, input_original, normalizado_sugerido, score_e5, score_ollama_confianca, criado_em
                 FROM falai_doutor_normalizacao.base_candidata
                 WHERE status = 'pendente'
                 ORDER BY criado_em DESC
@@ -324,10 +326,9 @@ class PostgresService:
                     "id": r[0],
                     "input_original": r[1],
                     "normalizado_sugerido": r[2],
-                    "sintoma_id": r[3],
-                    "score_e5": r[4],
-                    "score_ollama_confianca": r[5],
-                    "criado_em": r[6],
+                    "score_e5": r[3],
+                    "score_ollama_confianca": r[4],
+                    "criado_em": r[5],
                 }
                 for r in results
             ]
@@ -430,7 +431,7 @@ class PostgresService:
             query = """
                 SELECT id, termo, sintoma_id
                 FROM falai_doutor_normalizacao.sinonimos
-                WHERE aprovado = TRUE
+                WHERE status = 'aprovado'
                 ORDER BY id
             """
 
@@ -464,10 +465,12 @@ class PostgresService:
             cursor = conn.cursor()
 
             query = """
-                SELECT id, termo, categoria
-                FROM falai_doutor_normalizacao.sintomas
-                WHERE ativo = TRUE
-                ORDER BY id
+                SELECT s.id, s.termo, cat.codigo AS categoria
+                FROM falai_doutor_normalizacao.sintomas s
+                LEFT JOIN falai_doutor_normalizacao.categorias_sintomas cat
+                    ON s.categoria_id = cat.id
+                WHERE s.ativo = TRUE
+                ORDER BY s.id
             """
 
             cursor.execute(query)

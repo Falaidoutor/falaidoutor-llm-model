@@ -15,14 +15,14 @@ WHERE ativo = TRUE;
 -- Total de sinonimos aprovados
 SELECT COUNT(*) as total_sinonimos_aprovados 
 FROM falai_doutor_normalizacao.sinonimos 
-WHERE aprovado = TRUE;
+WHERE status = 'aprovado';
 
 -- Sinonimos por sintoma
 SELECT 
     s.termo as sintoma,
     COUNT(sin.id) as quantidade_sinonimos
 FROM falai_doutor_normalizacao.sintomas s
-LEFT JOIN falai_doutor_normalizacao.sinonimos sin ON s.id = sin.sintoma_id AND sin.aprovado = TRUE
+LEFT JOIN falai_doutor_normalizacao.sinonimos sin ON s.id = sin.sintoma_id AND sin.status = 'aprovado'
 WHERE s.ativo = TRUE
 GROUP BY s.id, s.termo
 ORDER BY quantidade_sinonimos DESC;
@@ -37,20 +37,20 @@ SELECT
     sin.id,
     sin.termo,
     s.termo as sintoma_canonico,
-    sin.aprovado,
+    sin.status,
     sin.origem,
     sin.criado_em
 FROM falai_doutor_normalizacao.sinonimos sin
 JOIN falai_doutor_normalizacao.sintomas s ON sin.sintoma_id = s.id
 WHERE s.termo = 'Dor Torácica'
-ORDER BY sin.aprovado DESC, sin.criado_em DESC;
+ORDER BY sin.status, sin.criado_em DESC;
 
 -- Procurar sinonimos por padrão
 SELECT DISTINCT
     sin.id,
     sin.termo,
     s.termo as sintoma_canonico,
-    sin.aprovado
+    sin.status
 FROM falai_doutor_normalizacao.sinonimos sin
 JOIN falai_doutor_normalizacao.sintomas s ON sin.sintoma_id = s.id
 WHERE sin.termo ILIKE '%dor%'
@@ -156,7 +156,7 @@ SELECT
     o.classificacao,
     o.confianca,
     COUNT(*) as quantidade,
-    ROUND(AVG(o.tempo_processamento_ms), 2) as tempo_medio_ms
+    ROUND(AVG(o.tempo_processamento_ms)::NUMERIC, 2) as tempo_medio_ms
 FROM falai_doutor_normalizacao.outputs o
 GROUP BY o.classificacao, o.confianca
 ORDER BY quantidade DESC;
@@ -212,7 +212,7 @@ SELECT
 FROM falai_doutor_normalizacao.base_candidata bc
 LEFT JOIN falai_doutor_normalizacao.sinonimos sin 
     ON LOWER(sin.termo) = LOWER(bc.normalizado_sugerido) 
-    AND sin.aprovado = TRUE
+    AND sin.status = 'aprovado'
 WHERE bc.status = 'aprovado'
 GROUP BY bc.id, bc.input_original, bc.normalizado_sugerido, bc.score_e5, bc.origem, bc.criado_em
 ORDER BY bc.criado_em DESC
@@ -220,17 +220,22 @@ LIMIT 50;
 
 -- Buscar sintoma_id para um normalizado_sugerido (para correlação manual)
 -- Útil para encontrar qual sintoma_id relacionar quando aprovado
+WITH parametros AS (
+    -- Altere este valor ao executar a consulta no Supabase SQL Editor.
+    SELECT 'Dor Torácica'::TEXT AS termo
+)
 SELECT DISTINCT
     s.id as sintoma_id,
     s.termo as sintoma_canonico,
     sin.id as sinonimo_id,
     sin.termo as termo_sinonimo,
-    sin.aprovado,
+    sin.status,
     sin.origem
 FROM falai_doutor_normalizacao.sintomas s
 LEFT JOIN falai_doutor_normalizacao.sinonimos sin ON s.id = sin.sintoma_id
-WHERE LOWER(s.termo) = LOWER(%s) OR LOWER(sin.termo) = LOWER(%s)
-ORDER BY sin.aprovado DESC, s.id;
+CROSS JOIN parametros p
+WHERE LOWER(s.termo) = LOWER(p.termo) OR LOWER(sin.termo) = LOWER(p.termo)
+ORDER BY sin.status, s.id;
 
 -- Candidatos com maior score E5 (maior confiança)
 SELECT 
@@ -305,7 +310,7 @@ SELECT
     COUNT(DISTINCT CASE WHEN o.confianca = 'alta' THEN o.id END) as alta_confianca,
     COUNT(DISTINCT CASE WHEN o.confianca = 'media' THEN o.id END) as media_confianca,
     COUNT(DISTINCT CASE WHEN o.confianca = 'baixa' THEN o.id END) as baixa_confianca,
-    ROUND(AVG(o.tempo_processamento_ms), 2) as tempo_medio_ms
+    ROUND(AVG(o.tempo_processamento_ms)::NUMERIC, 2) as tempo_medio_ms
 FROM falai_doutor_normalizacao.inputs i
 LEFT JOIN falai_doutor_normalizacao.outputs o ON i.id = o.input_id
 WHERE o.criado_em IS NOT NULL
@@ -316,14 +321,15 @@ LIMIT 30;
 -- Sintomas mais usados
 SELECT 
     s.termo,
-    s.categoria,
+    cat.codigo AS categoria,
     COUNT(DISTINCT bc.id) as vezes_normalizado,
-    ROUND(AVG(bc.score_e5), 3) as score_medio,
+    ROUND(AVG(bc.score_e5)::NUMERIC, 3) as score_medio,
     COUNT(DISTINCT CASE WHEN bc.status = 'aprovado' THEN bc.id END) as aprovados
 FROM falai_doutor_normalizacao.sintomas s
+LEFT JOIN falai_doutor_normalizacao.categorias_sintomas cat ON s.categoria_id = cat.id
 LEFT JOIN falai_doutor_normalizacao.base_candidata bc ON 
-    (bc.normalizado_sugerido = s.termo OR bc.sintoma_id = s.id)
-GROUP BY s.id, s.termo, s.categoria
+    LOWER(TRIM(bc.normalizado_sugerido)) = LOWER(TRIM(s.termo))
+GROUP BY s.id, s.termo, cat.codigo
 ORDER BY vezes_normalizado DESC
 LIMIT 30;
 
@@ -352,17 +358,17 @@ insert_sintomas AS (
     INSERT INTO falai_doutor_normalizacao.sintomas (termo, ativo)
     SELECT termo_normalizado, TRUE
     FROM sintomas_novos
-    ON CONFLICT (termo) DO NOTHING
+    ON CONFLICT DO NOTHING
     RETURNING id, LOWER(TRIM(termo)) AS termo_lower
 )
 -- Step 2: Insere sinonimos com a garantia de sintoma_id
 INSERT INTO falai_doutor_normalizacao.sinonimos 
-    (sintoma_id, termo, origem, aprovado, criado_em)
+    (sintoma_id, termo, origem, status, criado_em)
 SELECT 
     s.id AS sintoma_id,
     bc.input_original AS termo,
     'candidato_aprovado' AS origem,
-    TRUE AS aprovado,
+    'aprovado' AS status,
     NOW() AS criado_em
 FROM falai_doutor_normalizacao.base_candidata bc
 INNER JOIN falai_doutor_normalizacao.sintomas s 

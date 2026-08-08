@@ -42,37 +42,6 @@ psql -U postgres -d falai -f seu_script.sql
 python -m app.scripts.init_qdrant
 ```
 
-Exemplo de saída esperada:
-```
-======================================================================
-Iniciando carregamento de dados: PostgreSQL → Qdrant
-======================================================================
-
-[1/6] Validando conexões...
-✓ Conexão com PostgreSQL validada
-✓ Conexão com Qdrant validada
-✓ Modelo E5 carregado (dimensão: 1024)
-
-[2/6] Inicializando collection no Qdrant...
-✓ Collection 'sintomas_embeddings' criada com sucesso (dimensão: 1024, similaridade: Cosine)
-
-[3/6] Carregando dados de PostgreSQL...
-✓ Carregados 150 sinonimos de PostgreSQL
-✓ Carregados 50 sintomas canônicos de PostgreSQL
-
-[4/6] Gerando dados de embedding...
-✓ Gerados 200 embeddings
-
-[5/6] Fazendo upsert ao Qdrant...
-✓ 200 vetores inseridos ao Qdrant
-
-[6/6] Verificando resultado...
-✓ Collection info: {'name': 'sintomas_embeddings', 'points_count': 200, ...}
-
-======================================================================
-✓ Inicialização concluída com sucesso!
-======================================================================
-```
 
 ### 5. Iniciar a API
 
