@@ -292,5 +292,14 @@ COMMENT ON TABLE falai_doutor_normalizacao.auditoria IS 'Rastreamento completo d
 -- GRANT INSERT, UPDATE, DELETE ON falai_doutor_normalizacao.sintomas, falai_doutor_normalizacao.sinonimos TO api_user;
 -- GRANT INSERT ON falai_doutor_normalizacao.inputs, falai_doutor_normalizacao.outputs, falai_doutor_normalizacao.base_candidata, falai_doutor_normalizacao.auditoria TO api_user;
 
+ALTER TABLE falai_doutor_normalizacao.categorias_sintomas ENABLE ROW LEVEL SECURITY;
+ALTER TABLE falai_doutor_normalizacao.sintomas ENABLE ROW LEVEL SECURITY;
+ALTER TABLE falai_doutor_normalizacao.sinonimos ENABLE ROW LEVEL SECURITY;
+ALTER TABLE falai_doutor_normalizacao.cid10 ENABLE ROW LEVEL SECURITY;
+ALTER TABLE falai_doutor_normalizacao.sintoma_cid10 ENABLE ROW LEVEL SECURITY;
+ALTER TABLE falai_doutor_normalizacao.inputs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE falai_doutor_normalizacao.outputs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE falai_doutor_normalizacao.base_candidata ENABLE ROW LEVEL SECURITY;
+ALTER TABLE falai_doutor_normalizacao.auditoria ENABLE ROW LEVEL SECURITY;
 
 COMMIT;

@@ -5,13 +5,14 @@ Serviço de integração com Qdrant para busca de sintomas por similaridade sem�
 import logging
 from typing import Dict, List, Optional
 from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, VectorParams, PointStruct
+from qdrant_client.models import Distance, Document, VectorParams, PointStruct
 
 from app.config.settings import (
     QDRANT_URL,
     QDRANT_PORT,
     QDRANT_API_KEY,
     QDRANT_COLLECTION_NAME,
+    QDRANT_CLOUD_INFERENCE,
     EMBEDDING_DIMENSION,
 )
 
@@ -43,6 +44,7 @@ class QdrantService:
                 port=QDRANT_PORT,
                 api_key=QDRANT_API_KEY,
                 timeout=30,
+                cloud_inference=QDRANT_CLOUD_INFERENCE,
             )
 
             # Verificar conexão
@@ -67,7 +69,7 @@ class QdrantService:
 
         Args:
             collection_name: Nome da collection
-            vector_size: Dimensão dos vetores (1024 para E5-large)
+            vector_size: Dimensão dos vetores do modelo configurado
             similarity: Tipo de similaridade (Cosine, Euclid, Manhattan)
 
         Returns:
@@ -76,9 +78,27 @@ class QdrantService:
         try:
             # Verificar se collection existe
             try:
-                self.client.get_collection(collection_name)
-                logger.info(f"Collection '{collection_name}' já existe")
+                info = self.client.get_collection(collection_name)
+                vectors_config = info.config.params.vectors
+                actual_size = getattr(vectors_config, "size", None)
+                actual_distance = getattr(vectors_config, "distance", None)
+
+                if actual_size != vector_size:
+                    raise RuntimeError(
+                        f"Collection '{collection_name}' possui dimensão {actual_size}, "
+                        f"mas o modelo configurado exige {vector_size}. Como ela está vazia, "
+                        "recrie-a com a dimensão correta."
+                    )
+                if actual_distance != Distance.COSINE:
+                    raise RuntimeError(
+                        f"Collection '{collection_name}' deve usar distância Cosine; "
+                        f"configuração atual: {actual_distance}."
+                    )
+
+                logger.info(f"Collection '{collection_name}' já existe e é compatível")
                 return True
+            except RuntimeError:
+                raise
             except Exception:
                 logger.info(f"Collection '{collection_name}' não existe. Criando...")
 
@@ -103,7 +123,7 @@ class QdrantService:
 
     def search(
         self,
-        vector: List[float],
+        vector: List[float] | Document,
         collection_name: str = QDRANT_COLLECTION_NAME,
         top_k: int = 1,
         score_threshold: Optional[float] = None,
@@ -127,9 +147,7 @@ class QdrantService:
                 }
             ]
         """
-        try:    
-            print("dados de busca:")
-            print(score_threshold, top_k)
+        try:
             response = self.client.query_points(
                 collection_name=collection_name,
                 query=vector,
@@ -158,7 +176,7 @@ class QdrantService:
     def upsert_vector(
         self,
         vector_id: int,
-        vector: List[float],
+        vector: List[float] | Document,
         payload: Dict,
         collection_name: str = QDRANT_COLLECTION_NAME,
     ) -> bool:

@@ -10,12 +10,8 @@ from psycopg_pool import ConnectionPool
 from datetime import datetime
 
 from app.config.settings import (
-    POSTGRES_HOST,
-    POSTGRES_PORT,
-    POSTGRES_DB,
-    POSTGRES_USER,
-    POSTGRES_PASSWORD,
     POSTGRES_POOL_SIZE,
+    POSTGRES_DSN,
 )
 
 logger = logging.getLogger(__name__)
@@ -41,22 +37,11 @@ class PostgresService:
             return
 
         try:
-            logger.info(
-                f"Inicializando PostgreSQL pool: {POSTGRES_USER}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
-            )
-
-            # Build connection string for psycopg3
-            dsn = (
-                f"dbname={POSTGRES_DB} "
-                f"user={POSTGRES_USER} "
-                f"password={POSTGRES_PASSWORD} "
-                f"host={POSTGRES_HOST} "
-                f"port={POSTGRES_PORT}"
-            )
+            logger.info("Inicializando pool PostgreSQL remoto")
 
             self._pool = ConnectionPool(
-                dsn,
-                min_size=1,
+                POSTGRES_DSN,
+                min_size=0,
                 max_size=POSTGRES_POOL_SIZE,
             )
 

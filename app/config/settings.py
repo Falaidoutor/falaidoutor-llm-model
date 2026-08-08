@@ -43,32 +43,31 @@ def _get_env(key: str, default: str = "") -> str:
 QDRANT_URL = _get_env("QDRANT_URL", "http://localhost")
 QDRANT_PORT = int(_get_env("QDRANT_PORT", "6333"))
 QDRANT_API_KEY = _get_env("QDRANT_API_KEY", None) or None
-QDRANT_COLLECTION_NAME = _get_env("QDRANT_COLLECTION_NAME", "sintomas_embeddings")
-EMBEDDING_DIMENSION = int(_get_env("EMBEDDING_DIMENSION", "1024"))
+QDRANT_COLLECTION_NAME = _get_env("QDRANT_COLLECTION_NAME", "sintomas_embeddings_v2")
+QDRANT_CLOUD_INFERENCE = _get_env("QDRANT_CLOUD_INFERENCE", "true").lower() == "true"
+QDRANT_INFERENCE_MODEL = _get_env(
+    "QDRANT_INFERENCE_MODEL", "intfloat/multilingual-e5-small"
+)
+EMBEDDING_DIMENSION = int(_get_env("EMBEDDING_DIMENSION", "384"))
 
 # ──────────────────────────────────────────────────────────────
 # PostgreSQL Configuration
 # ──────────────────────────────────────────────────────────────
-POSTGRES_HOST = _get_env("POSTGRES_HOST", "localhost")
-POSTGRES_PORT = int(_get_env("POSTGRES_PORT", "5432"))
-POSTGRES_DB = _get_env("POSTGRES_DB", "falai")
-POSTGRES_USER = _get_env("POSTGRES_USER", "postgres")
-POSTGRES_PASSWORD = _get_env("POSTGRES_PASSWORD", "postgres")
-POSTGRES_POOL_SIZE = int(_get_env("POSTGRES_POOL_SIZE", "10"))
+POSTGRES_DSN = _get_env("POSTGRES_DSN", "")
+POSTGRES_POOL_SIZE = int(_get_env("POSTGRES_POOL_SIZE", "2"))
 
-# Full DSN for asyncpg
-POSTGRES_DSN = (
-    f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@"
-    f"{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
-)
+if not POSTGRES_DSN:
+    raise RuntimeError("POSTGRES_DSN é obrigatório")
+
+# Supabase Data API (chave publicável; não substitui POSTGRES_DSN)
+SUPABASE_URL = _get_env("SUPABASE_URL", "")
+SUPABASE_KEY = _get_env("SUPABASE_KEY", "")
 
 # ──────────────────────────────────────────────────────────────
 # E5 Embedding Model Configuration
 # ──────────────────────────────────────────────────────────────
-E5_MODEL_NAME = _get_env(
-    "E5_MODEL_NAME", "intfloat/multilingual-e5-large-instruct"
-)
-E5_CACHE_DIR = _get_env("E5_CACHE_DIR", "./models")
+# Alias mantido para respostas de diagnóstico e compatibilidade interna.
+E5_MODEL_NAME = QDRANT_INFERENCE_MODEL
 
 # ──────────────────────────────────────────────────────────────
 # spaCy NER Configuration

@@ -1,24 +1,23 @@
-"""
-Serviço de Embedding usando modelo E5 (intfloat/multilingual-e5-*).
-Responsável por gerar vetores normalizados para sintomas.
-"""
+"""Constrói documentos para a inferência remota do Qdrant Cloud."""
 
 import logging
 from typing import List
-from sentence_transformers import SentenceTransformer
-from app.config.settings import E5_MODEL_NAME, E5_CACHE_DIR, EMBEDDING_DIMENSION
+
+from qdrant_client.models import Document
+
+from app.config.settings import (
+    EMBEDDING_DIMENSION,
+    QDRANT_CLOUD_INFERENCE,
+    QDRANT_INFERENCE_MODEL,
+)
 
 logger = logging.getLogger(__name__)
 
 
 class EmbeddingService:
-    """
-    Gerencia carregamento do modelo E5 e geração de embeddings.
-    Singleton pattern para evitar múltiplos carregamentos em memória.
-    """
+    """Prepara entradas E5 sem carregar modelos de embedding localmente."""
 
     _instance = None
-    _model = None
 
     def __new__(cls):
         if cls._instance is None:
@@ -30,113 +29,48 @@ class EmbeddingService:
         if self._initialized:
             return
 
-        try:
-            logger.info(f"Carregando modelo E5: {E5_MODEL_NAME}")
-
-            self._model = SentenceTransformer(
-                E5_MODEL_NAME, cache_folder=E5_CACHE_DIR
+        if not QDRANT_CLOUD_INFERENCE:
+            raise RuntimeError(
+                "QDRANT_CLOUD_INFERENCE deve estar habilitado para gerar embeddings "
+                "pelo Qdrant Cloud"
             )
 
-            # Verificar dimensão do modelo
-            model_dim = self._model.get_sentence_embedding_dimension()
-            logger.info(f"Modelo E5 carregado. Dimensão: {model_dim}")
+        self._initialized = True
+        logger.info(
+            "Inferência remota configurada: modelo=%s, dimensão=%s",
+            QDRANT_INFERENCE_MODEL,
+            EMBEDDING_DIMENSION,
+        )
 
-            if model_dim != EMBEDDING_DIMENSION:
-                logger.warning(
-                    f"Dimensão configurada ({EMBEDDING_DIMENSION}) "
-                    f"difere da dimensão do modelo ({model_dim}). "
-                    f"Atualizando configuração..."
-                )
-
-            self._initialized = True
-            logger.info("EmbeddingService inicializado com sucesso")
-
-        except Exception as e:
-            logger.error(f"Erro ao carregar modelo E5: {e}")
-            raise
-
-    def embed(self, text: str, normalize: bool = True) -> List[float]:
-        """
-        Gera embedding normalizado para um texto.
-
-        Args:
-            text: Texto para gerar embedding
-            normalize: Se True, normaliza o vetor (recomendado para cosine similarity)
-
-        Returns:
-            Lista de float representando o embedding
-        """
-        if not text or not isinstance(text, str):
+    @staticmethod
+    def _validate_text(text: str) -> str:
+        if not isinstance(text, str) or not text.strip():
             raise ValueError("Texto inválido para embedding")
+        return text.strip()
 
-        text = text.strip()
-        if not text:
-            raise ValueError("Texto vazio após limpeza")
-
-        # Adicionar prefixo "query:" conforme recomendação de E5 para busca semântica
-        query_text = f"query: {text}"
-
-        embedding = self._model.encode(
-            query_text, convert_to_tensor=False, normalize_embeddings=normalize
+    def _document(self, text: str, prefix: str) -> Document:
+        clean_text = self._validate_text(text)
+        return Document(
+            text=f"{prefix}: {clean_text}",
+            model=QDRANT_INFERENCE_MODEL,
         )
 
-        return embedding.tolist()
+    def embed(self, text: str, normalize: bool = True) -> Document:
+        """Prepara uma consulta para a inferência remota do E5."""
+        return self._document(text, "query")
 
-    def embed_batch(
-        self, texts: List[str], normalize: bool = True
-    ) -> List[List[float]]:
-        """
-        Gera embeddings para múltiplos textos (mais eficiente que loop).
+    def embed_batch(self, texts: List[str], normalize: bool = True) -> List[Document]:
+        """Prepara múltiplas consultas para a inferência remota do E5."""
+        return [self._document(text, "query") for text in texts]
 
-        Args:
-            texts: Lista de textos
-            normalize: Se True, normaliza os vetores
-
-        Returns:
-            Lista de embeddings
-        """
-        if not texts:
-            return []
-
-        # Adicionar prefixo query: para todos
-        query_texts = [f"query: {t.strip()}" for t in texts]
-
-        embeddings = self._model.encode(
-            query_texts, convert_to_tensor=False, normalize_embeddings=normalize
-        )
-
-        return [emb.tolist() for emb in embeddings]
-
-    def embed_corpus(
-        self, texts: List[str], normalize: bool = True
-    ) -> List[List[float]]:
-        """
-        Gera embeddings para corpus (textos de referência/índice).
-        Usa prefixo "passage:" conforme recomendação E5.
-
-        Args:
-            texts: Lista de textos de corpus
-            normalize: Se True, normaliza os vetores
-
-        Returns:
-            Lista de embeddings
-        """
-        if not texts:
-            return []
-
-        # Adicionar prefixo passage: para corpus
-        passage_texts = [f"passage: {t.strip()}" for t in texts]
-
-        embeddings = self._model.encode(
-            passage_texts, convert_to_tensor=False, normalize_embeddings=normalize
-        )
-
-        return [emb.tolist() for emb in embeddings]
+    def embed_corpus(self, texts: List[str], normalize: bool = True) -> List[Document]:
+        """Prepara textos de referência para indexação com o prefixo E5 correto."""
+        return [self._document(text, "passage") for text in texts]
 
     def get_embedding_dimension(self) -> int:
-        """Retorna a dimensão dos embeddings gerados."""
-        return self._model.get_sentence_embedding_dimension()
+        """Retorna a dimensão declarada pelo modelo configurado."""
+        return EMBEDDING_DIMENSION
 
     def get_model_name(self) -> str:
-        """Retorna o nome do modelo E5 carregado."""
-        return E5_MODEL_NAME
+        """Retorna o modelo utilizado pelo Qdrant Cloud Inference."""
+        return QDRANT_INFERENCE_MODEL
