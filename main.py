@@ -61,7 +61,7 @@ async def startup_event():
             if info.get("points_count", 0) == 0:
                 logger.warning(
                     "⚠️ Collection Qdrant está vazia. "
-                    "Execute 'python -m app.scripts.init_qdrant' para carregar dados do PostgreSQL."
+                    "Execute localmente o projeto qdrant-job para carregar os dados."
                 )
         except Exception as e:
             logger.debug(f"Erro ao verificar collection info: {e}")

@@ -39,7 +39,8 @@ psql -U postgres -d falai -f seu_script.sql
 ### 4. Carregar Dados no Qdrant
 
 ```bash
-python -m app.scripts.init_qdrant
+cd ..\qdrant-job
+python job.py
 ```
 
 
@@ -207,7 +208,7 @@ backend-ai-normalizacao/
 │   │   └── validator.py             # Validação de respostas MTS
 │   └── scripts/
 │       ├── __init__.py
-│       └── init_qdrant.py           # Script de inicialização
+│       └── __init__.py
 │
 └── tests/
     ├── __init__.py
@@ -260,7 +261,7 @@ python -m spacy download pt_core_news_md
 
 ### Erro: "Collection Qdrant está vazia"
 
-- Executar `python -m app.scripts.init_qdrant`
+- Executar localmente `cd ..\qdrant-job` e `python job.py`
 - Verificar se PostgreSQL tem dados em `sinonimos` e `sintomas`
 
 ### Erro: "Ollama retorna JSON inválido"
