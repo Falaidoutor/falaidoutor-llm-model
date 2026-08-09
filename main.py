@@ -19,8 +19,8 @@ load_dotenv()
 
 app = FastAPI(
     title="Fala Doutor - Triagem Médica com IA",
-    description="API de classificação de risco baseada no Protocolo ESI (Emergency Severity Index) usando LLM via Groq.",
-    version="1.0.0",
+    description="API ESI via Groq com normalização semântica em Qdrant Cloud e PostgreSQL.",
+    version="2.0.0",
 )
 
 
@@ -119,6 +119,31 @@ async def triage(request: Request):
     ).model_dump()
 
     return _json_response(request, response)
+
+
+@app.get("/health")
+async def health() -> dict:
+    """Health check independente dos serviços externos."""
+    return {"status": "ok", "version": "2.0.0"}
+
+
+@app.get(
+    "/debug/normalization-stats",
+    dependencies=[Depends(validate_application_key)],
+)
+async def normalization_stats() -> dict:
+    import asyncio
+
+    try:
+        from app.service.normalization import NormalizationService
+
+        service = await asyncio.to_thread(NormalizationService)
+        return await asyncio.to_thread(service.get_normalization_stats)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Semantic normalization unavailable.",
+        ) from exc
 
 
 def _json_response(

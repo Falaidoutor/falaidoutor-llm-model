@@ -78,3 +78,11 @@ class TriageResponse(BaseModel):
         default=None, description="Rótulo original de confiança: alta|media|baixa"
     )
     triageId: str | int | None = None
+    texto_original: str | None = None
+    sintomas_normalizados: list[str] = Field(default_factory=list)
+    normalizacao_resultado: dict[str, Any] | None = None
+    normalizacao_llm: list[dict[str, Any]] = Field(default_factory=list)
+    normalizacao_ollama: list[dict[str, Any]] = Field(
+        default_factory=list,
+        description="Alias legado da branch de normalização; contém o mesmo valor de normalizacao_llm.",
+    )
