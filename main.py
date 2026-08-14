@@ -1,4 +1,5 @@
 ﻿import hmac
+import logging
 import os
 
 from dotenv import load_dotenv
@@ -12,6 +13,8 @@ from app.schemas import SymptomsRequest, TriageResponse
 
 # --- Provedor ativo: Groq ---
 from app.groq_service import classify_symptoms
+
+logger = logging.getLogger(__name__)
 
 # --- Provedor alternativo: Ollama (local) ---
 # from app.ollama_service import classify_symptoms
@@ -112,13 +115,47 @@ async def triage(request: Request):
             status.HTTP_502_BAD_GATEWAY,
         )
 
-    normalized_result = normalize_triage_response(result)
-    response = TriageResponse(
-        **_with_async_contract_fields(
-            normalized_result,
-            triage_id=symptoms_request.triage_id,
+    try:
+        normalized_result = normalize_triage_response(result)
+        response_model = TriageResponse(
+            **_with_async_contract_fields(
+                normalized_result,
+                triage_id=symptoms_request.triage_id,
+            )
         )
-    ).model_dump()
+    except ValidationError as exc:
+        logger.exception(
+            "Resposta da IA inválida para a triagem %s: %s",
+            symptoms_request.triage_id,
+            exc.errors(),
+        )
+        return _json_response(
+            request,
+            {
+                "detail": "A resposta da IA não atende ao contrato esperado.",
+                "errorType": "MODEL_RESPONSE_VALIDATION_ERROR",
+                "errors": exc.errors(),
+                "retryable": True,
+            },
+            status.HTTP_502_BAD_GATEWAY,
+        )
+    except Exception as exc:
+        logger.exception(
+            "Erro ao normalizar resposta da IA para a triagem %s: %s",
+            symptoms_request.triage_id,
+            exc,
+        )
+        return _json_response(
+            request,
+            {
+                "detail": "Não foi possível normalizar a resposta da IA.",
+                "errorType": "MODEL_RESPONSE_ERROR",
+                "retryable": True,
+            },
+            status.HTTP_502_BAD_GATEWAY,
+        )
+
+    response = response_model.model_dump()
 
     return _json_response(request, response)
 
