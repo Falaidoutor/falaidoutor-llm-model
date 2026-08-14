@@ -39,6 +39,14 @@ def normalize_triage_response(result: Mapping[str, Any]) -> dict[str, Any]:
         )
     normalized["recursos_estimados"] = estimated
 
+    vital_signs = normalized.get("sinais_vitais_zona_perigo")
+    normalized_vital_signs = _as_bool(vital_signs)
+    if vital_signs != normalized_vital_signs:
+        warnings.append(
+            "sinais_vitais_zona_perigo foi normalizado para booleano."
+        )
+    normalized["sinais_vitais_zona_perigo"] = normalized_vital_signs
+
     population = normalized.get("populacao_especial")
     if isinstance(population, bool) or population not in (
         None,
@@ -62,6 +70,29 @@ def _as_string_list(value: Any) -> list[str]:
     if isinstance(value, str):
         return [item.strip() for item in value.split(",") if item.strip()]
     return []
+
+
+def _as_bool(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        normalized = value.strip().casefold()
+        if normalized in {"sim", "true", "verdadeiro", "yes", "1"}:
+            return True
+        if normalized in {
+            "não",
+            "nao",
+            "não informado",
+            "nao informado",
+            "não informados",
+            "nao informados",
+            "false",
+            "falso",
+            "no",
+            "0",
+        }:
+            return False
+    return False
 
 
 def _unique(values: list[str]) -> list[str]:

@@ -7,6 +7,7 @@ def test_normalizes_malformed_resource_and_population_fields():
             "recursos_estimados": "Avaliação médica imediata",
             "recursos_detalhados": "Oxigênio, medicação para febre, exames de imagem",
             "populacao_especial": False,
+            "sinais_vitais_zona_perigo": "Não informados",
         }
     )
 
@@ -17,6 +18,7 @@ def test_normalizes_malformed_resource_and_population_fields():
         "exames de imagem",
     ]
     assert result["populacao_especial"] is None
+    assert result["sinais_vitais_zona_perigo"] is False
     assert "rawModelOutput" in result
     assert result["validation_warnings"]
 
