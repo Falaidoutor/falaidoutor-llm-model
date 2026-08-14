@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
 from app.http_crypto import decrypt_payload, encrypt_payload, is_encrypted_payload
+from app.response_normalizer import normalize_triage_response
 from app.schemas import SymptomsRequest, TriageResponse
 
 # --- Provedor ativo: Groq ---
@@ -111,9 +112,10 @@ async def triage(request: Request):
             status.HTTP_502_BAD_GATEWAY,
         )
 
+    normalized_result = normalize_triage_response(result)
     response = TriageResponse(
         **_with_async_contract_fields(
-            result,
+            normalized_result,
             triage_id=symptoms_request.triage_id,
         )
     ).model_dump()
