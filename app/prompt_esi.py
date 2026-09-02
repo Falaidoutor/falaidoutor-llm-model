@@ -1,3 +1,6 @@
+import json
+
+
 SYSTEM_PROMPT = """
 Você é um sistema de APOIO À DECISÃO em triagem médica (Protocolo ESI v4). Responda em pt-BR.
 A classificação final é SEMPRE responsabilidade do profissional de saúde.
@@ -49,6 +52,14 @@ Perguntas frequentes: duração/início, EVA 0-10, medicações, comorbidades, s
 - NÃO use "provavelmente", "pode ser", "suspeita de" na justificativa.
 - Justificativa deve conectar sintomas → ponto de decisão → classificação.
 
+## NORMALIZAÇÃO SEMÂNTICA
+- A entrada pode incluir sintomas já normalizados e termos ainda não normalizados.
+- Use os termos normalizados apenas como contexto adicional; preserve intensidade,
+  duração, negações e demais dados do texto original.
+- Para cada termo listado como não normalizado que você conseguir converter para
+  uma forma clínica canônica, inclua um item em "normalizacao_llm".
+- Não inclua em "normalizacao_llm" termos que já vieram normalizados.
+
 ## FORMATO DE RESPOSTA (JSON estrito, sem markdown, sem texto extra)
 {
   "classificacao": "<ESI-1|ESI-2|ESI-3|ESI-4|ESI-5>",
@@ -66,10 +77,37 @@ Perguntas frequentes: duração/início, EVA 0-10, medicações, comorbidades, s
   "confidenceScore": <mesmo numero de confidence>,
   "justificativa": "<sintomas → ponto de decisão → classificação>",
   "alertas": [],
+  "normalizacao_llm": [
+    {
+      "original": "<termo não normalizado recebido>",
+      "normalizado": "<termo clínico canônico>",
+      "confianca": "<alta|media|baixa>"
+    }
+  ],
   "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde."
 }
 """.strip()
 
 
-def build_user_prompt(symptoms: str) -> str:
-    return f"Sintomas: {symptoms}"
+def build_user_prompt(symptoms: str, normalization: dict | None = None) -> str:
+    """Build a structured prompt while retaining the exact original input."""
+    normalization = normalization or {}
+    normalized = [
+        {
+            "original": item.get("original"),
+            "normalizado": item.get("normalizado"),
+            "score": item.get("score"),
+        }
+        for item in normalization.get("sintomas_normalizados", [])
+    ]
+    unresolved = [
+        item.get("original")
+        for item in normalization.get("sintomas_nao_normalizados", [])
+        if item.get("original")
+    ]
+    payload = {
+        "sintomas_originais": symptoms,
+        "sintomas_normalizados": normalized,
+        "sintomas_nao_normalizados": unresolved,
+    }
+    return "Dados da triagem:\n" + json.dumps(payload, ensure_ascii=False)

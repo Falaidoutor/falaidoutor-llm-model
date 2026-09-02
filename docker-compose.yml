@@ -1,0 +1,14 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      QDRANT_COLLECTION_NAME: ${QDRANT_COLLECTION_NAME:-sintomas_embeddings_v2}
+      QDRANT_CLOUD_INFERENCE: ${QDRANT_CLOUD_INFERENCE:-true}
+      QDRANT_INFERENCE_MODEL: ${QDRANT_INFERENCE_MODEL:-intfloat/multilingual-e5-small}
+      EMBEDDING_DIMENSION: ${EMBEDDING_DIMENSION:-384}
+      POSTGRES_POOL_SIZE: ${POSTGRES_POOL_SIZE:-2}
+    restart: on-failure

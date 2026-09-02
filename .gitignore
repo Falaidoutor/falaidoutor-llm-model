@@ -1,5 +1,37 @@
+# Environment and secrets
 .env
+.env.local
+.env.*.local
+
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Virtual environments
 venv/
+env/
 .venv/
+
+# Local models and databases
+models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+*.db
+*.sqlite*
+
+# Editors and operating systems
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
