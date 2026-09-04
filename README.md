@@ -1,5 +1,11 @@
 # Fala Doutor LLM
 
+Este repositório contém o serviço de inteligência artificial do **Falaidoutor**, uma plataforma de apoio à triagem clínica. Ele recebe informações clínicas estruturadas e produz uma sugestão de classificação de risco, justificativa, resumo e ação recomendada. Não fornece diagnóstico: o resultado deve ser validado e confirmado por um profissional de saúde.
+
+## Papel deste componente
+
+É a camada de inferência e normalização da IA. O backend API coordena a triagem e se comunica com este serviço; o frontend exibe o resultado e o fluxo de revisão. Este componente não é a interface nem o banco de dados do sistema.
+
 Backend FastAPI de triagem ESI via Groq, com autenticação, payload HTTP
 opcionalmente criptografado e normalização semântica de sintomas.
 
