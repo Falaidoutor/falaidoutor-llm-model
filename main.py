@@ -1,6 +1,8 @@
 ﻿import hmac
 import logging
 import os
+import time
+import uuid
 
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, Header, HTTPException, Request, status
@@ -48,12 +50,17 @@ async def validate_application_key(
 
 @app.post("/triage", dependencies=[Depends(validate_application_key)])
 async def triage(request: Request):
+    request_id = str(uuid.uuid4())
+    started_at = time.perf_counter()
+    request.state.request_id = request_id
+    logger.info("http.triage.start request_id=%s", request_id)
     encrypted_header = request.headers.get("x-payload-encrypted") == "true"
     request.state.payload_encrypted = encrypted_header
 
     try:
         body = await request.json()
     except Exception:
+        logger.warning("http.triage.invalid_json request_id=%s", request_id)
         return _json_response(
             request,
             {
@@ -88,6 +95,7 @@ async def triage(request: Request):
     try:
         symptoms_request = SymptomsRequest(**body)
     except (TypeError, ValidationError) as exc:
+        logger.warning("http.triage.invalid_request request_id=%s", request_id)
         detail = exc.errors() if isinstance(exc, ValidationError) else "Invalid request body."
         return _json_response(
             request,
@@ -100,11 +108,23 @@ async def triage(request: Request):
         )
 
     try:
+        logger.info(
+            "http.triage.invoke_model request_id=%s triage_id=%s input_chars=%s",
+            request_id,
+            symptoms_request.triage_id,
+            len(symptoms_request.symptoms),
+        )
         result = await classify_symptoms(
             symptoms_request.symptoms,
             symptoms_request.inference_config,
         )
     except Exception as e:
+        logger.exception(
+            "http.triage.model_failed request_id=%s triage_id=%s elapsed_ms=%.0f",
+            request_id,
+            symptoms_request.triage_id,
+            (time.perf_counter() - started_at) * 1000,
+        )
         return _json_response(
             request,
             {
@@ -156,6 +176,15 @@ async def triage(request: Request):
         )
 
     response = response_model.model_dump()
+
+    logger.info(
+        "http.triage.complete request_id=%s triage_id=%s model=%s fallback=%s elapsed_ms=%.0f",
+        request_id,
+        symptoms_request.triage_id,
+        response.get("modelo_usado"),
+        response.get("fallback_modelo_ativado"),
+        (time.perf_counter() - started_at) * 1000,
+    )
 
     return _json_response(request, response)
 

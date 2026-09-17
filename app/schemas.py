@@ -7,6 +7,7 @@ class ModelConfig(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     model_name: str | None = Field(default=None, alias="modelName")
+    model_order: list[str] | None = Field(default=None, alias="modelOrder")
     provider: str | None = None
     system_prompt: str | None = Field(default=None, alias="systemPrompt")
     temperature: float = Field(default=0.2, ge=0.1, le=1.0)

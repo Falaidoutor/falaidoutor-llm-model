@@ -106,16 +106,24 @@ class NormalizationService:
 
         try:
             # Fase 1: NER - Extração de sintomas
-            logger.info("Iniciando normalização semântica")
+            logger.info(
+                "semantic_normalization.start input_chars=%s include_metadata=%s",
+                len(text),
+                include_metadata,
+            )
             ner_start = time.time()
 
             sintomas_extraidos = self.ner_service.extract_symptoms(text)
 
             ner_time_ms = (time.time() - ner_start) * 1000
-            logger.info(f"NER extraiu {len(sintomas_extraidos)} sintomas em {ner_time_ms:.2f}ms")
+            logger.info(
+                "semantic_normalization.ner_complete extracted=%s elapsed_ms=%.2f",
+                len(sintomas_extraidos),
+                ner_time_ms,
+            )
 
             if not sintomas_extraidos:
-                logger.warning("Nenhum sintoma extraído pelo NER")
+                logger.warning("semantic_normalization.no_symptoms_extracted")
                 return {
                     "sintomas_normalizados": [],
                     "sintomas_nao_normalizados": [],
@@ -168,16 +176,23 @@ class NormalizationService:
             }
 
             logger.info(
-                f"Normalização concluída: "
-                f"{len(sintomas_normalizados)} normalizados, "
-                f"{len(sintomas_nao_normalizados)} não normalizados "
-                f"({taxa_normalizacao*100:.1f}%) em {total_time_ms:.2f}ms"
+                "semantic_normalization.complete normalized=%s unresolved=%s "
+                "rate=%.1f elapsed_ms=%.2f embedding_ms=%.2f",
+                len(sintomas_normalizados),
+                len(sintomas_nao_normalizados),
+                taxa_normalizacao * 100,
+                total_time_ms,
+                embedding_time_ms,
             )
 
             return resultado_final
 
         except Exception:
-            logger.exception("Erro ao normalizar sintomas")
+            logger.exception(
+                "semantic_normalization.failed input_chars=%s elapsed_ms=%.2f",
+                len(text),
+                (time.time() - start_time) * 1000,
+            )
             return {
                 "sintomas_normalizados": [],
                 "sintomas_nao_normalizados": [],

@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import os
+import time
 
 from dotenv import load_dotenv
 from groq import AsyncGroq, RateLimitError
@@ -37,22 +38,39 @@ async def classify_symptoms(
 ) -> dict:
     client = AsyncGroq(api_key=GROQ_API_KEY)
     config = model_config or ModelConfig()
-    configured_model = LEGACY_MODEL_ALIASES.get(
+    started_at = time.perf_counter()
+    logger.info(
+        "triage.start input_chars=%s configured_model=%s configured_order=%s",
+        len(symptoms),
         config.model_name or MODEL_NAME,
-        config.model_name or MODEL_NAME,
+        config.model_order or MODEL_ORDER,
     )
+    normalization = await asyncio.to_thread(_normalize_safely, symptoms)
+    configured_model = LEGACY_MODEL_ALIASES.get(config.model_name or MODEL_NAME, config.model_name or MODEL_NAME)
     # Configurações antigas podem ainda conter o modelo removido.
     if configured_model not in MODEL_ORDER:
         configured_model = MODEL_NAME
-    model_candidates = (configured_model,) + tuple(
-        model for model in MODEL_ORDER if model != configured_model
-    )
+    configured_order = [
+        LEGACY_MODEL_ALIASES.get(model, model)
+        for model in (config.model_order or MODEL_ORDER)
+    ]
+    model_candidates = tuple(dict.fromkeys(
+        model for model in configured_order if model in MODEL_ORDER
+    ))
+    if configured_model not in model_candidates:
+        model_candidates = (configured_model,) + model_candidates
     system_prompt = build_system_prompt(
         symptoms,
         normalization,
         config.system_prompt,
     )
-    normalization = await asyncio.to_thread(_normalize_safely, symptoms)
+    logger.info(
+        "triage.context_ready input_chars=%s prompt_chars=%s normalized=%s unresolved=%s",
+        len(symptoms),
+        len(system_prompt),
+        len(normalization.get("sintomas_normalizados", [])),
+        len(normalization.get("sintomas_nao_normalizados", [])),
+    )
 
     response = None
     model_used = configured_model
@@ -75,6 +93,13 @@ async def classify_symptoms(
                     response_format={"type": "json_object"},
                 )
                 model_used = candidate_model
+                logger.info(
+                    "triage.model_success model=%s attempt=%s fallback=%s elapsed_ms=%.0f",
+                    candidate_model,
+                    attempt + 1,
+                    fallback_activated,
+                    (time.perf_counter() - started_at) * 1000,
+                )
                 break
             except RateLimitError as error:
                 last_error = error
@@ -88,6 +113,12 @@ async def classify_symptoms(
                         delay,
                     )
                     await asyncio.sleep(delay)
+                else:
+                    logger.warning(
+                        "triage.model_rate_limit_exhausted model=%s attempts=%s",
+                        candidate_model,
+                        _MAX_RETRIES,
+                    )
         if response is not None:
             break
         if candidate_index < len(model_candidates) - 1:
@@ -105,6 +136,12 @@ async def classify_symptoms(
 
     content = response.choices[0].message.content
     parsed = parse_response(content)
+    logger.info(
+        "triage.response_parsed model=%s output_chars=%s elapsed_ms=%.0f",
+        model_used,
+        len(content or ""),
+        (time.perf_counter() - started_at) * 1000,
+    )
 
     llm_normalizations = extract_llm_normalizations(parsed, normalization)
     if llm_normalizations:
@@ -156,9 +193,15 @@ def _normalize_safely(symptoms: str) -> dict:
     try:
         from app.service.normalization import NormalizationService
 
-        return NormalizationService().normalize_symptoms(symptoms)
+        result = NormalizationService().normalize_symptoms(symptoms)
+        logger.info(
+            "triage.semantic_normalization_result normalized=%s unresolved=%s",
+            len(result.get("sintomas_normalizados", [])),
+            len(result.get("sintomas_nao_normalizados", [])),
+        )
+        return result
     except Exception:
-        logger.warning("Normalização semântica indisponível; usando texto original")
+        logger.exception("triage.semantic_normalization_failed; using original text")
         return _empty_normalization("unavailable")
 
 
