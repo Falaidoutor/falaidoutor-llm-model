@@ -3,7 +3,7 @@ import re
 
 import httpx
 
-from app.prompt import SYSTEM_PROMPT, build_user_prompt
+from app.prompt import build_system_prompt, build_user_prompt
 from app.schemas import ModelConfig
 from app.validator import validate_triage_response
 
@@ -16,7 +16,10 @@ async def classify_symptoms(symptoms: str, model_config: ModelConfig | None = No
     payload = {
         "model": config.model_name or MODEL_NAME,
         "messages": [
-            {"role": "system", "content": config.system_prompt or SYSTEM_PROMPT},
+            {
+                "role": "system",
+                "content": build_system_prompt(symptoms, base_prompt=config.system_prompt),
+            },
             {"role": "user", "content": build_user_prompt(symptoms)},
         ],
         "stream": False,

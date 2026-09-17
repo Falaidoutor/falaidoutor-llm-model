@@ -1,4 +1,5 @@
 import json
+import re
 
 
 SYSTEM_PROMPT = """
@@ -87,6 +88,91 @@ Perguntas frequentes: duração/início, EVA 0-10, medicações, comorbidades, s
   "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde."
 }
 """.strip()
+
+
+def build_system_prompt(
+    symptoms: str,
+    normalization: dict | None = None,
+    base_prompt: str | None = None,
+) -> str:
+    """Build a smaller prompt by including only context-relevant clinical rules."""
+    text = symptoms.casefold()
+    normalization = normalization or {}
+    has_normalization = bool(
+        normalization.get("sintomas_normalizados")
+        or normalization.get("sintomas_nao_normalizados")
+    )
+    has_pediatric_context = bool(
+        re.search(
+            r"\b(beb[eê]|lactente|crian[cç]a|pedi[aá]tric|baby|infant|child|toddler|newborn|pediatric|paediatric|\d+\s*(meses|anos|months?|years?)(\s*old)?)\b",
+            text,
+        )
+    )
+    has_pregnancy_context = bool(
+        re.search(
+            r"\b(gestante|gr[aá]vida|gravidez|gesta[cç][aã]o|feto|pregnant|pregnancy|gestation|fetus|fetal|expecting)\b",
+            text,
+        )
+    )
+    has_elderly_context = bool(
+        re.search(
+            r"\b(idos[oa]|terceira idade|elderly|senior|older adult|65|70|80)\s*(anos|years?(\s*old)?|years of age)?\b",
+            text,
+        )
+    )
+    has_vitals = bool(
+        re.search(
+            r"\b(fc|fr|spo2|satura[cç][aã]o|press[aã]o|pa|temperatura|febre|heart rate|respiratory rate|oxygen saturation|blood pressure|temperature|fever)\b|\d+\s*(bpm|irpm|mmhg|%)",
+            text,
+        )
+    )
+    has_red_flag = bool(
+        re.search(
+            r"(n[aã]o consigo respirar|falta de ar intensa|pior dor|dor no peito|desma|perdendo muito sangue|beb[eê].{0,20}mexendo|confus|v[aá]rios comprimidos|algo t[oó]xico|can't breathe|cannot breathe|severe shortness of breath|difficulty breathing|worst pain|chest pain|faint|passed out|heavy bleeding|baby.{0,20}(moving|kicking)|confus|several pills|overdose|poison|toxic)",
+            text,
+        )
+    )
+
+    prompt = (base_prompt or SYSTEM_PROMPT).strip()
+    if not has_vitals:
+        prompt = _remove_section(prompt, "## ZONA DE PERIGO — SINAIS VITAIS", "## RED FLAGS")
+    if not has_red_flag:
+        prompt = _remove_section(prompt, "## RED FLAGS", "## POPULAÇÕES ESPECIAIS")
+    if not (has_pediatric_context or has_pregnancy_context or has_elderly_context):
+        prompt = _remove_section(prompt, "## POPULAÇÕES ESPECIAIS", "## RECURSOS")
+    elif has_pediatric_context and not has_pregnancy_context and not has_elderly_context:
+        prompt = _keep_subsections(prompt, "## POPULAÇÕES ESPECIAIS", "## RECURSOS", ["**Pediatria"])
+    elif has_pregnancy_context and not has_pediatric_context and not has_elderly_context:
+        prompt = _keep_subsections(prompt, "## POPULAÇÕES ESPECIAIS", "## RECURSOS", ["**Gestante"])
+    elif has_elderly_context and not has_pediatric_context and not has_pregnancy_context:
+        prompt = _keep_subsections(prompt, "## POPULAÇÕES ESPECIAIS", "## RECURSOS", ["**Idoso"])
+    if not has_normalization:
+        prompt = _remove_section(prompt, "## NORMALIZAÇÃO SEMÂNTICA", "## FORMATO DE RESPOSTA")
+        prompt = re.sub(
+            r'  "normalizacao_llm": \[.*?\n  \],\n',
+            "",
+            prompt,
+            flags=re.DOTALL,
+        )
+    return prompt
+
+
+def _remove_section(prompt: str, start: str, end: str) -> str:
+    return re.sub(re.escape(start) + r".*?(?=" + re.escape(end) + r")", "", prompt, flags=re.DOTALL)
+
+
+def _keep_subsections(prompt: str, start: str, end: str, keep: list[str]) -> str:
+    section_match = re.search(re.escape(start) + r"(.*?)" + re.escape(end), prompt, flags=re.DOTALL)
+    if not section_match:
+        return prompt
+    section = section_match.group(1)
+    headings = list(re.finditer(r"\*\*(Pediatria|Gestante|Idoso).*?\*\*", section))
+    selected = "\n".join(
+        section[heading.start(): (headings[index + 1].start() if index + 1 < len(headings) else len(section))]
+        for index, heading in enumerate(headings)
+        if any(heading.group(0).startswith(item) for item in keep)
+    )
+    return prompt[:section_match.start(1)] + selected + "\n" + prompt[section_match.end(1):]
 
 
 def build_user_prompt(symptoms: str, normalization: dict | None = None) -> str:

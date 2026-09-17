@@ -8,7 +8,7 @@ from groq import AsyncGroq, RateLimitError
 load_dotenv()
 
 from app.ollama_service import parse_response
-from app.prompt import SYSTEM_PROMPT, build_user_prompt
+from app.prompt import build_system_prompt, build_user_prompt
 from app.schemas import ModelConfig
 from app.service.llm_normalization import extract_llm_normalizations
 from app.validator import validate_triage_response
@@ -17,12 +17,17 @@ from app.validator import validate_triage_response
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
 MODEL_GPT_OSS = "openai/gpt-oss-120b"
-MODEL_QWEN3 = "qwen/qwen3-32b"
-MODEL_LLAMA_3_3_70b = "llama-3.3-70b-versatile"
-MODEL_NAME = MODEL_LLAMA_3_3_70b
+MODEL_GPT_OSS_20B = "openai/gpt-oss-20b"
+MODEL_QWEN3_8_27B = "qwen/qwen3.8-27b"
+MODEL_ORDER = (MODEL_GPT_OSS, MODEL_GPT_OSS_20B, MODEL_QWEN3_8_27B)
+MODEL_NAME = MODEL_GPT_OSS
+LEGACY_MODEL_ALIASES = {
+    "qwen/qwen3-32b": MODEL_QWEN3_8_27B,
+    "llama-3.3-70b-versatile": MODEL_NAME,
+}
 
 _MAX_RETRIES = 3
-_RETRY_BASE_DELAY = 10.0
+_RETRY_BASE_DELAY = 2.0
 logger = logging.getLogger(__name__)
 
 
@@ -32,32 +37,68 @@ async def classify_symptoms(
 ) -> dict:
     client = AsyncGroq(api_key=GROQ_API_KEY)
     config = model_config or ModelConfig()
-    model_name = config.model_name or MODEL_NAME
-    system_prompt = config.system_prompt or SYSTEM_PROMPT
+    configured_model = LEGACY_MODEL_ALIASES.get(
+        config.model_name or MODEL_NAME,
+        config.model_name or MODEL_NAME,
+    )
+    # Configurações antigas podem ainda conter o modelo removido.
+    if configured_model not in MODEL_ORDER:
+        configured_model = MODEL_NAME
+    model_candidates = (configured_model,) + tuple(
+        model for model in MODEL_ORDER if model != configured_model
+    )
+    system_prompt = build_system_prompt(
+        symptoms,
+        normalization,
+        config.system_prompt,
+    )
     normalization = await asyncio.to_thread(_normalize_safely, symptoms)
 
+    response = None
+    model_used = configured_model
+    fallback_activated = False
     last_error: Exception | None = None
-    for attempt in range(_MAX_RETRIES):
-        try:
-            response = await client.chat.completions.create(
-                model=model_name,
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {
-                        "role": "user",
-                        "content": build_user_prompt(symptoms, normalization),
-                    },
-                ],
-                temperature=config.temperature,
-                top_p=config.top_p,
-                response_format={"type": "json_object"},
-            )
+    for candidate_index, candidate_model in enumerate(model_candidates):
+        for attempt in range(_MAX_RETRIES):
+            try:
+                response = await client.chat.completions.create(
+                    model=candidate_model,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {
+                            "role": "user",
+                            "content": build_user_prompt(symptoms, normalization),
+                        },
+                    ],
+                    temperature=config.temperature,
+                    top_p=config.top_p,
+                    response_format={"type": "json_object"},
+                )
+                model_used = candidate_model
+                break
+            except RateLimitError as error:
+                last_error = error
+                if attempt < _MAX_RETRIES - 1:
+                    delay = _retry_delay(error, attempt)
+                    logger.warning(
+                        "Rate limit no modelo %s (tentativa %s/%s); retry em %.1fs",
+                        candidate_model,
+                        attempt + 1,
+                        _MAX_RETRIES,
+                        delay,
+                    )
+                    await asyncio.sleep(delay)
+        if response is not None:
             break
-        except RateLimitError as error:
-            last_error = error
-            if attempt < _MAX_RETRIES - 1:
-                await asyncio.sleep(_RETRY_BASE_DELAY * (2**attempt))
-    else:
+        if candidate_index < len(model_candidates) - 1:
+            fallback_activated = True
+            logger.warning(
+                "Rate limit persistente no modelo %s; alternando para %s",
+                candidate_model,
+                model_candidates[candidate_index + 1],
+            )
+
+    if response is None:
         if last_error is None:
             raise RuntimeError("Groq request failed without a reported error")
         raise last_error
@@ -73,6 +114,8 @@ async def classify_symptoms(
     parsed["normalizacao_resultado"] = normalization
     parsed["normalizacao_llm"] = llm_normalizations
     parsed["normalizacao_ollama"] = llm_normalizations
+    parsed["modelo_usado"] = model_used
+    parsed["fallback_modelo_ativado"] = fallback_activated
     parsed["sintomas_normalizados"] = [
         item["normalizado"]
         for item in normalization.get("sintomas_normalizados", [])
@@ -83,6 +126,19 @@ async def classify_symptoms(
     parsed["validation_errors"] = validation.errors
     parsed["validation_warnings"] = validation.warnings
     return parsed
+
+
+def _retry_delay(error: RateLimitError, attempt: int) -> float:
+    """Use the provider hint when available, otherwise exponential backoff."""
+    response = getattr(error, "response", None)
+    headers = getattr(response, "headers", None)
+    retry_after = headers.get("retry-after") if headers else None
+    try:
+        if retry_after is not None:
+            return max(0.0, min(float(retry_after), 60.0))
+    except (TypeError, ValueError):
+        pass
+    return _RETRY_BASE_DELAY * (2**attempt)
 
 
 def _empty_normalization(status: str) -> dict:

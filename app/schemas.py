@@ -86,3 +86,7 @@ class TriageResponse(BaseModel):
         default_factory=list,
         description="Alias legado da branch de normalização; contém o mesmo valor de normalizacao_llm.",
     )
+    modelo_usado: str | None = Field(default=None, description="Modelo que respondeu à triagem")
+    fallback_modelo_ativado: bool = Field(
+        default=False, description="Indica se houve troca por rate limit"
+    )
