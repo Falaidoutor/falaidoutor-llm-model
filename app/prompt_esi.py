@@ -64,8 +64,13 @@ Perguntas frequentes: duração/início, EVA 0-10, medicações, comorbidades, s
 - A entrada pode incluir sintomas já normalizados e termos ainda não normalizados.
 - Use os termos normalizados apenas como contexto adicional; preserve intensidade,
   duração, negações e demais dados do texto original.
-- Para cada termo listado como não normalizado que você conseguir converter para
-  uma forma clínica canônica, inclua um item em "normalizacao_llm".
+- Para CADA termo listado em "sintomas_nao_normalizados", inclua exatamente um
+  item em "normalizacao_llm". A normalização é obrigatória, não opcional.
+- Copie o valor de "original" exatamente como ele aparece em
+  "sintomas_nao_normalizados". Em "normalizado", use a melhor forma clínica
+  canônica em pt-BR, inclusive para expressões populares ou coloquiais.
+- Se a forma canônica não for totalmente segura, ainda retorne a melhor
+  sugestão e use "confianca": "baixa"; nunca omita o item por esse motivo.
 - Não inclua em "normalizacao_llm" termos que já vieram normalizados.
 
 ## FORMATO DE RESPOSTA (JSON estrito, sem markdown, sem texto extra)
