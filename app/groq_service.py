@@ -144,6 +144,11 @@ async def classify_symptoms(
     )
 
     llm_normalizations = extract_llm_normalizations(parsed, normalization)
+    logger.info(
+        "triage.response_normalization n=%s",
+        len(llm_normalizations)
+    )
+    
     if llm_normalizations:
         await asyncio.to_thread(_save_candidates_safely, llm_normalizations)
 
