@@ -49,7 +49,9 @@ class TriageResponse(BaseModel):
     sinais_vitais_zona_perigo: bool = False
     populacao_especial: str | None = None
     over_triage_aplicado: bool
-    confianca: str = Field(..., description="alta|media|baixa")
+    confianca: float = Field(
+        ..., ge=0, le=100, description="Percentual de confiança de 0 a 100"
+    )
     justificativa: str
     alertas: list[str] = Field(default_factory=list)
     disclaimer: str = Field(

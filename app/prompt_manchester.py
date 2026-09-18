@@ -126,7 +126,7 @@ Fallback: Se nenhum fluxograma for claramente aplicável, use "Mal-estar no Adul
 
 Se os sintomas informados forem vagos ou insuficientes para classificação segura:
 1. Classifique com base no que foi informado + aplique over-triage.
-2. Defina "confianca": "baixa".
+2. Defina "confianca" como percentual de 0 a 100 (por exemplo, 35 para baixa confiança).
 3. No campo "alertas", liste as perguntas/informações que o profissional deveria coletar.
 
 Informações frequentemente necessárias: duração e início dos sintomas, intensidade da dor (EVA 0-10), medicações em uso, comorbidades conhecidas, sinais vitais (PA, FC, FR, SpO2, temperatura), idade exata, se gestante (idade gestacional).
@@ -166,7 +166,7 @@ Responda EXCLUSIVAMENTE com um objeto JSON válido. Sem markdown, sem texto ante
   "discriminadores_especificos_ativados": ["<discriminador>"],
   "populacao_especial": <null|"pediatria"|"gestante"|"idoso">,
   "over_triage_aplicado": <true|false>,
-  "confianca": "<alta|media|baixa>",
+  "confianca": <percentual de 0 a 100>,
   "justificativa": "<explicação clara conectando sintomas → discriminadores → classificação>",
   "alertas": ["<informação relevante, perguntas pendentes, ou encaminhamentos sugeridos>"],
   "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde."

@@ -75,7 +75,7 @@ def parse_response(content: str) -> dict:
         "sinais_vitais_zona_perigo": False,
         "populacao_especial": None,
         "over_triage_aplicado": False,
-        "confianca": "baixa",
+        "confianca": 35,
         "confidence": 35,
         "confidenceScore": 35,
         "justificativa": content,
@@ -97,7 +97,7 @@ def _validate_fields(result: dict) -> dict:
         "sinais_vitais_zona_perigo": False,
         "populacao_especial": None,
         "over_triage_aplicado": False,
-        "confianca": "baixa",
+        "confianca": 35,
         "confidence": 35,
         "confidenceScore": 35,
         "justificativa": "",
@@ -126,6 +126,9 @@ def _normalize_confidence(result: dict) -> None:
     }.get(str(result.get("confianca") or "").strip().lower())
 
     if numeric is None:
+        numeric = _to_confidence_number(result.get("confianca"))
+
+    if numeric is None:
         numeric = _to_confidence_number(
             result.get("confidence")
             or result.get("confidenceScore")
@@ -133,6 +136,7 @@ def _normalize_confidence(result: dict) -> None:
         )
 
     if numeric is not None:
+        result["confianca"] = numeric
         result["confidence"] = numeric
         result["confidenceScore"] = numeric
 

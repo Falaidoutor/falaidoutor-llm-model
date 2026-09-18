@@ -47,6 +47,31 @@ def normalize_triage_response(result: Mapping[str, Any]) -> dict[str, Any]:
         )
     normalized["sinais_vitais_zona_perigo"] = normalized_vital_signs
 
+    confidence = normalized.get("confianca")
+    confidence_percentage = _confidence_percentage(confidence)
+    if confidence_percentage is None:
+        for key in ("confidence", "confidenceScore", "confidence_score", "score"):
+            confidence_percentage = _confidence_percentage(normalized.get(key))
+            if confidence_percentage is not None:
+                normalized["confianca"] = confidence_percentage
+                warnings.append(
+                    f"confianca foi preenchida a partir de {key} e normalizada para percentual."
+                )
+                break
+    if confidence_percentage is not None and confidence != confidence_percentage:
+        normalized["confianca"] = confidence_percentage
+        if confidence is not None:
+            warnings.append("confianca foi normalizada para percentual.")
+
+    # Keep the numeric aliases consistent for consumers that read either field.
+    for key in ("confidence", "confidenceScore"):
+        alias_percentage = _confidence_percentage(normalized.get(key))
+        if alias_percentage is not None:
+            normalized[key] = alias_percentage
+    if confidence_percentage is not None:
+        normalized.setdefault("confidence", confidence_percentage)
+        normalized.setdefault("confidenceScore", confidence_percentage)
+
     population = normalized.get("populacao_especial")
     if isinstance(population, bool) or population not in (
         None,
@@ -93,6 +118,34 @@ def _as_bool(value: Any) -> bool:
         }:
             return False
     return False
+
+
+def _confidence_percentage(value: Any) -> float | None:
+    if isinstance(value, bool) or value is None:
+        return None
+
+    if isinstance(value, str) and value.strip().casefold() in {"alta", "high"}:
+        return 95.0
+    if isinstance(value, str) and value.strip().casefold() in {"media", "média", "medium"}:
+        return 80.0
+    if isinstance(value, str) and value.strip().casefold() in {"baixa", "low"}:
+        return 35.0
+
+    if isinstance(value, (int, float)):
+        numeric = float(value)
+    elif isinstance(value, str):
+        try:
+            numeric = float(value.strip().replace("%", "").replace(",", "."))
+        except ValueError:
+            return None
+    else:
+        return None
+
+    if numeric <= 1:
+        numeric *= 100
+    if numeric < 0 or numeric > 100:
+        return None
+    return round(numeric, 2)
 
 
 def _unique(values: list[str]) -> list[str]:

@@ -44,7 +44,7 @@ Contar: labs, ECG, imagem (RX/TC/USG/RM), medicação IV/IM, procedimentos (sutu
 NÃO contar: exame físico, anamnese, medicação VO, vacina antitetânica isolada, prescrição simples, reavaliação clínica.
 
 ## INFORMAÇÕES INSUFICIENTES
-Se sintomas vagos: classifique + aplique over-triage + "confianca":"baixa" + "confidence": 35 + liste perguntas em "alertas".
+Se sintomas vagos: classifique + aplique over-triage + "confianca":35 + liste perguntas em "alertas".
 Perguntas frequentes: duração/início, EVA 0-10, medicações, comorbidades, sinais vitais, idade exata, gestação.
 
 ## REGRAS OBRIGATÓRIAS
@@ -73,7 +73,7 @@ Perguntas frequentes: duração/início, EVA 0-10, medicações, comorbidades, s
   "sinais_vitais_zona_perigo": <true|false>,
   "populacao_especial": <null|"pediatria"|"gestante"|"idoso">,
   "over_triage_aplicado": <true|false>,
-  "confianca": "<alta|media|baixa>",
+  "confianca": <percentual de 0 a 100>,
   "confidence": <numero de 0 a 100>,
   "confidenceScore": <mesmo numero de confidence>,
   "justificativa": "<sintomas → ponto de decisão → classificação>",

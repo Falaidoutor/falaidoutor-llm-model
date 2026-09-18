@@ -35,3 +35,12 @@ def test_keeps_valid_contract_values():
     assert result["recursos_estimados"] == 2
     assert result["recursos_detalhados"] == ["Exame", "Medicação"]
     assert result["populacao_especial"] == "idoso"
+
+
+def test_normalizes_confidence_to_percentage():
+    result = normalize_triage_response({"confianca": 0.85})
+
+    assert result["confianca"] == 85.0
+    assert result["confidence"] == 85.0
+    assert result["confidenceScore"] == 85.0
+    assert any("percentual" in warning for warning in result["validation_warnings"])

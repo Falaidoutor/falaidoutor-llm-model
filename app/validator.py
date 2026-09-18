@@ -180,9 +180,14 @@ def _validate_structural(data: dict, result: ValidationResult) -> None:
 
     # --- confianca ---
     conf = data.get("confianca")
-    if conf not in CONFIANCAS_VALIDAS:
+    is_percentage = (
+        isinstance(conf, (int, float))
+        and not isinstance(conf, bool)
+        and 0 <= conf <= 100
+    )
+    if conf not in CONFIANCAS_VALIDAS and not is_percentage:
         result.add_error(
-            f"confianca '{conf}' inválida. Valores aceitos: {CONFIANCAS_VALIDAS}"
+            f"confianca '{conf}' inválida. Use percentual entre 0 e 100."
         )
 
     # --- justificativa ---
@@ -311,7 +316,12 @@ def _validate_business_rules(data: dict, result: ValidationResult) -> None:
             )
 
     # --- Confiança baixa deve ter alertas ---
-    if confianca == "baixa":
+    low_confidence = confianca == "baixa" or (
+        isinstance(confianca, (int, float))
+        and not isinstance(confianca, bool)
+        and confianca < 70
+    )
+    if low_confidence:
         if not alertas:
             result.add_warning(
                 "confianca='baixa' mas alertas está vazio. "
