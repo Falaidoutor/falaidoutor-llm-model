@@ -175,7 +175,8 @@ Responda EXCLUSIVAMENTE com um objeto JSON válido. Sem markdown, sem texto ante
 ### Regras do JSON:
 - "discriminadores_gerais_avaliados" DEVE conter TODOS os discriminadores gerais da seção 2, cada um com "presente": true ou false. Isso comprova que foram avaliados.
 - "discriminadores_especificos_ativados" lista apenas os discriminadores específicos do fluxograma que estão PRESENTES.
-- "alertas" pode ser uma lista vazia [] se não houver alertas, mas NUNCA null.
+- "alertas" deve ser uma lista JSON; use [] se não houver alertas. null também
+  é aceito apenas quando não for possível determinar o conteúdo.
 - "disclaimer" é SEMPRE a string fixa indicada acima.
 - "populacao_especial" deve ser preenchido quando a idade ou condição indicar pediatria, gestante ou idoso.
 """.strip()

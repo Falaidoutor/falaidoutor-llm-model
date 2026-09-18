@@ -16,6 +16,16 @@ def normalize_triage_response(result: Mapping[str, Any]) -> dict[str, Any]:
     original = dict(result)
     warnings = list(normalized.get("validation_warnings") or [])
 
+    for field_name, label in (
+        ("criterios_ponto_decisao", "criterios_ponto_decisao"),
+        ("alertas", "alertas"),
+    ):
+        value = normalized.get(field_name)
+        normalized_value = _as_optional_string_list(value)
+        if value != normalized_value:
+            warnings.append(f"{label} foi normalizado para uma lista ou null.")
+        normalized[field_name] = normalized_value
+
     detailed = _as_string_list(normalized.get("recursos_detalhados"))
     if normalized.get("recursos_detalhados") != detailed:
         warnings.append(
@@ -95,6 +105,22 @@ def _as_string_list(value: Any) -> list[str]:
     if isinstance(value, str):
         return [item.strip() for item in value.split(",") if item.strip()]
     return []
+
+
+def _as_optional_string_list(value: Any) -> list[str] | None:
+    """Aceita array, string única ou null nos campos de múltiplos itens.
+
+    Arrays vazios continuam sendo arrays vazios; null continua sendo null para
+    representar explicitamente que o modelo não encontrou registros.
+    """
+    if value is None:
+        return None
+    if isinstance(value, list):
+        return [item for item in (str(item).strip() for item in value) if item]
+    if isinstance(value, str):
+        value = value.strip()
+        return [value] if value else None
+    return [str(value).strip()] if str(value).strip() else None
 
 
 def _as_bool(value: Any) -> bool:

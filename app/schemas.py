@@ -41,11 +41,13 @@ class TriageResponse(BaseModel):
     ponto_decisao_ativado: str = Field(
         ..., description="A|B|C|D"
     )
-    criterios_ponto_decisao: list[str] = Field(default_factory=list)
+    # O modelo costuma devolver um único critério como string. Aceitamos esse
+    # caso na borda da API e preservamos null quando não houver registros.
+    criterios_ponto_decisao: list[str] | None = Field(default_factory=list)
     recursos_estimados: int = Field(
         ..., description="Número de recursos estimados"
     )
-    recursos_detalhados: list[str] = Field(default_factory=list)
+    recursos_detalhados: list[str] | None = Field(default_factory=list)
     sinais_vitais_zona_perigo: bool = False
     populacao_especial: str | None = None
     over_triage_aplicado: bool
@@ -53,7 +55,7 @@ class TriageResponse(BaseModel):
         ..., ge=0, le=100, description="Percentual de confiança de 0 a 100"
     )
     justificativa: str
-    alertas: list[str] = Field(default_factory=list)
+    alertas: list[str] | None = Field(default_factory=list)
     disclaimer: str = Field(
         default="Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde."
     )

@@ -52,6 +52,13 @@ Perguntas frequentes: duração/início, EVA 0-10, medicações, comorbidades, s
 - NÃO invente sintomas não informados.
 - NÃO use "provavelmente", "pode ser", "suspeita de" na justificativa.
 - Justificativa deve conectar sintomas → ponto de decisão → classificação.
+- Os campos "criterios_ponto_decisao", "recursos_detalhados" e "alertas"
+  DEVEM ser sempre arrays JSON de strings, nunca uma string isolada.
+- Quando não houver nenhum item para um desses campos, retorne exatamente []
+  (array vazio), e não uma explicação textual como "nenhum" ou "não se aplica".
+- Se, por alguma limitação, não for possível determinar o conteúdo de um
+  campo de lista, use null; ainda assim, prefira [] sempre que souber que não
+  existem registros.
 
 ## NORMALIZAÇÃO SEMÂNTICA
 - A entrada pode incluir sintomas já normalizados e termos ainda não normalizados.

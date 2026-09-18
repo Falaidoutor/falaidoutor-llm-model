@@ -134,8 +134,12 @@ def _validate_structural(data: dict, result: ValidationResult) -> None:
 
     # --- criterios_ponto_decisao ---
     criterios = data.get("criterios_ponto_decisao")
-    if not isinstance(criterios, list):
-        result.add_error("criterios_ponto_decisao deve ser uma lista.")
+    if criterios is not None and not isinstance(criterios, list):
+        result.add_error("criterios_ponto_decisao deve ser uma lista ou null.")
+    elif criterios is None:
+        result.add_warning(
+            "criterios_ponto_decisao está null; o modelo não informou registros."
+        )
     elif len(criterios) == 0:
         result.add_warning(
             "criterios_ponto_decisao está vazio. "
@@ -197,10 +201,10 @@ def _validate_structural(data: dict, result: ValidationResult) -> None:
 
     # --- alertas ---
     alertas = data.get("alertas")
-    if alertas is None:
-        result.add_error("alertas não pode ser null — deve ser lista (pode ser vazia).")
-    elif not isinstance(alertas, list):
-        result.add_error(f"alertas deve ser uma lista, recebido {type(alertas).__name__}.")
+    if alertas is not None and not isinstance(alertas, list):
+        result.add_error(
+            f"alertas deve ser uma lista ou null, recebido {type(alertas).__name__}."
+        )
 
     # --- disclaimer ---
     disc = data.get("disclaimer")

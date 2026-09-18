@@ -44,3 +44,26 @@ def test_normalizes_confidence_to_percentage():
     assert result["confidence"] == 85.0
     assert result["confidenceScore"] == 85.0
     assert any("percentual" in warning for warning in result["validation_warnings"])
+
+
+def test_normalizes_single_string_list_fields_and_preserves_null():
+    result = normalize_triage_response(
+        {
+            "criterios_ponto_decisao": "Sem sinais de alarme",
+            "alertas": "Informações clínicas insuficientes",
+            "recursos_detalhados": None,
+        }
+    )
+
+    assert result["criterios_ponto_decisao"] == ["Sem sinais de alarme"]
+    assert result["alertas"] == ["Informações clínicas insuficientes"]
+    assert result["recursos_detalhados"] == []
+
+
+def test_preserves_null_for_unknown_list_fields():
+    result = normalize_triage_response(
+        {"criterios_ponto_decisao": None, "alertas": None}
+    )
+
+    assert result["criterios_ponto_decisao"] is None
+    assert result["alertas"] is None
