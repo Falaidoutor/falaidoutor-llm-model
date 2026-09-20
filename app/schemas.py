@@ -87,10 +87,6 @@ class TriageResponse(BaseModel):
     sintomas_normalizados: list[str] = Field(default_factory=list)
     normalizacao_resultado: dict[str, Any] | None = None
     normalizacao_llm: list[dict[str, Any]] = Field(default_factory=list)
-    normalizacao_ollama: list[dict[str, Any]] = Field(
-        default_factory=list,
-        description="Alias legado da branch de normalização; contém o mesmo valor de normalizacao_llm.",
-    )
     modelo_usado: str | None = Field(default=None, description="Modelo que respondeu à triagem")
     fallback_modelo_ativado: bool = Field(
         default=False, description="Indica se houve troca por rate limit"

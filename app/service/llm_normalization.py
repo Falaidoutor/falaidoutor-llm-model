@@ -12,11 +12,7 @@ def extract_llm_normalizations(parsed: dict, normalization: dict) -> list[dict]:
     if not unresolved:
         return []
 
-    raw_items = (
-        parsed.get("normalizacao_llm")
-        or parsed.get("normalizacao_ollama")
-        or []
-    )
+    raw_items = parsed.get("normalizacao_llm") or []
     if isinstance(raw_items, dict):
         raw_items = [raw_items]
     if not isinstance(raw_items, list):

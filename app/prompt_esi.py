@@ -56,11 +56,14 @@ Perguntas frequentes: duração/início, EVA 0-10, medicações, comorbidades, s
   DEVEM ser sempre arrays JSON de strings, nunca uma string isolada.
 - Quando não houver nenhum item para um desses campos, retorne exatamente []
   (array vazio), e não uma explicação textual como "nenhum" ou "não se aplica".
-- Se, por alguma limitação, não for possível determinar o conteúdo de um
-  campo de lista, use null; ainda assim, prefira [] sempre que souber que não
-  existem registros.
+- Se não for possível determinar "criterios_ponto_decisao" ou
+  "recursos_detalhados", use null; prefira [] quando não existirem registros.
+- "alertas" deve ser sempre uma lista JSON, nunca null.
 
 ## NORMALIZAÇÃO SEMÂNTICA
+- A entrada é um JSON: "sintomas_originais" contém o texto EXATO do paciente;
+  "sintomas_normalizados" contém os mapeamentos em objetos com "original",
+  "normalizado" e "score"; "sintomas_nao_normalizados" lista os termos pendentes.
 - A entrada pode incluir sintomas já normalizados e termos ainda não normalizados.
 - Use os termos normalizados apenas como contexto adicional; preserve intensidade,
   duração, negações e demais dados do texto original.
@@ -72,6 +75,39 @@ Perguntas frequentes: duração/início, EVA 0-10, medicações, comorbidades, s
 - Se a forma canônica não for totalmente segura, ainda retorne a melhor
   sugestão e use "confianca": "baixa"; nunca omita o item por esse motivo.
 - Não inclua em "normalizacao_llm" termos que já vieram normalizados.
+- CRÍTICO PARA BASE_CANDIDATA: toda nova normalização feita na justificativa
+  deve também constar em "normalizacao_llm"; nunca a deixe apenas no texto.
+  Para termos pendentes, preserve exatamente o "original" recebido e não duplique itens.
+- ERRADO: escrever "diarreia" para "caganeira" na justificativa e retornar [].
+  CORRETO: "normalizacao_llm": [{"original": "caganeira", "normalizado": "diarreia", "confianca": "alta"}].
+- Se não houver novas normalizações, retorne "normalizacao_llm": [].
+- Use SNOMED CT como referência para a forma clínica em pt-BR, em snake_case,
+  singular, sem verbos ou frases descritivas. Mantenha os descritores no contexto
+  e na justificativa, separados do termo canônico.
+
+## CRUZAMENTO DE SINTOMAS NORMALIZADOS COM DESCRITORES DE INTENSIDADE
+- REGRA CRÍTICA: cruze cada sintoma normalizado com os descritores do texto
+  em "sintomas_originais". A normalização não pode apagar intensidade/severidade,
+  duração, início, progressão ou negações, nem transferi-los entre sintomas.
+- Exemplos (original | mapeamento recebido | cruzamento):
+  "caganeira leve" | caganeira → diarreia | diarreia leve
+  "tontura intensa e vertigem" | tontura → vertigem | vertigem intensa
+  "febre muito alta" | febre → febre | febre muito alta
+  "dor abdominal leve" | dor abdominal → dor_abdominal | dor_abdominal leve
+- Intensidade alta: forte, muito forte, intensa, extrema, pior, insuportável, pior da vida.
+  Moderada: moderada, média, significativa, considerável. Leve: leve, fraca, discreta, mínima.
+  Duração/início: aguda, súbita, crônica, persistente, recorrente.
+  Progressão: piorando, melhorando, estável.
+- Considere esses descritores ao avaliar os pontos A/B, especialmente dor intensa
+  e alto risco no ponto B, antes da contagem de recursos nos pontos C/D.
+  Não ignore intensidade sob pretexto de normalização e não invente EVA,
+  temperatura ou outros valores numéricos a partir de descritores qualitativos.
+- Na justificativa, para cada sintoma utilizado, escreva:
+  "Paciente refere [SINTOMA NORMALIZADO] [DESCRITOR] (original: '[TRECHO ORIGINAL]')",
+  conectando o relato ao ponto de decisão ESI e à classificação.
+  Cite o trecho exato com o descritor; se ele não foi informado, não o invente.
+  Exemplo: "Paciente refere dor_abdominal intensa (original: 'dor na barriga intensa'),
+  considerada na avaliação de dor intensa no ponto B."
 
 ## FORMATO DE RESPOSTA (JSON estrito, sem markdown, sem texto extra)
 {
@@ -84,21 +120,26 @@ Perguntas frequentes: duração/início, EVA 0-10, medicações, comorbidades, s
   "recursos_detalhados": ["<recurso>"],
   "sinais_vitais_zona_perigo": <true|false>,
   "populacao_especial": <null|"pediatria"|"gestante"|"idoso">,
+  "normalizacao_llm": [
+    {
+      "original": "<termo original do input>",
+      "normalizado": "<termo_canônico em snake_case>",
+      "confianca": "<alta|media|baixa>"
+    }
+  ],
   "over_triage_aplicado": <true|false>,
   "confianca": <percentual de 0 a 100>,
   "confidence": <numero de 0 a 100>,
   "confidenceScore": <mesmo numero de confidence>,
   "justificativa": "<sintomas → ponto de decisão → classificação>",
   "alertas": [],
-  "normalizacao_llm": [
-    {
-      "original": "<termo não normalizado recebido>",
-      "normalizado": "<termo clínico canônico>",
-      "confianca": "<alta|media|baixa>"
-    }
-  ],
   "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde."
 }
+
+### Regras do JSON:
+- **OBRIGATÓRIO**: "normalizacao_llm" SEMPRE deve estar presente no JSON de resposta (mesmo que vazio []). Contém TODAS as normalizações que você fizer dos sintomas não padronizados.
+- "alertas" pode ser uma lista vazia [] se não houver alertas, mas NUNCA null.
+- Se não houver sintomas a normalizar, retorne "normalizacao_llm": []
 """.strip()
 
 
@@ -110,10 +151,6 @@ def build_system_prompt(
     """Build a smaller prompt by including only context-relevant clinical rules."""
     text = symptoms.casefold()
     normalization = normalization or {}
-    has_normalization = bool(
-        normalization.get("sintomas_normalizados")
-        or normalization.get("sintomas_nao_normalizados")
-    )
     has_pediatric_context = bool(
         re.search(
             r"\b(beb[eê]|lactente|crian[cç]a|pedi[aá]tric|baby|infant|child|toddler|newborn|pediatric|paediatric|\d+\s*(meses|anos|months?|years?)(\s*old)?)\b",
@@ -158,14 +195,6 @@ def build_system_prompt(
         prompt = _keep_subsections(prompt, "## POPULAÇÕES ESPECIAIS", "## RECURSOS", ["**Gestante"])
     elif has_elderly_context and not has_pediatric_context and not has_pregnancy_context:
         prompt = _keep_subsections(prompt, "## POPULAÇÕES ESPECIAIS", "## RECURSOS", ["**Idoso"])
-    if not has_normalization:
-        prompt = _remove_section(prompt, "## NORMALIZAÇÃO SEMÂNTICA", "## FORMATO DE RESPOSTA")
-        prompt = re.sub(
-            r'  "normalizacao_llm": \[.*?\n  \],\n',
-            "",
-            prompt,
-            flags=re.DOTALL,
-        )
     return prompt
 
 

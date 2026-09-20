@@ -79,6 +79,7 @@ def parse_response(content: str) -> dict:
         "confidence": 35,
         "confidenceScore": 35,
         "justificativa": content,
+        "normalizacao_llm": [],
         "alertas": ["Resposta do modelo não pôde ser interpretada como JSON válido."],
         "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
     }
@@ -86,6 +87,8 @@ def parse_response(content: str) -> dict:
 
 def _validate_fields(result: dict) -> dict:
     """Ensure all required fields exist with sensible defaults."""
+    # Discard the retired field instead of consuming or returning it.
+    result.pop("normalizacao_ollama", None)
     defaults = {
         "classificacao": "Indeterminado",
         "nivel": 0,
@@ -101,6 +104,7 @@ def _validate_fields(result: dict) -> dict:
         "confidence": 35,
         "confidenceScore": 35,
         "justificativa": "",
+        "normalizacao_llm": [],
         "alertas": [],
         "disclaimer": "Classificação de apoio à decisão. A avaliação final é responsabilidade do profissional de saúde.",
     }
@@ -111,6 +115,9 @@ def _validate_fields(result: dict) -> dict:
     # Ensure alertas is never null
     if result["alertas"] is None:
         result["alertas"] = []
+
+    if result["normalizacao_llm"] is None:
+        result["normalizacao_llm"] = []
 
     _normalize_confidence(result)
 

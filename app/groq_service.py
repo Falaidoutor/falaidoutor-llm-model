@@ -146,7 +146,7 @@ async def classify_symptoms(
     llm_normalizations = extract_llm_normalizations(parsed, normalization)
     logger.info(
         "triage.response_normalization raw=%s unresolved=%s accepted=%s",
-        len(parsed.get("normalizacao_llm") or parsed.get("normalizacao_ollama") or []),
+        len(parsed.get("normalizacao_llm") or []),
         len(normalization.get("sintomas_nao_normalizados", [])),
         len(llm_normalizations),
     )
@@ -156,7 +156,6 @@ async def classify_symptoms(
     parsed["texto_original"] = symptoms
     parsed["normalizacao_resultado"] = normalization
     parsed["normalizacao_llm"] = llm_normalizations
-    parsed["normalizacao_ollama"] = llm_normalizations
     parsed["modelo_usado"] = model_used
     parsed["fallback_modelo_ativado"] = fallback_activated
     parsed["sintomas_normalizados"] = [
