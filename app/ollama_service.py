@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import re
 
 import httpx
@@ -11,6 +12,7 @@ from app.service.normalization_pipeline import normalize_safely, complete_normal
 
 OLLAMA_BASE_URL = "http://localhost:11434"
 MODEL_NAME = "qwen3"
+logger = logging.getLogger(__name__)
 
 
 async def classify_symptoms(symptoms: str, model_config: ModelConfig | None = None) -> dict:
@@ -34,6 +36,10 @@ async def classify_symptoms(symptoms: str, model_config: ModelConfig | None = No
     }
 
     async with httpx.AsyncClient(timeout=120.0) as client:
+        logger.info(
+            "triage.prompt_sent provider=ollama model=%s attempt=1 messages=%s",
+            payload["model"], json.dumps(payload["messages"], ensure_ascii=False),
+        )
         response = await client.post(f"{OLLAMA_BASE_URL}/api/chat", json=payload)
         response.raise_for_status()
 

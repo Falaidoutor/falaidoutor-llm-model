@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 import os
 import time
@@ -73,6 +74,10 @@ async def classify_symptoms(
         "custom" if config.system_prompt else "default",
     )
 
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": build_user_prompt(symptoms, normalization)},
+    ]
     response = None
     model_used = configured_model
     fallback_activated = False
@@ -80,15 +85,14 @@ async def classify_symptoms(
     for candidate_index, candidate_model in enumerate(model_candidates):
         for attempt in range(_MAX_RETRIES):
             try:
+                logger.info(
+                    "triage.prompt_sent provider=groq model=%s attempt=%s messages=%s",
+                    candidate_model, attempt + 1,
+                    json.dumps(messages, ensure_ascii=False),
+                )
                 response = await client.chat.completions.create(
                     model=candidate_model,
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {
-                            "role": "user",
-                            "content": build_user_prompt(symptoms, normalization),
-                        },
-                    ],
+                    messages=messages,
                     temperature=config.temperature,
                     top_p=config.top_p,
                     response_format={"type": "json_object"},

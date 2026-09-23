@@ -22,8 +22,15 @@ def make_service(matches, postgres):
 
 
 @pytest.mark.parametrize("provider", ["groq", "ollama"])
-def test_full_flow_from_ner_to_candidate(monkeypatch, provider):
+def test_full_flow_from_ner_to_candidate(monkeypatch, provider, caplog):
     from app import groq_service, ollama_service
+
+    caplog.set_level("INFO")
+
+    def assert_prompt_logged(messages):
+        records = [record for record in caplog.records if "triage.prompt_sent" in record.getMessage()]
+        assert records
+        assert json.loads(records[-1].getMessage().split(" messages=", 1)[1]) == messages
 
     repository = Mock()
     repository.get_sintoma_by_id.return_value = {"termo": "cefaleia"}
@@ -39,10 +46,12 @@ def test_full_flow_from_ner_to_candidate(monkeypatch, provider):
     captured = {}
 
     async def completion(**kwargs):
+        assert_prompt_logged(kwargs["messages"])
         captured.update(kwargs)
         return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=content))])
 
     async def post(url, json):
+        assert_prompt_logged(json["messages"])
         captured.update(json)
         return SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"message": {"content": content}})
 
