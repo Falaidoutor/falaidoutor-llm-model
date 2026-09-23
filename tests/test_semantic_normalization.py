@@ -69,7 +69,7 @@ def test_llm_candidate_with_one_missing_original_uses_pending_term():
     assert extract_llm_normalizations(parsed, normalization)[0]["original"] == "caganeira"
 
 
-def test_qdrant_canonical_payload_avoids_postgres_lookup():
+def test_qdrant_canonical_payload_is_verified_against_postgres():
     class EmbeddingStub:
         def embed(self, text):
             return text
@@ -83,7 +83,7 @@ def test_qdrant_canonical_payload_avoids_postgres_lookup():
                         "sintoma_id": 7,
                         "sinonimo_id": 11,
                         "termo": "dor de cabeça",
-                        "termo_canonico": "cefaleia",
+                        "termo_canonico": "valor_desatualizado",
                     },
                 }
             ]
@@ -91,9 +91,14 @@ def test_qdrant_canonical_payload_avoids_postgres_lookup():
     service = object.__new__(NormalizationService)
     service.embedding_service = EmbeddingStub()
     service.qdrant_service = QdrantStub()
-    service._postgres_service = None
+    class PostgresStub:
+        def get_sintoma_by_id(self, symptom_id):
+            assert symptom_id == 7
+            return {"termo": "cefaleia"}
+
+    service._postgres_service = PostgresStub()
 
     result = service._normalize_single_symptom("dor de cabeça")
 
     assert result["normalizado"] == "cefaleia"
-    assert service._postgres_service is None
+    assert result["tipo"] == "normalizado"

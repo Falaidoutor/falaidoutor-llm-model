@@ -254,16 +254,19 @@ class NormalizationService:
                 # Normalizado ✓
                 sinonimo_id = payload.get("sinonimo_id")
                 sintoma_id = payload.get("sintoma_id")
-                termo_encontrado = payload.get("termo")
-                termo_normalizado = payload.get("termo_canonico")
-
-                # Coleções antigas podem não ter termo_canonico no payload.
-                if not termo_normalizado and sintoma_id is not None:
-                    sintoma_data = self.postgres_service.get_sintoma_by_id(sintoma_id)
-                    termo_normalizado = (
-                        sintoma_data.get("termo") if sintoma_data else None
-                    )
-                termo_normalizado = termo_normalizado or termo_encontrado or sintoma
+                # PostgreSQL is the source of truth; Qdrant only selects the ID.
+                sintoma_data = (
+                    self.postgres_service.get_sintoma_by_id(sintoma_id)
+                    if sintoma_id is not None else None
+                )
+                termo_normalizado = sintoma_data.get("termo") if sintoma_data else None
+                if not termo_normalizado:
+                    return {
+                        "original": sintoma,
+                        "score": score,
+                        "tipo": "nao_normalizado",
+                        "motivo": "sintoma_nao_confirmado_postgres",
+                    }
 
                 resultado = {
                     "original": sintoma,

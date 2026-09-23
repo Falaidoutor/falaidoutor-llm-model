@@ -195,6 +195,22 @@ def build_system_prompt(
         prompt = _keep_subsections(prompt, "## POPULAÇÕES ESPECIAIS", "## RECURSOS", ["**Gestante"])
     elif has_elderly_context and not has_pediatric_context and not has_pregnancy_context:
         prompt = _keep_subsections(prompt, "## POPULAÇÕES ESPECIAIS", "## RECURSOS", ["**Idoso"])
+    if base_prompt and base_prompt.strip():
+        # Custom clinical instructions must not remove the application contract.
+        normalization_rules = SYSTEM_PROMPT.split("## NORMALIZAÇÃO SEMÂNTICA", 1)[1].split(
+            "## CRUZAMENTO DE SINTOMAS NORMALIZADOS", 1
+        )[0].strip()
+        prompt += (
+            "\n\n## CONTRATO OBRIGATÓRIO DE NORMALIZAÇÃO DO BACKEND\n"
+            "Estas regras complementam o protocolo acima e prevalecem sobre instruções "
+            "conflitantes de formato de normalização.\n"
+            + normalization_rules
+            + '\nResponda com um objeto JSON e inclua SEMPRE "normalizacao_llm", '
+            'mesmo que o exemplo anterior não contenha esse campo.\n'
+            'Formato: "normalizacao_llm": [{"original": "<termo original do input>", '
+            '"normalizado": "<termo_canônico em snake_case>", "confianca": "<alta|media|baixa>"}].\n'
+            'Sem termos a normalizar, retorne "normalizacao_llm": [].'
+        )
     return prompt
 
 

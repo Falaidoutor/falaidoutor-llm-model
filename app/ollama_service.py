@@ -1,3 +1,4 @@
+import asyncio
 import json
 import re
 
@@ -6,6 +7,7 @@ import httpx
 from app.prompt import build_system_prompt, build_user_prompt
 from app.schemas import ModelConfig
 from app.validator import validate_triage_response
+from app.service.normalization_pipeline import normalize_safely, complete_normalization
 
 OLLAMA_BASE_URL = "http://localhost:11434"
 MODEL_NAME = "qwen3"
@@ -13,14 +15,15 @@ MODEL_NAME = "qwen3"
 
 async def classify_symptoms(symptoms: str, model_config: ModelConfig | None = None) -> dict:
     config = model_config or ModelConfig()
+    normalization = await asyncio.to_thread(normalize_safely, symptoms)
     payload = {
         "model": config.model_name or MODEL_NAME,
         "messages": [
             {
                 "role": "system",
-                "content": build_system_prompt(symptoms, base_prompt=config.system_prompt),
+                "content": build_system_prompt(symptoms, normalization, base_prompt=config.system_prompt),
             },
-            {"role": "user", "content": build_user_prompt(symptoms)},
+            {"role": "user", "content": build_user_prompt(symptoms, normalization)},
         ],
         "stream": False,
         "format": "json",
@@ -38,6 +41,7 @@ async def classify_symptoms(symptoms: str, model_config: ModelConfig | None = No
     content = data["message"]["content"]
 
     parsed = parse_response(content)
+    await asyncio.to_thread(complete_normalization, parsed, normalization, symptoms)
 
     validation = validate_triage_response(parsed)
     parsed["validation_errors"] = validation.errors

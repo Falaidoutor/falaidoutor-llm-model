@@ -11,7 +11,7 @@ load_dotenv()
 from app.ollama_service import parse_response
 from app.prompt import build_system_prompt, build_user_prompt
 from app.schemas import ModelConfig
-from app.service.llm_normalization import extract_llm_normalizations
+from app.service.normalization_pipeline import normalize_safely, complete_normalization
 from app.validator import validate_triage_response
 
 
@@ -45,7 +45,7 @@ async def classify_symptoms(
         config.model_name or MODEL_NAME,
         config.model_order or MODEL_ORDER,
     )
-    normalization = await asyncio.to_thread(_normalize_safely, symptoms)
+    normalization = await asyncio.to_thread(normalize_safely, symptoms)
     configured_model = LEGACY_MODEL_ALIASES.get(config.model_name or MODEL_NAME, config.model_name or MODEL_NAME)
     # Configurações antigas podem ainda conter o modelo removido.
     if configured_model not in MODEL_ORDER:
@@ -65,11 +65,12 @@ async def classify_symptoms(
         config.system_prompt,
     )
     logger.info(
-        "triage.context_ready input_chars=%s prompt_chars=%s normalized=%s unresolved=%s",
+        "triage.context_ready input_chars=%s prompt_chars=%s normalized=%s unresolved=%s prompt_source=%s normalization_contract=llm_v1",
         len(symptoms),
         len(system_prompt),
         len(normalization.get("sintomas_normalizados", [])),
         len(normalization.get("sintomas_nao_normalizados", [])),
+        "custom" if config.system_prompt else "default",
     )
 
     response = None
@@ -143,26 +144,9 @@ async def classify_symptoms(
         (time.perf_counter() - started_at) * 1000,
     )
 
-    llm_normalizations = extract_llm_normalizations(parsed, normalization)
-    logger.info(
-        "triage.response_normalization raw=%s unresolved=%s accepted=%s",
-        len(parsed.get("normalizacao_llm") or []),
-        len(normalization.get("sintomas_nao_normalizados", [])),
-        len(llm_normalizations),
-    )
-    if llm_normalizations:
-        await asyncio.to_thread(_save_candidates_safely, llm_normalizations)
-
-    parsed["texto_original"] = symptoms
-    parsed["normalizacao_resultado"] = normalization
-    parsed["normalizacao_llm"] = llm_normalizations
+    await asyncio.to_thread(complete_normalization, parsed, normalization, symptoms)
     parsed["modelo_usado"] = model_used
     parsed["fallback_modelo_ativado"] = fallback_activated
-    parsed["sintomas_normalizados"] = [
-        item["normalizado"]
-        for item in normalization.get("sintomas_normalizados", [])
-        if item.get("normalizado")
-    ]
 
     validation = validate_triage_response(parsed)
     parsed["validation_errors"] = validation.errors
@@ -181,46 +165,3 @@ def _retry_delay(error: RateLimitError, attempt: int) -> float:
     except (TypeError, ValueError):
         pass
     return _RETRY_BASE_DELAY * (2**attempt)
-
-
-def _empty_normalization(status: str) -> dict:
-    return {
-        "sintomas_normalizados": [],
-        "sintomas_nao_normalizados": [],
-        "total_extraidos": 0,
-        "taxa_normalizacao": 0.0,
-        "debug": {"status": status},
-    }
-
-
-def _normalize_safely(symptoms: str) -> dict:
-    """Keep triage available if Qdrant or PostgreSQL is unavailable."""
-    try:
-        from app.service.normalization import NormalizationService
-
-        result = NormalizationService().normalize_symptoms(symptoms)
-        logger.info(
-            "triage.semantic_normalization_result normalized=%s unresolved=%s",
-            len(result.get("sintomas_normalizados", [])),
-            len(result.get("sintomas_nao_normalizados", [])),
-        )
-        return result
-    except Exception:
-        logger.exception("triage.semantic_normalization_failed; using original text")
-        return _empty_normalization("unavailable")
-
-
-def _save_candidates_safely(normalizations: list[dict]) -> None:
-    try:
-        from app.service.normalization import NormalizationService
-
-        repository = NormalizationService().postgres_service
-        for item in normalizations:
-            repository.create_base_candidata(
-                input_original=item["original"],
-                normalizado_sugerido=item["normalizado"],
-                score_ollama_confianca=item["confianca"],
-                origem="llm",
-            )
-    except Exception:
-        logger.warning("Não foi possível persistir candidatos de normalização")
